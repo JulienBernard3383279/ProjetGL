@@ -1,7 +1,7 @@
 /**
  * Lexical and syntaxctic analysis for the Deca language.
  *
- * @author @AUTHOR@
- * @date @DATE@
+ * @author gl58
+ * @date 01/01/2017
  */
 package fr.ensimag.deca.syntax;
