@@ -1,5 +1,5 @@
 package fr.ensimag.deca.tree;
-
+import java.lang.*;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
