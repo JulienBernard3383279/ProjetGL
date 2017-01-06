@@ -1,5 +1,5 @@
 package fr.ensimag.deca;
-
+import java.util.*;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
 import fr.ensimag.deca.tools.DecacInternalError;
@@ -112,6 +112,7 @@ public class DecacCompiler {
     
     private final CompilerOptions compilerOptions;
     private final File source;
+    
     /**
      * The main program. Every instruction generated will eventually end up here.
      */
