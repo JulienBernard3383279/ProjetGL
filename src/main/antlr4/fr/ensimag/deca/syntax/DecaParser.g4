@@ -445,8 +445,12 @@ ident returns[AbstractIdentifier tree]
 /****     Class related rules     ****/
 
 list_classes returns[ListDeclClass tree]
-    :
+    : {
+            $tree=new ListDeclClass(); //m
+    }
       (c1=class_decl {
+            //sans-objet
+            //sans-objet
         }
       )*
     ;
