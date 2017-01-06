@@ -1,4 +1,5 @@
 package fr.ensimag.deca.context;
+import java.util.*;
 
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 
@@ -23,10 +24,15 @@ public class EnvironmentExp {
     // A FAIRE : implémenter la structure de donnée représentant un
     // environnement (association nom -> définition, avec possibilité
     // d'empilement).
-
+    HashMap<Symbol,Definition> dico=new HashMap<>();
+    LinkedList list=new LinkedList();
+    //dictionnaire associant le symbol (son nom) à sa définition
+   // LinkedList listEnv= new LinkedList(dico); //liste chainée de dictionnaires
     EnvironmentExp parentEnvironment;
     
-    public EnvironmentExp(EnvironmentExp parentEnvironment) {
+    public EnvironmentExp(LinkedList list,HashMap<Symbol,Definition> dico,EnvironmentExp parentEnvironment) {
+        this.list=list;
+        this.dico=dico;
         this.parentEnvironment = parentEnvironment;
     }
 
