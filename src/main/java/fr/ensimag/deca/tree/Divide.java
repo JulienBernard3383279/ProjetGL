@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.DecacCompiler;
+
 
 /**
  *
@@ -16,5 +18,10 @@ public class Divide extends AbstractOpArith {
     protected String getOperatorName() {
         return "/";
     }
+    /*@Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        compiler.addInstruction(null);
+    }*/
+    
 
 }

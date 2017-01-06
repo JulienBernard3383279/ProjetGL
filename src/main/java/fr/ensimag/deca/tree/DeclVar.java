@@ -1,11 +1,13 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -54,5 +56,11 @@ public class DeclVar extends AbstractDeclVar {
         type.prettyPrint(s, prefix, false);
         varName.prettyPrint(s, prefix, false);
         initialization.prettyPrint(s, prefix, true);
+    }
+    @Override
+    protected void codeGenVar(DecacCompiler compiler) {
+        initialization.codeGen(compiler);
+        compiler.resetCurrentReg();
+        compiler.addInstruction(new PUSH(Register.getR(compiler.getCurrentReg())));
     }
 }
