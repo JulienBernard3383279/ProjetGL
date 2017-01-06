@@ -19,47 +19,7 @@ fragment TAB: '\t';
 fragment FIN_DE_LIGNE: '\n';
 RETOUR_CHARIOT: '\r'{skip();};
 COMMENT: '/*' .*? '*/' {skip();};
-EOL: TAB | FIN_DE_LIGNE {skip();};
-
-// Regles sur les int, float et identificateurs
-fragment DIGIT: '0'..'9';
-fragment POSITIVE_DIGIT: '1'..'9';
-INT: '0' | POSITIVE_DIGIT DIGIT*;
-fragment NUM: DIGIT+;
-fragment SIGN: '+' | '-';
-fragment EXP: ('E' | 'e') SIGN NUM;
-fragment DEC: NUM '.' NUM;
-fragment FLOATDEC: (DEC | DEC EXP) ('F' | 'f' | );
-fragment DIGITHEX: '0'..'9' | 'A'..'F' | 'a'..'f';
-fragment NUMHEX: DIGITHEX+;
-fragment FLOATHEX: ('0x' | '0X') NUMHEX '.' NUMHEX ('P' | 'p') SIGN NUM ('F' | 'f' | );
-FLOAT: FLOATDEC | FLOATHEX;
-fragment LETTER: 'a'..'z' | 'A'..'Z';
-IDENT: (LETTER | '$' | '_') ( LETTER | DIGIT | '$' | '_' )*;
-
-// Regles sur les symboles speciaux
-LOWER: '<';
-GREATER: '>';
-PUT: '=';
-PLUS: '+';
-MINUS: '-';
-TIMES: '*';
-DIV: '/';
-MODULO: '%';
-POINT: '.';
-COMMA: ',';
-OPARENT: '(';
-FPARENT: ')';
-OGUILLEMET: '{';
-FGUILLEMET: '}';
-NOT: '!';
-SEMI: ';' ;
-EQUALS: '==';
-NOT_EQUALS: '!=';
-GREATER_OR_EQUALS: '>=';
-LOWER_OR_EQUALS: '<=';
-AND: '&&';
-OR: '||';
+EOL: (TAB | FIN_DE_LIGNE) {skip();};
 
 // Regles sur les mots reserves
 ASM: 'asm';
@@ -82,6 +42,46 @@ RETURN: 'return';
 THIS: 'this';
 TRUE: 'true';
 WHILE: 'while';
+
+// Regles sur les int, float et identificateurs
+fragment DIGIT: '0'..'9';
+fragment POSITIVE_DIGIT: '1'..'9';
+INT: '0' | POSITIVE_DIGIT DIGIT*;
+fragment NUM: DIGIT+;
+fragment SIGN: '+' | '-' | ;
+fragment EXP: ('E' | 'e') SIGN NUM;
+fragment DEC: NUM '.' NUM;
+fragment FLOATDEC: (DEC | DEC EXP) ('F' | 'f' | );
+fragment DIGITHEX: '0'..'9' | 'A'..'F' | 'a'..'f';
+fragment NUMHEX: DIGITHEX+;
+fragment FLOATHEX: ('0x' | '0X') NUMHEX '.' NUMHEX ('P' | 'p') SIGN NUM ('F' | 'f' | );
+FLOAT: FLOATDEC | FLOATHEX;
+fragment LETTER: 'a'..'z' | 'A'..'Z';
+IDENT: (LETTER | '$' | '_') ( LETTER | DIGIT | '$' | '_' )*;
+
+// Regles sur les symboles speciaux
+LT: '<';
+GT: '>';
+EQUALS: '=';
+PLUS: '+';
+MINUS: '-';
+TIMES: '*';
+SLASH: '/';
+PERCENT: '%';
+DOT: '.';
+COMMA: ',';
+OPARENT: '(';
+CPARENT: ')';
+OBRACE: '{';
+CBRACE: '}';
+EXCLAM: '!';
+SEMI: ';' ;
+EQEQ: '==';
+NEQ: '!=';
+GEQ: '>=';
+LEQ: '<=';
+AND: '&&';
+OR: '||';
 
 // Regles sur les chaines de caracteres
 fragment STRING_CAR: ~('"' | '\\' | '\t' | '\n');

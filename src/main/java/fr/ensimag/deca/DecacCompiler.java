@@ -40,7 +40,7 @@ public class DecacCompiler {
      * Portable newline character.
      */
     private static final String nl = System.getProperty("line.separator", "\n");
-
+    
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
         this.compilerOptions = compilerOptions;
@@ -230,5 +230,24 @@ public class DecacCompiler {
         parser.setDecacCompiler(this);
         return parser.parseProgramAndManageErrors(err);
     }
+    private static int regLim = 15;
+    private static int currentReg = 1;
+    public void initLim(int regNumber) {
+        regLim = regNumber-1;
+    }
+    public void resetCurrentReg() {
+        currentReg = 0;
+    }
+    public int getCurrentReg() {
+        if(currentReg<regLim&&currentReg>=0) {
+            return currentReg=currentReg+1;
+        }
+        else {
+            //nombre de registre trop important 
+            //on cree des variable tmporaire dans la pile 
+            return currentReg=-1;
+        }
+    }
+    
 
 }
