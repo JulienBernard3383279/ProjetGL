@@ -9,6 +9,7 @@ import fr.ensimag.ima.pseudocode.AbstractLine;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.deca.context.EnvironmentExp;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
