@@ -28,7 +28,7 @@ public class SymbolTable {
      * this Symbol. Otherwise, create a new Symbol and add it to the table.
      */
     public Symbol create(String name) {
-<<<<<<< HEAD
+
         if(this.map.containsKey(name))
             return this.map.get(name);
         else
@@ -36,11 +36,9 @@ public class SymbolTable {
             return null;
             
             
-=======
-        Symbol newSymbol=new Symbol(name);
-        map.put(name,newSymbol);
-        return newSymbol;
->>>>>>> 6a243b28bdbf712d2e116e3b856dcf11dcf9da71
+
+      
+
     }
 
     public Map<String, Symbol> getMap() {
