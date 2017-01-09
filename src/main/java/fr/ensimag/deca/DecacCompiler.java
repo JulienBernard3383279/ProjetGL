@@ -67,11 +67,11 @@ public class DecacCompiler {
         Symbol symVoid = symbols.create("void");
         Symbol symObj = symbols.create("Object");
         // create definitions from symbols
-        Definition defInt = new TypeDefinition(new IntType(symInt),Location.BUILTIN);
-        Definition defBool = new TypeDefinition(new BooleanType(symBool),Location.BUILTIN);
-        Definition defFloat = new TypeDefinition(new FloatType(symFloat),Location.BUILTIN);
-        Definition defVoid = new TypeDefinition(new VoidType(symVoid),Location.BUILTIN);
-        Definition defObj = new ClassDefinition(new ClassType(symObj,Location.BUILTIN,null),Location.BUILTIN,null);
+        TypeDefinition defInt = new TypeDefinition(new IntType(symInt),Location.BUILTIN);
+        TypeDefinition defBool = new TypeDefinition(new BooleanType(symBool),Location.BUILTIN);
+        TypeDefinition defFloat = new TypeDefinition(new FloatType(symFloat),Location.BUILTIN);
+        TypeDefinition defVoid = new TypeDefinition(new VoidType(symVoid),Location.BUILTIN);
+        ClassDefinition defObj = new ClassDefinition(new ClassType(symObj,Location.BUILTIN,null),Location.BUILTIN,null);
         // add types to envTypes
         this.envTypes.put(symInt, defInt);
         this.envTypes.put(symBool, defBool);
@@ -80,7 +80,7 @@ public class DecacCompiler {
         this.envTypes.put(symObj, defObj);
     }
     
-    Map<Symbol,Definition> envTypes;
+    Map<Symbol, Definition> envTypes;
     //symbol table implemented here so tests can use existing symbols
     SymbolTable symbols;
     

@@ -10,17 +10,17 @@ package fr.ensimag.ima.pseudocode;
  *
  * @author guignomes
  */
-public class StackAddr extends DAddr {
+public class IndirectAddr extends DAddr {
     private int addr;
     public enum StackPos {
         SP,LB,GB
     }
     private StackPos pos;
-    public StackAddr (int addresse,StackPos position) {
+    public IndirectAddr (int addresse,StackPos position) {
         this.addr=addresse;   
         this.pos=position;
     }
-    public StackAddr(int addresse,String position) {
+    public IndirectAddr(int addresse,String position) {
         this.addr = addresse;
         if(position.equals("SP")) {
             this.pos=StackPos.SP;
