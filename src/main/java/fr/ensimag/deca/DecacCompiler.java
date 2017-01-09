@@ -1,5 +1,7 @@
 package fr.ensimag.deca;
-
+import fr.ensimag.deca.context.BooleanType;
+import fr.ensimag.deca.context.Definition;
+import java.util.*;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
 import fr.ensimag.deca.tools.DecacInternalError;
@@ -9,6 +11,15 @@ import fr.ensimag.ima.pseudocode.AbstractLine;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.FloatType;
+import fr.ensimag.deca.context.IntType;
+import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.deca.context.VoidType;
+import fr.ensimag.deca.tools.SymbolTable;
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.deca.tree.Location;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -40,13 +51,41 @@ public class DecacCompiler {
      * Portable newline character.
      */
     private static final String nl = System.getProperty("line.separator", "\n");
-
+    
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
+        this.envTypes = new HashMap<>();
+        // create symbols for predefined types
+        this.symbols = new SymbolTable();
+        Symbol symInt = symbols.create("int");
+        Symbol symBool = symbols.create("boolean");
+        Symbol symFloat = symbols.create("float");
+        Symbol symVoid = symbols.create("void");
+        // create definitions from symbols
+        Definition defInt = new TypeDefinition(new IntType(symInt),Location.BUILTIN);
+        Definition defBool = new TypeDefinition(new BooleanType(symBool),Location.BUILTIN);
+        Definition defFloat = new TypeDefinition(new FloatType(symFloat),Location.BUILTIN);
+        Definition defVoid = new TypeDefinition(new VoidType(symVoid),Location.BUILTIN);
+        // add types to envTypes
+        this.envTypes.put(symInt, defInt);
+        this.envTypes.put(symBool, defBool);
+        this.envTypes.put(symFloat, defFloat);
+        this.envTypes.put(symVoid, defVoid);
     }
-
+    
+    Map<Symbol,Definition> envTypes;
+    //symbol table implemented here so tests can use existing symbols
+    SymbolTable symbols;
+    
+    public Map<Symbol, Definition> getEnvTypes(){
+        return envTypes;
+    }
+    
+    public SymbolTable getSymbols() {
+        return symbols;
+    }
     /**
      * Source file associated with this compiler instance.
      */
@@ -112,6 +151,7 @@ public class DecacCompiler {
     
     private final CompilerOptions compilerOptions;
     private final File source;
+    
     /**
      * The main program. Every instruction generated will eventually end up here.
      */
@@ -234,5 +274,73 @@ public class DecacCompiler {
         parser.setDecacCompiler(this);
         return parser.parseProgramAndManageErrors(err);
     }
+    private static int regLim = 15;
+    private static int regOverFlowRead = 0;
+    private static int regOverFlowWrite = 0;
+    private static int regRead = 0;
+    private static int regWrite = 0;
+    public void initLim(int regNumber) {
+        regLim = regNumber;
+    }
+    public int [] openRead() {
+        int []tab=new int[2];
+        if(regRead<regWrite){
+            regRead=regWrite;
+        }
+        if(regRead>=regLim-1) {
+            regOverFlowRead ++;
+            tab[0]=-1;
+            tab[1]=regOverFlowRead;
+            return tab;
+        }
+        else {
+            regRead++;
+            tab[0]=regRead;
+            tab[1]=0;
+            return tab;
+        }
+    }
+    public int [] openWrite() {
+        int []tab=new int[2];
+        if(regWrite>=regLim-1) {
+            regOverFlowWrite ++;
+            tab[0]=-1;
+            tab[1]=regOverFlowWrite;
+            return tab;
+        }
+        else {
+            regWrite++;
+            tab[0]=regWrite;
+            tab[1]=0;
+            return tab;
+        }
+    }
+    public void closeRead() {
+        if(regRead>=regLim-1) {
+            if(regOverFlowRead>0) {
+                regOverFlowRead --;
+            }
+            else {
+                regRead--;
+            }
+        }
+        else {
+            regRead--;
+        }
+    }
+    public void closeWrite() {
+        if(regWrite>=regLim-1) {
+            if(regOverFlowWrite>0) {
+                regOverFlowWrite --;
+            }
+            else {
+                regWrite--;
+            }
+        }
+        else {
+            regWrite--;
+        }
+    }
+    
 
 }

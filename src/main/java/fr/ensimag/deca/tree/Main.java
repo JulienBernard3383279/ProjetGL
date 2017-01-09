@@ -2,10 +2,12 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
+
 
 /**
  * @author gl58
@@ -30,14 +32,22 @@ public class Main extends AbstractMain {
         // A FAIRE: Appeler méthodes "verify*" de ListDeclVarSet et ListInst.
         // Vous avez le droit de changer le profil fourni pour ces méthodes
         // (mais ce n'est à priori pas nécessaire).
+        try {
+            EnvironmentExp localEnv = new EnvironmentExp(null);
+            this.declVariables.verifyListDeclVariable(compiler, localEnv, null);
+            this.insts.verifyListInst(compiler, localEnv, null, null);
+        } catch (ContextualError e) {
+            throw e;
+        }
         LOG.debug("verify Main: end");
-        throw new UnsupportedOperationException("not yet implemented");
+        
     }
 
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
         // A FAIRE: traiter les déclarations de variables.
         compiler.addComment("Beginning of main instructions:");
+        declVariables.codeGenListVar(compiler);
         insts.codeGenListInst(compiler);
     }
     

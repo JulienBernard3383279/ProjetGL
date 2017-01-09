@@ -21,7 +21,7 @@ public class NoInitialization extends AbstractInitialization {
     protected void verifyInitialization(DecacCompiler compiler, Type t,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        //Nothing to check
     }
 
 
@@ -46,6 +46,10 @@ public class NoInitialization extends AbstractInitialization {
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // leaf node => nothing to do
+    }
+    @Override
+    public void codeGen(DecacCompiler compiler) {
+        //No init => nothing to do 
     }
 
 }

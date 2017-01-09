@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import org.apache.commons.lang.Validate;
 
 /**
  * Arithmetic binary operations (+, -, /, ...)
@@ -21,6 +22,34 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
+        Type t1;
+        Type t2;
+        try{
+            t1 = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+            t2 = this.getRightOperand().verifyExpr(compiler, localEnv, currentClass);
+        } catch (ContextualError e) {
+            throw e;
+        }
+        if ((!t1.isInt()&&!t1.isFloat())||(!t2.isInt()&&!t2.isFloat())) {
+            throw new ContextualError("Operands must be int or float",this.getLocation());
+        } else {
+            if (t1.isFloat() && t2.isInt()){
+                this.setRightOperand(this.getRightOperand().verifyRValue(compiler, localEnv, currentClass,t1));
+                return t1;
+            } else if (t1.isInt() && t2.isFloat()) {
+                this.setLeftOperand(this.getLeftOperand().verifyRValue(compiler, localEnv, currentClass, t2));
+                return t2;
+            }
+        }
+        return t1;
+    }
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }
+
+    @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("not yet implemented");
+    } 
 }

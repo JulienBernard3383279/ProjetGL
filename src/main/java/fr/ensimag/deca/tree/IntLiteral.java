@@ -4,8 +4,12 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.IntType;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.LiteralInteger;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import java.io.PrintStream;
 
@@ -29,7 +33,7 @@ public class IntLiteral extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        return new IntType(null);
     }
 
 
@@ -55,6 +59,19 @@ public class IntLiteral extends AbstractExpr {
     @Override 
     protected void codeGenPrint(DecacCompiler compiler) {
         compiler.addInstruction(new WSTR(""+value));
+    }
+    @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+        
+        int []regWrite = compiler.openWrite();
+        if(regWrite[0]!=-1) {
+            compiler.addInstruction(new LOAD(new LiteralInteger(this.value),Register.getR(regWrite[0])));
+        }
+        else {
+            //TODO voir ce que l'on doit faire si tout les registre sont attribué 
+            throw new UnsupportedOperationException("not yet implemented");
+        }
+        compiler.closeWrite();
     }
 
 }
