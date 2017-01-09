@@ -34,13 +34,14 @@ public class EnvironmentExp {
         return dico;
     }
 
-    
+
     
     
     
     public EnvironmentExp(HashMap<Symbol,ExpDefinition> dico,EnvironmentExp parentEnvironment) {
         
         this.dico=dico;
+
         this.parentEnvironment = parentEnvironment;
     }
 
@@ -56,10 +57,10 @@ public class EnvironmentExp {
         if(this.dico.containsKey(key)){
            ExpDefinition def=this.dico.get(key);
            return def;   
+        } else {
+           return null;
+ 
         }
-        else
-            return null;
-        
     }
 
     /**
@@ -78,10 +79,11 @@ public class EnvironmentExp {
      *
      */
     public void declare(Symbol name, ExpDefinition def) throws DoubleDefException {
-        if(this.dico.containsKey(name))
+        if(this.dico.containsKey(name)) 
             throw new DoubleDefException();
         else
             this.dico.put(name, def);
+
         
     }
 

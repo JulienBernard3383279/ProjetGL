@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class SymbolTable {
     private Map<String, Symbol> map = new HashMap<String, Symbol>();
-
+   
     
     
     
@@ -29,15 +29,16 @@ public class SymbolTable {
      */
     public Symbol create(String name) {
 
-        if(this.map.containsKey(name))
-            return this.map.get(name);  //retourne le symbol de la clé existante
-        else
-            this.map.put(name, new Symbol(name));  //sinon on ajoute le symbol dans la table 
-            return null;
-               
+        if(this.map.containsKey(name)) {
+            return this.map.get(name);
+        } else {
+            this.map.put(name, new Symbol(name));
+            return this.map.get(name);  //on retourne quand meme le symbol ajouté
+        }
 
+        
     }
-
+            
     public Map<String, Symbol> getMap() {
         return map;
     }
