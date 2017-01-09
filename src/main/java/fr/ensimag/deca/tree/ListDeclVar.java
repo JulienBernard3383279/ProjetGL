@@ -20,6 +20,7 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
         Iterator<AbstractDeclVar> it = this.iterator();
         while (it.hasNext()) {
             it.next().decompile(s);
+            s.println();
         }
     }
 

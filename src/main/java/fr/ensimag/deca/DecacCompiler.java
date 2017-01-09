@@ -181,6 +181,7 @@ public class DecacCompiler {
             if ( compilerOptions.getParse() ) {
                 AbstractProgram prog = doLexingAndParsing(sourceFile, out);
                 prog.decompile(out);
+                return false;
             }
             return doCompile(sourceFile, destFile, out, err);
         } catch (LocationException e) {
