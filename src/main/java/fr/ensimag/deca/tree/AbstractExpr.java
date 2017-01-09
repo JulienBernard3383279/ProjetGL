@@ -86,7 +86,20 @@ public abstract class AbstractExpr extends AbstractInst {
             EnvironmentExp localEnv, ClassDefinition currentClass, 
             Type expectedType)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type t;
+        try {
+            t = this.verifyExpr(compiler, localEnv, currentClass);
+        } catch (ContextualError e) {
+            throw e;
+        }
+        if (! t.sameType(expectedType)){
+            if (expectedType.isFloat() && t.isInt()) {
+                return new ConvFloat(this);
+            } else {
+                throw new ContextualError("Variable initialized with wrong type",this.getLocation());
+            }
+        }
+        return this;
     }
     
     
@@ -94,7 +107,12 @@ public abstract class AbstractExpr extends AbstractInst {
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        try {
+            this.verifyExpr(compiler,localEnv,currentClass);
+            //For programs with classes and methods, check for returnType
+        } catch (ContextualError e) {
+            throw e;
+        }
     }
 
     /**
@@ -109,7 +127,15 @@ public abstract class AbstractExpr extends AbstractInst {
      */
     void verifyCondition(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type t;
+        try {
+            t = this.verifyExpr(compiler, localEnv, currentClass);
+        } catch (ContextualError e) {
+            throw e;
+        }
+        if (! t.isBoolean()) {
+            throw new ContextualError("Condition must be boolean",this.getLocation());
+        }
     }
 
     /**

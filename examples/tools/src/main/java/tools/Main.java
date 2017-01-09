@@ -28,7 +28,12 @@ public class Main {
         } else {
             LOG.debug("Nous allons parler français");
             sayHello = new DireBonjour();
+<<<<<<< HEAD
+            // Oops, forgot to set the variable 'name' :-(
+            name = "Pierre Dupont";
+=======
             //name = "Pierre Dupont";
+>>>>>>> 5308c957429425098cbd305c44f189e578e19fc2
         }
         LOG.info("object sayHello instanciated");
         sayHello.sayIt();

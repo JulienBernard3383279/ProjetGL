@@ -24,15 +24,23 @@ public class EnvironmentExp {
     // A FAIRE : implémenter la structure de donnée représentant un
     // environnement (association nom -> définition, avec possibilité
     // d'empilement).
-    HashMap<Symbol,Definition> dico=new HashMap<>();
-    LinkedList list=new LinkedList();
+    private Map<Symbol,ExpDefinition> dico=new HashMap<>();
+    private LinkedList list=new LinkedList();
     //dictionnaire associant le symbol (son nom) à sa définition
-   // LinkedList listEnv= new LinkedList(dico); //liste chainée de dictionnaires
+  
     EnvironmentExp parentEnvironment;
+
+    public Map<Symbol, ExpDefinition> getDico() {
+        return dico;
+    }
+
+    public LinkedList getList() {
+        return list;
+    }
     
-    public EnvironmentExp(LinkedList list,HashMap<Symbol,Definition> dico,EnvironmentExp parentEnvironment) {
-        this.list=list;
-        this.dico=dico;
+    
+    
+    public EnvironmentExp(EnvironmentExp parentEnvironment) {
         this.parentEnvironment = parentEnvironment;
     }
 
@@ -45,7 +53,12 @@ public class EnvironmentExp {
      * symbol is undefined.
      */
     public ExpDefinition get(Symbol key) {
-        throw new UnsupportedOperationException("not yet implemented");
+        if(this.dico.containsKey(key)){
+           ExpDefinition def=this.dico.get(key);
+           return def;   
+        } else {
+           return null;
+        }
     }
 
     /**
@@ -64,7 +77,22 @@ public class EnvironmentExp {
      *
      */
     public void declare(Symbol name, ExpDefinition def) throws DoubleDefException {
-        throw new UnsupportedOperationException("not yet implemented");
+        if(this.dico.containsKey(name)) {
+            throw new DoubleDefException();
+        }
+        this.dico.put(name, def);
+        
     }
+
+    @Override
+    public String toString() {
+        return "cet environnement contient la table de hachage "+this.dico+" et l'environnement père "+parentEnvironment;
+    }
+
+   
+    
+    
+    
+    
 
 }
