@@ -18,7 +18,7 @@ ESPACE: ' ' {skip();};
 fragment TAB: '\t';
 fragment FIN_DE_LIGNE: '\n';
 RETOUR_CHARIOT: '\r'{skip();};
-COMMENT: '/*' .*? '*/' {skip();};
+COMMENT: ('/*' .*? '*/' | '//' .*? ('\n' | EOF) ) {skip();};
 EOL: (TAB | FIN_DE_LIGNE) {skip();};
 
 // Regles sur les mots reserves
