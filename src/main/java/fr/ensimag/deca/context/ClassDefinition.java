@@ -1,9 +1,9 @@
 package fr.ensimag.deca.context;
-
+import java.util.*;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.ima.pseudocode.Label;
 import org.apache.commons.lang.Validate;
-
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
 /**
  * Definition of a class.
  *

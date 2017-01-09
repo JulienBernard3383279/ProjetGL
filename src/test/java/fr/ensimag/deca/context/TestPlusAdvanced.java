@@ -41,6 +41,8 @@ public class TestPlusAdvanced {
         when(intexpr2.verifyExpr(compiler, null, null)).thenReturn(INT);
         when(floatexpr1.verifyExpr(compiler, null, null)).thenReturn(FLOAT);
         when(floatexpr2.verifyExpr(compiler, null, null)).thenReturn(FLOAT);
+        when(intexpr1.verifyRValue(compiler, null, null, FLOAT)).thenReturn(new ConvFloat(intexpr1));
+        when(intexpr2.verifyRValue(compiler, null, null, FLOAT)).thenReturn(new ConvFloat(intexpr2));
     }
 
     @Test

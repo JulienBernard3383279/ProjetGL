@@ -47,5 +47,9 @@ public class NoInitialization extends AbstractInitialization {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // leaf node => nothing to do
     }
+    @Override
+    public void codeGen(DecacCompiler compiler) {
+        //No init => nothing to do 
+    }
 
 }

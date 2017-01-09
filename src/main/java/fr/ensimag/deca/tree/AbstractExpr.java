@@ -1,13 +1,17 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.FloatType;
+import fr.ensimag.deca.context.IntType;
+import fr.ensimag.deca.context.StringType;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -82,10 +86,19 @@ public abstract class AbstractExpr extends AbstractInst {
             EnvironmentExp localEnv, ClassDefinition currentClass, 
             Type expectedType)
             throws ContextualError {
-        if (! this.getType().sameType(expectedType)){
-            throw new ContextualError("Variable initialized with wrong type",this.getLocation());
+        Type t;
+        try {
+            t = this.verifyExpr(compiler, localEnv, currentClass);
+        } catch (ContextualError e) {
+            throw e;
         }
-        //ConvFloat will need to be implemented
+        if (! t.sameType(expectedType)){
+            if (expectedType.isFloat() && t.isInt()) {
+                return new ConvFloat(this);
+            } else {
+                throw new ContextualError("Variable initialized with wrong type",this.getLocation());
+            }
+        }
         return this;
     }
     
@@ -114,7 +127,13 @@ public abstract class AbstractExpr extends AbstractInst {
      */
     void verifyCondition(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        if (! this.getType().isBoolean()) {
+        Type t;
+        try {
+            t = this.verifyExpr(compiler, localEnv, currentClass);
+        } catch (ContextualError e) {
+            throw e;
+        }
+        if (! t.isBoolean()) {
             throw new ContextualError("Condition must be boolean",this.getLocation());
         }
     }

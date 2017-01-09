@@ -1,11 +1,12 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.Instruction;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -36,7 +37,7 @@ public class Initialization extends AbstractInitialization {
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
         try {
-            this.expression.verifyRValue(compiler, localEnv, currentClass,t);
+            this.expression = this.expression.verifyRValue(compiler, localEnv, currentClass,t);
         } catch (ContextualError e) {
             throw e;
         }
@@ -58,5 +59,9 @@ public class Initialization extends AbstractInitialization {
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         expression.prettyPrint(s, prefix, true);
+    }
+    @Override
+    public void codeGen(DecacCompiler compiler) {
+        getExpression().codeGenInst(compiler);
     }
 }

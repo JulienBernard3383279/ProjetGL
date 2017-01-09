@@ -33,8 +33,8 @@ public class Main extends AbstractMain {
         // Vous avez le droit de changer le profil fourni pour ces méthodes
         // (mais ce n'est à priori pas nécessaire).
         try {
-            this.declVariables.verifyListDeclVariable(compiler, null, null);
             EnvironmentExp localEnv = new EnvironmentExp(null);
+            this.declVariables.verifyListDeclVariable(compiler, localEnv, null);
             this.insts.verifyListInst(compiler, localEnv, null, null);
         } catch (ContextualError e) {
             throw e;
@@ -47,6 +47,7 @@ public class Main extends AbstractMain {
     protected void codeGenMain(DecacCompiler compiler) {
         // A FAIRE: traiter les déclarations de variables.
         compiler.addComment("Beginning of main instructions:");
+        declVariables.codeGenListVar(compiler);
         insts.codeGenListInst(compiler);
     }
     
