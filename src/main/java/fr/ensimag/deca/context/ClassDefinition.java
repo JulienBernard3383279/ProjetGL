@@ -74,8 +74,8 @@ public class ClassDefinition extends TypeDefinition {
             parent = null;
         }
         HashMap<Symbol,ExpDefinition> dico = new HashMap<>();
-        LinkedList list=new LinkedList();
-        members = new EnvironmentExp(list,dico,parent);
+       
+        members = new EnvironmentExp(dico,parent);
         this.superClass = superClass;
     }
     
