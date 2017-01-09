@@ -172,6 +172,11 @@ public class DecacCompiler {
         PrintStream out = System.out;
         LOG.debug("Compiling file " + sourceFile + " to assembly file " + destFile);
         try {
+            //modif
+            if ( compilerOptions.getParse() ) {
+                AbstractProgram prog = doLexingAndParsing(sourceFile, out);
+                prog.decompile(out);
+            }
             return doCompile(sourceFile, destFile, out, err);
         } catch (LocationException e) {
             e.display(err);
