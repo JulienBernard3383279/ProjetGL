@@ -35,7 +35,7 @@ public class SymbolTable {
             return this.map.get(name);
         }
     }
-
+            
     public Map<String, Symbol> getMap() {
         return map;
     }
