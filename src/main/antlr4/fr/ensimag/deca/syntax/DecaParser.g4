@@ -105,6 +105,7 @@ decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
             } else {
                 $tree = new DeclVar(t,$i.tree,new NoInitialization());
             }
+            //setLocation($tree,$e.start);
         }
     ;
 
@@ -133,6 +134,7 @@ inst returns[AbstractInst tree]
     | PRINTLN OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
             $tree = new Println(false,$list_expr.tree);
+            setLocation($tree,$PRINTLN);
         }
     | PRINTX OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
@@ -211,12 +213,14 @@ assign_expr returns[AbstractExpr tree]
             assert($e.tree != null);
             assert($e2.tree != null);
             $tree=new Assign( (AbstractLValue) $e.tree,$e2.tree); //modif
+            setLocation($tree,$EQUALS);
         }
       | /* epsilon */ {
             assert($e.tree != null);
             $tree=$e.tree; //modif
         }
       )
+      
     ;
 
 or_expr returns[AbstractExpr tree]
@@ -420,6 +424,7 @@ literal returns[AbstractExpr tree]
         }
     | str=STRING { //modif
             $tree=new StringLiteral( $str.text );
+            setLocation($tree,$str);
         }
     | TRUE {
             $tree=new BooleanLiteral(true);
@@ -438,6 +443,7 @@ literal returns[AbstractExpr tree]
 ident returns[AbstractIdentifier tree]
     : id=IDENT { //modif
             $tree=new Identifier( tableSymboles.create($id.text) ); //bug
+            setLocation($tree,$id); //faudra peut etre changer ca
         }
     ;
 
