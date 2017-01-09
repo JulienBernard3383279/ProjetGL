@@ -1,19 +1,21 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.MethodDefinition;
-import fr.ensimag.deca.context.ExpDefinition;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.StackAddr;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -220,4 +222,17 @@ public class Identifier extends AbstractIdentifier {
         }
     }
 
+    /**
+     *
+     * @param compiler
+     * @return address of the Identifier
+     */
+    @Override
+    public StackAddr getAddr(DecacCompiler compiler) {
+        //TODO (table de correspondance entre les nom des variable et leur adresse dans compiler)
+        //this.getName().getName() => variable en String 
+        //this.getName() =>
+        
+        return new StackAddr(0,"GB");
+    }
 }
