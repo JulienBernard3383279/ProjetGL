@@ -1,11 +1,16 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
+import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.StackAddr;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 
 /**
  * Assignment, i.e. lvalue = expr.
@@ -36,6 +41,25 @@ public class Assign extends AbstractBinaryExpr {
     @Override
     protected String getOperatorName() {
         return "=";
+    }
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+        StackAddr addr = this.getLeftOperand().getAddr(compiler);
+        int []regRead = compiler.openRead();
+        super.getRightOperand().codeGenInst(compiler);
+        if(regRead[0]!=-1) {
+            //allocSucess 
+            compiler.addInstruction(new STORE(Register.getR(regRead[0]),addr)); 
+        }
+        else {
+            throw new UnsupportedOperationException("not yet implemented");
+        }
+        compiler.closeRead();
     }
 
 }
