@@ -59,8 +59,16 @@ public class DeclVar extends AbstractDeclVar {
     }
     @Override
     protected void codeGenVar(DecacCompiler compiler) {
+        int [] regRead  =compiler.openRead();
         initialization.codeGen(compiler);
-        compiler.resetCurrentReg();
-        compiler.addInstruction(new PUSH(Register.getR(compiler.getCurrentReg())));
+        if(regRead[0]!=-1) {
+            //allocSucess
+            //TODO ajouter la variable a la table des symboles
+            compiler.addInstruction(new PUSH(Register.getR(regRead[0])));
+        }
+        else {
+            //TODO Push value on top of stack 
+        }
+        compiler.closeRead();
     }
 }
