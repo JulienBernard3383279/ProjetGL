@@ -36,14 +36,77 @@ public class CompilerOptions {
         return Collections.unmodifiableList(sourceFiles);
     }
 
+    public boolean getChecks() {
+        return checks;
+    }
+
+    public boolean getVerif() {
+        return verif;
+    }
+
+    public boolean getParse() {
+        return parse;
+    }
+
+    public int getNbRegisters() {
+        return nbRegisters;
+    }
+    
     private int debug = 0;
     private boolean parallel = false;
     private boolean printBanner = false;
     private List<File> sourceFiles = new ArrayList<File>();
-
+    private int nbRegisters = 16;
+    private boolean waitingForNbRegisters=false;
+    private boolean checks=true;
+    private boolean parse=false;
+    private boolean verif=false;
     
-    public void parseArgs(String[] args) throws CLIException {
-        // A FAIRE : parcourir args pour positionner les options correctement.
+    public void parseArgs(String[] args) throws CLIException {        
+        // Le comportement dans le cas d'une utilisation non conforme à la syntaxe est non spécifié.
+        // Les noms de fichiers ne peuvent pas être des noms d'options.
+        
+        for (String str : args) {
+            if (waitingForNbRegisters) {
+                nbRegisters=Integer.parseInt(str);
+                if (nbRegisters<4 || nbRegisters>16) {
+                    throw new UnsupportedOperationException("The number of registers must be set between 4 and 16.");
+                }
+                waitingForNbRegisters=false;
+            }
+            switch(str) {
+                case "-b" :
+                    printBanner=true;
+                    if (args.length!=1) {
+                        throw new UnsupportedOperationException("The -b option is only to be used alone.");
+                    }
+                    break;
+                case "-P" :
+                    parallel=true;
+                    break;
+                case "-n" :
+                    checks=false;
+                    break;
+                case "-v" :
+                    verif=true;
+                    break;
+                case "-p" :
+                    parse=true;
+                    break;
+                case "-d" :
+                    debug++;
+                    break;
+                case "-r" :
+                    waitingForNbRegisters=true;
+                    break;
+                default:
+                    sourceFiles.add(new File(str));
+                    break;
+            }
+            if (verif && parse) {
+                throw new UnsupportedOperationException("Options -p and -v are incompatible.");
+            }
+        }
         Logger logger = Logger.getRootLogger();
         // map command-line debug option to log4j's level.
         switch (getDebug()) {
@@ -58,16 +121,14 @@ public class CompilerOptions {
             logger.setLevel(Level.ALL); break;
         }
         logger.info("Application-wide trace level set to " + logger.getLevel());
-
+        
         boolean assertsEnabled = false;
         assert assertsEnabled = true; // Intentional side effect!!!
         if (assertsEnabled) {
             logger.info("Java assertions enabled");
         } else {
             logger.info("Java assertions disabled");
-        }
-
-        throw new UnsupportedOperationException("not yet implemented");
+        }        
     }
 
     protected void displayUsage() {
