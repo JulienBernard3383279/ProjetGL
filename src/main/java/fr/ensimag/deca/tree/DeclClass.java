@@ -16,7 +16,7 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        s.print("class { ... A FAIRE ... }");
+        s.print("class { ... A FAIRE ... }"); //sans-objet
     }
 
     @Override
