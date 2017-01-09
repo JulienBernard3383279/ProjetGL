@@ -1,5 +1,6 @@
 package fr.ensimag.deca;
 
+import fr.ensimag.deca.tree.AbstractProgram;
 import java.io.File;
 import org.apache.log4j.Logger;
 
@@ -17,6 +18,8 @@ public class DecacMain {
         LOG.info("Decac compiler started");
         boolean error = false;
         final CompilerOptions options = new CompilerOptions();
+        
+        
         try {
             options.parseArgs(args);
         } catch (CLIException e) {
@@ -25,12 +28,27 @@ public class DecacMain {
             options.displayUsage();
             System.exit(1);
         }
+        
+        
         if (options.getPrintBanner()) {
-            throw new UnsupportedOperationException("decac -b not yet implemented");
+            System.out.println("Ceci est une bannière !");
+            System.exit(0);
         }
+        
+        
         if (options.getSourceFiles().isEmpty()) {
             throw new UnsupportedOperationException("decac without argument not yet implemented");
         }
+        
+        /*
+        if (options.getParse()) {
+            for (File source : options.getSourceFiles()) {
+                DecacCompiler compiler = new DecacCompiler(options, source);
+                AbstractProgram prog = compiler.doLexingAndParsing(source.getAbsolutePath(), System.err);
+            }
+        }
+        */
+        
         if (options.getParallel()) {
             // A FAIRE : instancier DecacCompiler pour chaque fichier à
             // compiler, et lancer l'exécution des méthodes compile() de chaque

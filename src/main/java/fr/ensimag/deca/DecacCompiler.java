@@ -177,6 +177,11 @@ public class DecacCompiler {
         PrintStream out = System.out;
         LOG.debug("Compiling file " + sourceFile + " to assembly file " + destFile);
         try {
+            //modif
+            if ( compilerOptions.getParse() ) {
+                AbstractProgram prog = doLexingAndParsing(sourceFile, out);
+                prog.decompile(out);
+            }
             return doCompile(sourceFile, destFile, out, err);
         } catch (LocationException e) {
             e.display(err);
@@ -226,7 +231,7 @@ public class DecacCompiler {
 
         prog.verifyProgram(this);
         assert(prog.checkAllDecorations());
-
+        
         addComment("start main program");
         prog.codeGenProgram(this);
         addComment("end main program");
@@ -244,6 +249,7 @@ public class DecacCompiler {
 
         program.display(new PrintStream(fstream));
         LOG.info("Compilation of " + sourceName + " successful.");
+        
         return false;
     }
 
