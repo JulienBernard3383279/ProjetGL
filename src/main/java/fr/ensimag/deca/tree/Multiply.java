@@ -48,8 +48,7 @@ public class Multiply extends AbstractOpArith {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
-        //TODO ietyftg
+    protected void codeGenInst(DecacCompiler compiler) {   
         int []regRead1 = compiler.openRead();//lecture et écriture 
         int []regRead = compiler.openRead();
         super.getRightOperand().codeGenInst(compiler);

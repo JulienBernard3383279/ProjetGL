@@ -37,6 +37,13 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         }
         return new BooleanType(null);
     }
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 
-
+    @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 }
