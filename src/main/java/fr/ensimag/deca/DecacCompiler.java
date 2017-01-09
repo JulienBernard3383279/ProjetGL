@@ -270,21 +270,70 @@ public class DecacCompiler {
         return parser.parseProgramAndManageErrors(err);
     }
     private static int regLim = 15;
-    private static int currentReg = 1;
+    private static int regOverFlowRead = 0;
+    private static int regOverFlowWrite = 0;
+    private static int regRead = 0;
+    private static int regWrite = 0;
     public void initLim(int regNumber) {
-        regLim = regNumber-1;
+        regLim = regNumber;
     }
-    public void resetCurrentReg() {
-        currentReg = 0;
-    }
-    public int getCurrentReg() {
-        if(currentReg<regLim&&currentReg>=0) {
-            return currentReg=currentReg+1;
+    public int [] openRead() {
+        int []tab=new int[2];
+        if(regRead<regWrite){
+            regRead=regWrite;
+        }
+        if(regRead>=regLim-1) {
+            regOverFlowRead ++;
+            tab[0]=-1;
+            tab[1]=regOverFlowRead;
+            return tab;
         }
         else {
-            //nombre de registre trop important 
-            //on cree des variable tmporaire dans la pile 
-            return currentReg=-1;
+            regRead++;
+            tab[0]=regRead;
+            tab[1]=0;
+            return tab;
+        }
+    }
+    public int [] openWrite() {
+        int []tab=new int[2];
+        if(regWrite>=regLim-1) {
+            regOverFlowWrite ++;
+            tab[0]=-1;
+            tab[1]=regOverFlowWrite;
+            return tab;
+        }
+        else {
+            regWrite++;
+            tab[0]=regWrite;
+            tab[1]=0;
+            return tab;
+        }
+    }
+    public void closeRead() {
+        if(regRead>=regLim-1) {
+            if(regOverFlowRead>0) {
+                regOverFlowRead --;
+            }
+            else {
+                regRead--;
+            }
+        }
+        else {
+            regRead--;
+        }
+    }
+    public void closeWrite() {
+        if(regWrite>=regLim-1) {
+            if(regOverFlowWrite>0) {
+                regOverFlowWrite --;
+            }
+            else {
+                regWrite--;
+            }
+        }
+        else {
+            regWrite--;
         }
     }
     
