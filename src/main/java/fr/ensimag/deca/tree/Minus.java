@@ -26,17 +26,24 @@ public class Minus extends AbstractOpArith {
     protected void codeGenPrint(DecacCompiler compiler) {
         int []regRead = compiler.openRead();
         this.codeGenInst(compiler);
-        //chercher le type dans les definition
         if(regRead[0]!=-1)
             if(regRead[0]!=1)//avoid line LOAD R1,R1
                 compiler.addInstruction(new LOAD(Register.getR(regRead[0]),Register.getR(1)));
         else if(regRead[0]==-1)
             throw new UnsupportedOperationException("not yet implemented");
-        //TODO choose if display float or int 
-        //if(float)
-        compiler.addInstruction(new WFLOAT());
-        //if(int)
-        compiler.addInstruction(new WINT());
+        
+        
+        if(super.getType().isFloat()) {
+            compiler.addInstruction(new WFLOAT());
+        }
+        else if(super.getType().isInt()) {
+            compiler.addInstruction(new WINT());
+        }
+        else {
+            throw new UnsupportedOperationException("Can't print object of type: "
+                    +super.getType().getName().getName());
+        }
+        compiler.closeRead();
         compiler.closeRead();
     }
 

@@ -2,10 +2,8 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.StackAddr;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.MUL;
-import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 
@@ -36,10 +34,16 @@ public class Multiply extends AbstractOpArith {
         else if(regRead[0]==-1)
             throw new UnsupportedOperationException("not yet implemented");
         //TODO choose if display float or int 
-        //if(float)
-        compiler.addInstruction(new WFLOAT());
-        //if(int)
-        compiler.addInstruction(new WINT());
+        if(super.getType().isFloat()) {
+            compiler.addInstruction(new WFLOAT());
+        }
+        else if(super.getType().isInt()) {
+            compiler.addInstruction(new WINT());
+        }
+        else {
+            throw new UnsupportedOperationException("Can't print object of type: "
+                    +super.getType().getName().getName());
+        }
         compiler.closeRead();
     }
 

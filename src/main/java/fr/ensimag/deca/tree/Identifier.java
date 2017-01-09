@@ -15,7 +15,7 @@ import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.DAddr;
-import fr.ensimag.ima.pseudocode.StackAddr;
+import fr.ensimag.ima.pseudocode.IndirectAddr;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -228,11 +228,11 @@ public class Identifier extends AbstractIdentifier {
      * @return address of the Identifier
      */
     @Override
-    public StackAddr getAddr(DecacCompiler compiler) {
+    public DAddr getAddr(DecacCompiler compiler) {
         //TODO (table de correspondance entre les nom des variable et leur adresse dans compiler)
         //this.getName().getName() => variable en String 
         //this.getName() =>
         
-        return new StackAddr(0,"GB");
+        return new IndirectAddr(0,"GB");
     }
 }

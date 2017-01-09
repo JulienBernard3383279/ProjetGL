@@ -8,8 +8,6 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.StackAddr;
-import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 
 /**
@@ -56,7 +54,7 @@ public class Assign extends AbstractBinaryExpr {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        StackAddr addr = this.getLeftOperand().getAddr(compiler);
+        DAddr addr = this.getLeftOperand().getAddr(compiler);
         int []regRead = compiler.openRead();
         super.getRightOperand().codeGenInst(compiler);
         if(regRead[0]!=-1) {
