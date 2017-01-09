@@ -445,15 +445,16 @@ ident returns[AbstractIdentifier tree]
 /****     Class related rules     ****/
 
 list_classes returns[ListDeclClass tree]
-    : {
+    @init {
             $tree=new ListDeclClass(); //m
     }
-      (c1=class_decl {
-            //sans-objet
+    :
+    (c1=class_decl {
             //sans-objet
         }
-      )*
+    )*
     ;
+
 
 class_decl
     : CLASS name=ident superclass=class_extension OBRACE class_body CBRACE {
