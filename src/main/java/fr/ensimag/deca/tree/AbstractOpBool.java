@@ -32,6 +32,7 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
         if (!t1.isBoolean() && !t2.isBoolean()) {
             throw new ContextualError("Operand must be boolean", this.getLocation());
         }
+        this.setType(t1);
         return t1;
     }
     @Override

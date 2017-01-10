@@ -172,7 +172,9 @@ public class Identifier extends AbstractIdentifier {
         if (localEnv.get(this.getName())==null) {
             throw new ContextualError("Identifier not defined",this.getLocation());
         }
-        return localEnv.get(this.getName()).getType();
+        Type t = localEnv.get(this.getName()).getType();
+        this.setType(t);
+        return t;
     }
 
     /**
@@ -184,7 +186,9 @@ public class Identifier extends AbstractIdentifier {
         if (compiler.getEnvTypes().get(this.getName()) == null) {
             throw new ContextualError("Type undefined",this.getLocation());
         }
-        return compiler.getEnvTypes().get(this.getName()).getType();
+        Type t = compiler.getEnvTypes().get(this.getName()).getType();
+        this.setType(t);
+        return t;
     }
     
     
