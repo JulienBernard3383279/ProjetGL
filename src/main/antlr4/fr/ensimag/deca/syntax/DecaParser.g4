@@ -159,6 +159,7 @@ inst returns[AbstractInst tree]
             assert($condition.tree != null);
             assert($body.tree != null);
             $tree = new While($condition.tree,$body.tree);
+            setLocation($tree,$WHILE);
         }
     | RETURN expr SEMI {
             assert($expr.tree != null);
@@ -347,10 +348,13 @@ unary_expr returns[AbstractExpr tree]
     : op=MINUS e=unary_expr {
             assert($e.tree != null);
             $tree=new UnaryMinus($e.tree);
+            setLocation($tree,$op.start);
+            setLocation
         }
     | op=EXCLAM e=unary_expr {
             assert($e.tree != null);
             $tree=new Not($e.tree);
+            
         }
     | select_expr {
             assert($select_expr.tree != null);
@@ -396,9 +400,11 @@ primary_expr returns[AbstractExpr tree]
         }
     | READINT OPARENT CPARENT {
             $tree=new ReadInt();
+            setLocation($tree,$READINT);
         }
     | READFLOAT OPARENT CPARENT {
             $tree=new ReadFloat();
+            setLocation($tree,$READFLOAT);
         }
     | NEW ident OPARENT CPARENT {
             assert($ident.tree != null);
@@ -425,9 +431,11 @@ type returns[AbstractIdentifier tree]
 literal returns[AbstractExpr tree]
     : INT { //modif
             $tree=new IntLiteral( Integer.parseInt($INT.text) );
+            setLocation($tree,$INT);
         }
     | fd=FLOAT { //pas modif
             $tree=new FloatLiteral( Float.parseFloat($fd.text) );
+            setLocation($tree,$fd);
         }
     | str=STRING { //modif
             $tree=new StringLiteral( $str.text );
@@ -435,9 +443,11 @@ literal returns[AbstractExpr tree]
         }
     | TRUE {
             $tree=new BooleanLiteral(true);
+            setLocation($tree,$TRUE);
         }
     | FALSE {
             $tree=new BooleanLiteral(false);
+            setLocation($tree,$FALSE);
         }
     | THIS {
             //sans-objet
