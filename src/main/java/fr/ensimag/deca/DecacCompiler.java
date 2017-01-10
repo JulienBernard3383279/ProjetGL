@@ -80,7 +80,7 @@ public class DecacCompiler {
         this.envTypes.put(symObj, defObj);
     }
     
-    Map<Symbol, Definition> envTypes;
+    private Map<Symbol, Definition> envTypes;
     //symbol table implemented here so tests can use existing symbols
     SymbolTable symbols;
     

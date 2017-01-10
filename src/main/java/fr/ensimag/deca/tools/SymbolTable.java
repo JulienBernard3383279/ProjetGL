@@ -33,7 +33,7 @@ public class SymbolTable {
             return this.map.get(name);
         } else {
             this.map.put(name, new Symbol(name));
-            return this.map.get(name);  //on retourne quand meme le symbol ajouté
+            return this.map.get(name);  //on retourne quand meme le symbole ajouté
         }
 
         
