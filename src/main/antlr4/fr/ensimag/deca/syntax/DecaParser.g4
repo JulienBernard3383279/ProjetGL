@@ -396,9 +396,11 @@ primary_expr returns[AbstractExpr tree]
         }
     | READINT OPARENT CPARENT {
             $tree=new ReadInt();
+            setLocation($tree,$READINT);
         }
     | READFLOAT OPARENT CPARENT {
             $tree=new ReadFloat();
+            setLocation($tree,$READFLOAT);
         }
     | NEW ident OPARENT CPARENT {
             assert($ident.tree != null);
@@ -425,9 +427,11 @@ type returns[AbstractIdentifier tree]
 literal returns[AbstractExpr tree]
     : INT { //modif
             $tree=new IntLiteral( Integer.parseInt($INT.text) );
+            setLocation($tree,$INT);
         }
     | fd=FLOAT { //pas modif
             $tree=new FloatLiteral( Float.parseFloat($fd.text) );
+            setLocation($tree,$fd.start);
         }
     | str=STRING { //modif
             $tree=new StringLiteral( $str.text );

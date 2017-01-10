@@ -170,13 +170,13 @@ public class DecacCompiler {
      */
     public boolean compile() {
         String sourceFile = source.getAbsolutePath();
-        String destFile = null;
-        String []part = sourceFile.split(".");
-        if(2==part.length && part[1].equals("deca")) {
-            destFile=part[0]+".ass";
+        String destFile=null;
+        if(sourceFile.substring(sourceFile.length()-5).equals(".deca")){
+            destFile = sourceFile.substring(0,sourceFile.length()-4)+"ass";
         }
-        // A FAIRE: calculer le nom du fichier .ass à partir du nom du
-        // A FAIRE: fichier .deca.
+        else {
+            System.out.println("Exception : Entry file not deca file");
+        }
         PrintStream err = System.err;
         PrintStream out = System.out;
         LOG.debug("Compiling file " + sourceFile + " to assembly file " + destFile);
