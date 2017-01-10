@@ -46,6 +46,7 @@ public class TestFailSimple {
     @Test
     public void testFailSimple() throws ContextualError{
         compiler = new DecacCompiler(null,null);
+        compiler.initSymbolsAndEnvTypes(new SymbolTable());
         SymbolTable symbols = this.compiler.getSymbols(); 
         //create identifiers
         Symbol integer = symbols.create("int");
