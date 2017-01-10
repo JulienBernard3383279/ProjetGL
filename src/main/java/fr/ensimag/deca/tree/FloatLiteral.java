@@ -8,6 +8,7 @@ import fr.ensimag.deca.context.FloatType;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.FLOAT;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import java.io.PrintStream;
@@ -64,11 +65,21 @@ public class FloatLiteral extends AbstractExpr {
     @Override 
     protected void codeGenPrint(DecacCompiler compiler) {
         compiler.addInstruction(new LOAD((int)value,Register.R1));
+        compiler.addInstruction(new FLOAT(Register.R1,Register.R1));
         compiler.addInstruction(new WFLOAT());
     }
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        int []regWrite = compiler.openWrite();
+        if(regWrite[0]!=-1) {
+            compiler.addInstruction(new LOAD((int)value,
+                    Register.getR(regWrite[0])));
+            compiler.addInstruction(new FLOAT(Register.getR(regWrite[0]),
+                    Register.getR(regWrite[0])));
+        }
+        else {
+            throw new UnsupportedOperationException("not yet implemented");
+        }
     }
 
 }
