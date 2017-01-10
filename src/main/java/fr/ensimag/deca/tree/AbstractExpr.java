@@ -89,7 +89,6 @@ public abstract class AbstractExpr extends AbstractInst {
         Type t;
         try {
             t = this.verifyExpr(compiler, localEnv, currentClass);
-            assert(t.isFloat());
         } catch (ContextualError e) {
             throw e;
         }

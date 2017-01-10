@@ -40,6 +40,7 @@ public class Assign extends AbstractBinaryExpr {
         } catch (ContextualError e) {
             throw e;
         }
+        this.setType(t);
         return t;
     }
 

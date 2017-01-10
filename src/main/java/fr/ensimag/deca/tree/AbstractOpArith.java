@@ -41,6 +41,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 return t2;
             }
         }
+        this.setType(t1);
         return t1;
     }
     @Override
