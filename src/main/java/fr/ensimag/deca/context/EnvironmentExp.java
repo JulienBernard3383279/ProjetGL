@@ -37,9 +37,9 @@ public class EnvironmentExp {
     
     
     
-    public EnvironmentExp(HashMap<Symbol,ExpDefinition> dico,EnvironmentExp parentEnvironment) {
+    public EnvironmentExp(EnvironmentExp parentEnvironment) {
         
-        this.dico=dico;
+        this.dico=new HashMap<Symbol, ExpDefinition>();
 
         this.parentEnvironment = parentEnvironment;
     }
