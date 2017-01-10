@@ -1,0 +1,15 @@
+{
+bool a = true && false;
+int b = 4/2;
+bool c = true == false;
+bool d = 4 > 2;
+bool e = 4 < 2;
+bool f = 4 >= 2;
+bool g = 4 <= 2;
+int h = -3;
+int i = ---4;
+int j = -2+2;
+int k = 2 != 1;
+bool l = true ||false;
+int m = 1+1;
+}
