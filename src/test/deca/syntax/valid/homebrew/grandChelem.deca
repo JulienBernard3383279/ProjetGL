@@ -1,0 +1,8 @@
+{
+	float y=((((0.3141592653589793238463383279502884))));
+	int d = 6%4;
+	int x=(1+2+3)*(8-4);
+	bool a= ( true || false ) && true ;
+	println("Souvent, pour s'amuser, les élèves pas doués,");
+	println("git pushent leurs projets, sans même les tester");
+} 
