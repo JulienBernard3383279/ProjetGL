@@ -25,6 +25,7 @@ public class EnvironmentExp {
     // environnement (association nom -> définition, avec possibilité
     // d'empilement).
     private Map<Symbol,ExpDefinition> dico=new HashMap<>();
+
     //dictionnaire associant le symbol (son nom) à sa définition
   
     EnvironmentExp parentEnvironment;
@@ -32,10 +33,14 @@ public class EnvironmentExp {
     public Map<Symbol, ExpDefinition> getDico() {
         return dico;
     }
+
     
     
     
-    public EnvironmentExp(EnvironmentExp parentEnvironment) {
+    public EnvironmentExp(HashMap<Symbol,ExpDefinition> dico,EnvironmentExp parentEnvironment) {
+        
+        this.dico=dico;
+
         this.parentEnvironment = parentEnvironment;
     }
 
@@ -53,6 +58,7 @@ public class EnvironmentExp {
            return def;   
         } else {
            return null;
+ 
         }
     }
 
@@ -72,10 +78,11 @@ public class EnvironmentExp {
      *
      */
     public void declare(Symbol name, ExpDefinition def) throws DoubleDefException {
-        if(this.dico.containsKey(name)) {
+        if(this.dico.containsKey(name)) 
             throw new DoubleDefException();
-        }
-        this.dico.put(name, def);
+        else
+            this.dico.put(name, def);
+
         
     }
 

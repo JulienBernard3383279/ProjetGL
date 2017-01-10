@@ -33,7 +33,7 @@ public class Main extends AbstractMain {
         // Vous avez le droit de changer le profil fourni pour ces méthodes
         // (mais ce n'est à priori pas nécessaire).
         try {
-            EnvironmentExp localEnv = new EnvironmentExp(null);
+            EnvironmentExp localEnv = new EnvironmentExp(null,null);
             this.declVariables.verifyListDeclVariable(compiler, localEnv, null);
             this.insts.verifyListInst(compiler, localEnv, null, null);
         } catch (ContextualError e) {
