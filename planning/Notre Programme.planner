@@ -82,6 +82,11 @@
         </task>
       </task>
     </task>
+    <task id="21" name="Recherche Documentaire extension" note="" work="28800" start="20170109T170000Z" end="20170110T170000Z" work-start="20170110T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="3" type="FS"/>
+      </predecessors>
+    </task>
   </tasks>
   <resource-groups/>
   <resources>
@@ -93,6 +98,7 @@
   </resources>
   <allocations>
     <allocation task-id="6" resource-id="1" units="100"/>
+    <allocation task-id="21" resource-id="2" units="100"/>
     <allocation task-id="3" resource-id="2" units="100"/>
     <allocation task-id="9" resource-id="3" units="100"/>
     <allocation task-id="10" resource-id="3" units="100"/>
