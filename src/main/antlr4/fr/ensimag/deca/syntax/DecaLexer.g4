@@ -92,6 +92,5 @@ MULTI_LINE_STRING: '"' (STRING_CAR | EOL | '\\"' | '\\\\')* '"';
 fragment FILENAME: (LETTER | DIGIT | '.' | '-' | '_')+;
 INCLUDE: '#include' (' ')* '"' FILENAME '"';
 
-// Regle permettant de reconnaitre un caractere qui n'aurait pas ete reconnu
-DEFAULT: .;
+
 

@@ -35,7 +35,11 @@ options {
         return prog().tree;
     }
     
-    SymbolTable tableSymboles=new SymbolTable();
+    private SymbolTable tableSymboles=new SymbolTable();
+    
+    public SymbolTable getTable() {
+        return tableSymboles;
+    }
     
 }
 
@@ -130,6 +134,7 @@ inst returns[AbstractInst tree]
     | PRINT OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
             $tree = new Print(false,$list_expr.tree); //modifs $tree =
+            setLocation($tree,$PRINT);
         }
     | PRINTLN OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
@@ -139,10 +144,12 @@ inst returns[AbstractInst tree]
     | PRINTX OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
             $tree = new Print(true,$list_expr.tree);
+            setLocation($tree,$PRINTX);
         }
     | PRINTLNX OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
             $tree = new Println(true,$list_expr.tree);
+            setLocation($tree,$PRINTLNX);
         }
     | if_then_else {
             assert($if_then_else.tree != null);
