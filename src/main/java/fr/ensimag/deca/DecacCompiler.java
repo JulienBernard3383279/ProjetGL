@@ -95,21 +95,6 @@ public class DecacCompiler {
         this.envTypes.put(symVoid, defVoid);
         this.envTypes.put(symObj, defObj);
     }
-<<<<<<< HEAD
-    
-    private Map<Symbol, Definition> envTypes;
-    //symbol table implemented here so tests can use existing symbols
-    SymbolTable symbols;
-    
-    public Map<Symbol, Definition> getEnvTypes(){
-        return envTypes;
-    }
-    
-    public SymbolTable getSymbols() {
-        return symbols;
-    }
-=======
->>>>>>> 4436cf95644b6a4ad3c05291219f3f178dc9bc91
     /**
      * Source file associated with this compiler instance.
      */
