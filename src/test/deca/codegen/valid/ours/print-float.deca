@@ -1,0 +1,5 @@
+{
+    print(1.0);
+    println();
+    println(2.0);
+}
