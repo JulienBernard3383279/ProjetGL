@@ -25,6 +25,7 @@ public class ManualTestContext {
         CommonTokenStream tokens = new CommonTokenStream(lex);
         DecaParser parser = new DecaParser(tokens);
         DecacCompiler compiler = new DecacCompiler(new CompilerOptions(), null);
+        compiler.initSymbolsAndEnvTypes(parser.getTable());
         parser.setDecacCompiler(compiler);
         AbstractProgram prog = parser.parseProgramAndManageErrors(System.err);
         if (prog == null) {
