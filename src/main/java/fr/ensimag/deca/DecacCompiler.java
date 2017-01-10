@@ -1,5 +1,7 @@
 package fr.ensimag.deca;
 import fr.ensimag.deca.context.BooleanType;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.Definition;
 import java.util.*;
 import fr.ensimag.deca.syntax.DecaLexer;
@@ -63,19 +65,22 @@ public class DecacCompiler {
         Symbol symBool = symbols.create("boolean");
         Symbol symFloat = symbols.create("float");
         Symbol symVoid = symbols.create("void");
+        Symbol symObj = symbols.create("Object");
         // create definitions from symbols
-        Definition defInt = new TypeDefinition(new IntType(symInt),Location.BUILTIN);
-        Definition defBool = new TypeDefinition(new BooleanType(symBool),Location.BUILTIN);
-        Definition defFloat = new TypeDefinition(new FloatType(symFloat),Location.BUILTIN);
-        Definition defVoid = new TypeDefinition(new VoidType(symVoid),Location.BUILTIN);
+        TypeDefinition defInt = new TypeDefinition(new IntType(symInt),Location.BUILTIN);
+        TypeDefinition defBool = new TypeDefinition(new BooleanType(symBool),Location.BUILTIN);
+        TypeDefinition defFloat = new TypeDefinition(new FloatType(symFloat),Location.BUILTIN);
+        TypeDefinition defVoid = new TypeDefinition(new VoidType(symVoid),Location.BUILTIN);
+        ClassDefinition defObj = new ClassDefinition(new ClassType(symObj,Location.BUILTIN,null),Location.BUILTIN,null);
         // add types to envTypes
         this.envTypes.put(symInt, defInt);
         this.envTypes.put(symBool, defBool);
         this.envTypes.put(symFloat, defFloat);
         this.envTypes.put(symVoid, defVoid);
+        this.envTypes.put(symObj, defObj);
     }
     
-    Map<Symbol,Definition> envTypes;
+    Map<Symbol, Definition> envTypes;
     //symbol table implemented here so tests can use existing symbols
     SymbolTable symbols;
     
@@ -176,6 +181,7 @@ public class DecacCompiler {
             if ( compilerOptions.getParse() ) {
                 AbstractProgram prog = doLexingAndParsing(sourceFile, out);
                 prog.decompile(out);
+                return false;
             }
             return doCompile(sourceFile, destFile, out, err);
         } catch (LocationException e) {
@@ -225,8 +231,8 @@ public class DecacCompiler {
 
 
         prog.verifyProgram(this);
-        assert(prog.checkAllDecorations());
-
+        //assert(prog.checkAllDecorations());
+        
         addComment("start main program");
         prog.codeGenProgram(this);
         addComment("end main program");
@@ -244,6 +250,7 @@ public class DecacCompiler {
 
         program.display(new PrintStream(fstream));
         LOG.info("Compilation of " + sourceName + " successful.");
+        
         return false;
     }
 

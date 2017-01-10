@@ -25,7 +25,7 @@ public class EnvironmentExp {
     // environnement (association nom -> définition, avec possibilité
     // d'empilement).
     private Map<Symbol,ExpDefinition> dico=new HashMap<>();
-   
+
     //dictionnaire associant le symbol (son nom) à sa définition
   
     EnvironmentExp parentEnvironment;
@@ -33,7 +33,6 @@ public class EnvironmentExp {
     public Map<Symbol, ExpDefinition> getDico() {
         return dico;
     }
-
 
     
     
