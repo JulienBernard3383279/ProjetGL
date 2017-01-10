@@ -46,7 +46,8 @@ public class TestContextSimple {
     @Test
     public void testContextSimple() throws ContextualError{
         compiler = new DecacCompiler(null,null);
-        SymbolTable symbols = this.compiler.getSymbols(); 
+        compiler.initSymbolsAndEnvTypes(new SymbolTable());
+        SymbolTable symbols = compiler.getSymbols();
         //create identifiers
         Symbol integer = symbols.create("int");
         Identifier Int = new Identifier(integer);

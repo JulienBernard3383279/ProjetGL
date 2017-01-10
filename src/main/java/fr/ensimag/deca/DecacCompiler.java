@@ -62,9 +62,9 @@ public class DecacCompiler {
 
     }
     
-    Map<Symbol, Definition> envTypes;
+    private Map<Symbol, Definition> envTypes;
     //symbol table implemented here so tests can use existing symbols
-    SymbolTable symbols;
+    private SymbolTable symbols;
     
     public Map<Symbol, Definition> getEnvTypes(){
         return envTypes;
@@ -175,6 +175,10 @@ public class DecacCompiler {
     public boolean compile() {
         String sourceFile = source.getAbsolutePath();
         String destFile = null;
+        String []part = sourceFile.split(".");
+        if(2==part.length && part[1].equals("deca")) {
+            destFile=part[0]+".ass";
+        }
         // A FAIRE: calculer le nom du fichier .ass à partir du nom du
         // A FAIRE: fichier .deca.
         PrintStream err = System.err;
@@ -282,7 +286,7 @@ public class DecacCompiler {
         lex.setDecacCompiler(this);
         CommonTokenStream tokens = new CommonTokenStream(lex);
         DecaParser parser = new DecaParser(tokens);
-        this.initSymbolsAndEnvTypes(parser.getTable);
+        this.initSymbolsAndEnvTypes(parser.getTable());
         parser.setDecacCompiler(this);
         return parser.parseProgramAndManageErrors(err);
     }
