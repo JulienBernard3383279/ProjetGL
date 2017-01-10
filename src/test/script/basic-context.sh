@@ -27,7 +27,7 @@ else
     echo "Succes attendu de test_context"
 fi
 
-if test_context src/test/deca/context/valid/pierre/testAllTrees.deca 2>&1 | grep -q -e 'testAllTrees.deca:[0-9][0-9]*'
+if test_context src/test/deca/context/valid/pierre/testAllTrees.deca 2>&1 | grep -q -e 'testAllTrees.deca:7:'
 then
     echo "Echec attendu pour test_context"
 else

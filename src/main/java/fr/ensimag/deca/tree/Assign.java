@@ -9,6 +9,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
+import org.apache.log4j.Logger;
 
 /**
  * Assignment, i.e. lvalue = expr.

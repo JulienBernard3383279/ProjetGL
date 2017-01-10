@@ -6,6 +6,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 /**
  * Arithmetic binary operations (+, -, /, ...)
@@ -43,8 +44,8 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 return t2;
             }
         }
-        this.setType(t1);
-        return t1;
+        this.setType(t2);
+        return t2;
     }
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {

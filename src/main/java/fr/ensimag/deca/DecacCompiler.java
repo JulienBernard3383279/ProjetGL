@@ -75,7 +75,7 @@ public class DecacCompiler {
     }
     
     public void initSymbolsAndEnvTypes(SymbolTable table) {
-                // create symbols for predefined types
+        // create symbols for predefined types
         this.symbols = table;
         Symbol symInt = symbols.create("int");
         Symbol symBool = symbols.create("boolean");
