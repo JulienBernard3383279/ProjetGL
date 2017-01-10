@@ -109,7 +109,7 @@ decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
             } else {
                 $tree = new DeclVar(t,$i.tree,new NoInitialization());
             }
-            //setLocation($tree,$e.start);
+            setLocation($tree,$i.start);
         }
     ;
 
@@ -439,7 +439,9 @@ literal returns[AbstractExpr tree]
     | fd=FLOAT { //pas modif
             $tree=new FloatLiteral( Float.parseFloat($fd.text) );
 
+
             setLocation($tree,$fd);
+
 
         }
     | str=STRING { //modif

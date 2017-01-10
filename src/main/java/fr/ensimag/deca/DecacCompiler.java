@@ -59,8 +59,24 @@ public class DecacCompiler {
         this.compilerOptions = compilerOptions;
         this.source = source;
         this.envTypes = new HashMap<>();
-        // create symbols for predefined types
-        this.symbols = new SymbolTable();
+
+    }
+    
+    private Map<Symbol, Definition> envTypes;
+    //symbol table implemented here so tests can use existing symbols
+    private SymbolTable symbols;
+    
+    public Map<Symbol, Definition> getEnvTypes(){
+        return envTypes;
+    }
+    
+    public SymbolTable getSymbols() {
+        return symbols;
+    }
+    
+    public void initSymbolsAndEnvTypes(SymbolTable table) {
+                // create symbols for predefined types
+        this.symbols = table;
         Symbol symInt = symbols.create("int");
         Symbol symBool = symbols.create("boolean");
         Symbol symFloat = symbols.create("float");
@@ -79,6 +95,7 @@ public class DecacCompiler {
         this.envTypes.put(symVoid, defVoid);
         this.envTypes.put(symObj, defObj);
     }
+<<<<<<< HEAD
     
     private Map<Symbol, Definition> envTypes;
     //symbol table implemented here so tests can use existing symbols
@@ -91,6 +108,8 @@ public class DecacCompiler {
     public SymbolTable getSymbols() {
         return symbols;
     }
+=======
+>>>>>>> 4436cf95644b6a4ad3c05291219f3f178dc9bc91
     /**
      * Source file associated with this compiler instance.
      */
@@ -282,6 +301,7 @@ public class DecacCompiler {
         lex.setDecacCompiler(this);
         CommonTokenStream tokens = new CommonTokenStream(lex);
         DecaParser parser = new DecaParser(tokens);
+        this.initSymbolsAndEnvTypes(parser.getTable());
         parser.setDecacCompiler(this);
         return parser.parseProgramAndManageErrors(err);
     }

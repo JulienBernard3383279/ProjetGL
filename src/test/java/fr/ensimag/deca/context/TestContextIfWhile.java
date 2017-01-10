@@ -50,6 +50,7 @@ public class TestContextIfWhile {
     @Test
     public void testContextIfWhile() throws ContextualError{
         compiler = new DecacCompiler(null,null);
+        compiler.initSymbolsAndEnvTypes(new SymbolTable());
         SymbolTable symbols = compiler.getSymbols();
         //create idents
         Symbol integer = symbols.create("int");
