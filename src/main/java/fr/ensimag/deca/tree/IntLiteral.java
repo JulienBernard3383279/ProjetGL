@@ -10,7 +10,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.LiteralInteger;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
+import fr.ensimag.ima.pseudocode.instructions.WINT;
 import java.io.PrintStream;
 
 /**
@@ -58,7 +58,8 @@ public class IntLiteral extends AbstractExpr {
     }
     @Override 
     protected void codeGenPrint(DecacCompiler compiler) {
-        compiler.addInstruction(new WSTR(""+value));
+        compiler.addInstruction(new LOAD(value,Register.R1));
+        compiler.addInstruction(new WINT());
     }
     @Override
     protected void codeGenInst(DecacCompiler compiler) {

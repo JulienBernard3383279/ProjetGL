@@ -173,11 +173,13 @@ if_then_else returns[IfThenElse tree]
     : if1=IF OPARENT condition=expr CPARENT OBRACE li_if=list_inst CBRACE {
             ListInst currentList=new ListInst();
             $tree=new IfThenElse($condition.tree,$li_if.tree,currentList);
+            setLocation($tree,$if1);
             IfThenElse lastTree=$tree;
         }
       (ELSE elsif=IF OPARENT elsif_cond=expr CPARENT OBRACE elsif_li=list_inst CBRACE {
             ListInst lastList=new ListInst();
             lastTree=new IfThenElse($elsif_cond.tree,$elsif_li.tree,lastList);
+            setLocation(lastTree,$elsif);
             currentList.add(lastTree);
             currentList=lastList;
         }
@@ -348,12 +350,13 @@ unary_expr returns[AbstractExpr tree]
     : op=MINUS e=unary_expr {
             assert($e.tree != null);
             $tree=new UnaryMinus($e.tree);
-            setLocation($tree,$op.start);
-            setLocation
+            setLocation($tree,$op);
+            
         }
     | op=EXCLAM e=unary_expr {
             assert($e.tree != null);
             $tree=new Not($e.tree);
+            setLocation($tree,$op);
             
         }
     | select_expr {
@@ -435,7 +438,9 @@ literal returns[AbstractExpr tree]
         }
     | fd=FLOAT { //pas modif
             $tree=new FloatLiteral( Float.parseFloat($fd.text) );
+
             setLocation($tree,$fd);
+
         }
     | str=STRING { //modif
             $tree=new StringLiteral( $str.text );
@@ -469,6 +474,7 @@ ident returns[AbstractIdentifier tree]
 list_classes returns[ListDeclClass tree]
     @init {
             $tree=new ListDeclClass(); //m
+            
     }
     :
     (c1=class_decl {
