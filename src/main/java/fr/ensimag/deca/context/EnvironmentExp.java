@@ -25,17 +25,12 @@ public class EnvironmentExp {
     // environnement (association nom -> définition, avec possibilité
     // d'empilement).
     private Map<Symbol,ExpDefinition> dico=new HashMap<>();
-    private LinkedList list=new LinkedList();
     //dictionnaire associant le symbol (son nom) à sa définition
   
     EnvironmentExp parentEnvironment;
 
     public Map<Symbol, ExpDefinition> getDico() {
         return dico;
-    }
-
-    public LinkedList getList() {
-        return list;
     }
     
     
