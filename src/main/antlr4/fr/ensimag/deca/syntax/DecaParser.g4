@@ -431,7 +431,7 @@ literal returns[AbstractExpr tree]
         }
     | fd=FLOAT { //pas modif
             $tree=new FloatLiteral( Float.parseFloat($fd.text) );
-            setLocation($tree,$fd.start);
+            setLocation($tree,$fd);
         }
     | str=STRING { //modif
             $tree=new StringLiteral( $str.text );
