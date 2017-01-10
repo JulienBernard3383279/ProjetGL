@@ -35,6 +35,7 @@ public class Assign extends AbstractBinaryExpr {
         Type t;
         try {
             t = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+            assert(t.isInt());
             this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, t);
         } catch (ContextualError e) {
             throw e;
