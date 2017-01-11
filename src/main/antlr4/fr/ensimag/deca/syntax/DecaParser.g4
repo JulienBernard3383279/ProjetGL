@@ -76,7 +76,7 @@ block returns[ListDeclVar decls, ListInst insts]
 list_decl returns[ListDeclVar tree]
 @init   {
             $tree = new ListDeclVar();
-            setLocation($tree,$list_decl);
+                                        //setLocation à faire ?
         }
     : decl_var_set[$tree]*
     ;
