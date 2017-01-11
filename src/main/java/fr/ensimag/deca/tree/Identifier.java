@@ -15,7 +15,9 @@ import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.IndirectAddr;
+import fr.ensimag.ima.pseudocode.NullOperand;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -238,5 +240,13 @@ public class Identifier extends AbstractIdentifier {
         //this.getName() =>
         
         return new IndirectAddr(0,"GB");
+    }
+    @Override
+    protected DVal codeGenPrint(DecacCompiler compiler) {
+        return new NullOperand();
+    }
+    @Override 
+    protected DVal codeGen(DecacCompiler compiler) {
+        return new NullOperand();
     }
 }

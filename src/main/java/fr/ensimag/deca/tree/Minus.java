@@ -1,6 +1,8 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.SUB;
@@ -23,7 +25,7 @@ public class Minus extends AbstractOpArith {
         return "-";
     }
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected DVal codeGenPrint(DecacCompiler compiler) {
         int []regRead = compiler.openRead();
         this.codeGenInst(compiler);
         if(regRead[0]!=-1)
@@ -45,10 +47,11 @@ public class Minus extends AbstractOpArith {
         }
         compiler.closeRead();
         compiler.closeRead();
+        return new NullOperand();
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected DVal codeGen(DecacCompiler compiler) {
         //TODO ietyftg
         int []regRead1 = compiler.openRead();//lecture et écriture 
         int []regRead = compiler.openRead();
@@ -70,6 +73,7 @@ public class Minus extends AbstractOpArith {
         compiler.closeRead();
         compiler.closeWrite();
         compiler.closeRead();
+        return new NullOperand();
     }
     
 }

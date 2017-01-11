@@ -1,5 +1,7 @@
 package fr.ensimag.ima.pseudocode;
 
+import fr.ensimag.deca.DecacCompiler;
+
 /**
  * Immediate operand containing a float value.
  * 
@@ -17,5 +19,9 @@ public class ImmediateFloat extends DVal {
     @Override
     public String toString() {
         return "#" + Float.toHexString(value);
+    }
+    @Override 
+    public void free(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("Not supposed to be call");
     }
 }

@@ -1,10 +1,12 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.QUO;
 import fr.ensimag.ima.pseudocode.instructions.DIV;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.QUO;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 
@@ -24,7 +26,7 @@ public class Divide extends AbstractOpArith {
     protected String getOperatorName() {
         return "/";
     }
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected DVal codeGenPrint(DecacCompiler compiler) {
         int []regRead = compiler.openRead();
         this.codeGenInst(compiler);
         //chercher le type dans les definition
@@ -45,16 +47,18 @@ public class Divide extends AbstractOpArith {
         }
         compiler.closeRead();
         compiler.closeRead();
+        return new NullOperand();
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected DVal codeGen(DecacCompiler compiler) {
         if(super.getType().isFloat()) {
             codeGenFloat(compiler);
         }
         else if(super.getType().isInt()) {
             codeGenInt(compiler);
         }
+        return new NullOperand();
     }
     private void codeGenInt(DecacCompiler compiler) {
         int []regRead1 = compiler.openRead();//lecture et écriture 
