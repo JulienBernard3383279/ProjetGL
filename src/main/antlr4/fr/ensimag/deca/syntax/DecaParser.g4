@@ -76,6 +76,7 @@ block returns[ListDeclVar decls, ListInst insts]
 list_decl returns[ListDeclVar tree]
 @init   {
             $tree = new ListDeclVar();
+                                        //setLocation à faire ?
         }
     : decl_var_set[$tree]*
     ;
@@ -242,6 +243,7 @@ or_expr returns[AbstractExpr tree]
             assert($e1.tree != null);
             assert($e2.tree != null);
             $tree=new Or($e1.tree,$e2.tree);
+            setLocation($tree,$OR);
        }
     ;
 
@@ -254,6 +256,7 @@ and_expr returns[AbstractExpr tree]
             assert($e1.tree != null);                         
             assert($e2.tree != null);
             $tree=new And($e1.tree,$e2.tree);
+            setLocation($tree,$AND);
         }
     ;
 
@@ -266,11 +269,13 @@ eq_neq_expr returns[AbstractExpr tree]
             assert($e1.tree != null);
             assert($e2.tree != null);
             $tree=new Equals($e1.tree,$e2.tree);
+            setLocation($tree,$EQEQ);
         }
     | e1=eq_neq_expr NEQ e2=inequality_expr {
             assert($e1.tree != null);
             assert($e2.tree != null);
             $tree=new NotEquals($e1.tree,$e2.tree);
+            setLocation($tree,$NEQ);
         }
     ;
 
@@ -283,21 +288,25 @@ inequality_expr returns[AbstractExpr tree]
             assert($e1.tree != null);
             assert($e2.tree != null);
             $tree=new LowerOrEqual($e1.tree,$e2.tree);
+            setLocation($tree,$LEQ);
         }
     | e1=inequality_expr GEQ e2=sum_expr {
             assert($e1.tree != null);
             assert($e2.tree != null);
             $tree=new GreaterOrEqual($e1.tree,$e2.tree);
+            setLocation($tree,$GEQ);
         }
     | e1=inequality_expr GT e2=sum_expr {
             assert($e1.tree != null);
             assert($e2.tree != null);
             $tree=new Greater($e1.tree,$e2.tree);
+            setLocation($tree,$GT);
         }
     | e1=inequality_expr LT e2=sum_expr {
             assert($e1.tree != null);
             assert($e2.tree != null);
             $tree=new Lower($e1.tree,$e2.tree);
+            setLocation($tree,$LT);
         }
     | e1=inequality_expr INSTANCEOF type {
             assert($e1.tree != null);
@@ -322,6 +331,7 @@ sum_expr returns[AbstractExpr tree]
             assert($e1.tree != null);
             assert($e2.tree != null);
             $tree=new Minus($e1.tree,$e2.tree);
+            setLocation($tree,$MINUS);
         }
     ;
 
@@ -334,16 +344,19 @@ mult_expr returns[AbstractExpr tree]
             assert($e1.tree != null);                                         
             assert($e2.tree != null);
             $tree=new Multiply($e1.tree,$e2.tree);
+            setLocation($tree,$TIMES);
         }
     | e1=mult_expr SLASH e2=unary_expr {
             assert($e1.tree != null);                                         
             assert($e2.tree != null);
             $tree=new Divide($e1.tree,$e2.tree);
+            setLocation($tree,$SLASH);
         }
     | e1=mult_expr PERCENT e2=unary_expr {
             assert($e1.tree != null);                                                                          
             assert($e2.tree != null);
             $tree=new Modulo($e1.tree,$e2.tree);
+            setLocation($tree,$PERCENT);
         }
     ;
 

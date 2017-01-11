@@ -59,6 +59,7 @@ public class DecacCompiler {
         this.compilerOptions = compilerOptions;
         this.source = source;
         this.envTypes = new HashMap<>();
+        this.symbols = new SymbolTable();
 
     }
     

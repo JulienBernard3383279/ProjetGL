@@ -1,6 +1,7 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tree.AbstractExpr;
 import fr.ensimag.deca.tree.AbstractMain;
 import fr.ensimag.deca.tree.AbstractPrint;
@@ -43,6 +44,7 @@ public class TestHelloWorld {
     @Test
     public void testHelloWorld() throws ContextualError {
         compiler = new DecacCompiler(null,null);
+        compiler.initSymbolsAndEnvTypes(new SymbolTable());
         AbstractExpr hello = new StringLiteral("Hello, world!");
         ListExpr arg = new ListExpr();
         arg.add(hello);
