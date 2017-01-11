@@ -95,6 +95,7 @@ public class DecacCompiler {
         this.envTypes.put(symVoid, defVoid);
         this.envTypes.put(symObj, defObj);
     }
+
     /**
      * Source file associated with this compiler instance.
      */

@@ -116,7 +116,7 @@ public abstract class Tree {
                 newPrefix = prefix + "|  ";
             }
         }
-        prettyPrintType(s, newPrefix);
+        //prettyPrintType(s, newPrefix);
         return newPrefix;
     }
 
