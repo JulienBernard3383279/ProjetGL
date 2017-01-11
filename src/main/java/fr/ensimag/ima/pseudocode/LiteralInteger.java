@@ -6,16 +6,12 @@
 
 package fr.ensimag.ima.pseudocode;
 
-/**
- *
- * @author guignomes
- */
+import fr.ensimag.deca.DecacCompiler;
+
+
 public class LiteralInteger extends DVal{
 
-    @Override
-    public String toString() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
     int val;
     public LiteralInteger(int value) {
         this.val=value;
@@ -23,5 +19,12 @@ public class LiteralInteger extends DVal{
     public int getValue() {
         return this.val;
     }
-    
+    @Override
+    public String toString() {
+        return "#"+val; //To change body of generated methods, choose Tools | Templates.
+    }
+    @Override
+    public void free(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("Not supposed to be call");
+    }  
 }

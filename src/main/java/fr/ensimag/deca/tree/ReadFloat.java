@@ -1,12 +1,16 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.FloatType;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.NullOperand;
+import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import java.io.PrintStream;
 
 /**
@@ -39,5 +43,15 @@ public class ReadFloat extends AbstractReadExpr {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // leaf node => nothing to do
     }
-
+    @Override 
+    protected DVal codeGenPrint(DecacCompiler compiler) {
+        compiler.addInstruction(new RFLOAT());
+        compiler.addInstruction(new WFLOAT());
+        return new NullOperand();
+    }
+    @Override 
+    protected DVal codeGen(DecacCompiler compiler) {
+        compiler.addInstruction(new RFLOAT());
+        return new NullOperand();
+    }
 }

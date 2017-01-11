@@ -7,6 +7,8 @@ import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 
@@ -49,23 +51,13 @@ public class Assign extends AbstractBinaryExpr {
         return "=";
     }
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected DVal codeGenPrint(DecacCompiler compiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
-        DAddr addr = this.getLeftOperand().getAddr(compiler);
-        int []regRead = compiler.openRead();
-        super.getRightOperand().codeGenInst(compiler);
-        if(regRead[0]!=-1) {
-            //allocSucess 
-            compiler.addInstruction(new STORE(Register.getR(regRead[0]),addr)); 
-        }
-        else {
-            throw new UnsupportedOperationException("not yet implemented");
-        }
-        compiler.closeRead();
+    protected DVal codeGen(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
 }

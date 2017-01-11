@@ -1,5 +1,7 @@
 package fr.ensimag.ima.pseudocode;
 
+import fr.ensimag.deca.DecacCompiler;
+
 /**
  * Operand representing a register indirection with offset, e.g. 42(R3).
  *
@@ -23,5 +25,13 @@ public class RegisterOffset extends DAddr {
     @Override
     public String toString() {
         return offset + "(" + register + ")";
+    }
+    @Override 
+    public void free(DecacCompiler compiler) {
+        compiler.freeStack(this.offset);
+    }
+    @Override
+    public boolean isRegisterOffset() {
+        return true;
     }
 }

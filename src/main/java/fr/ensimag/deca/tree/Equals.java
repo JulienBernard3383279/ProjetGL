@@ -1,6 +1,8 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.CMP;
 import fr.ensimag.ima.pseudocode.instructions.SEQ;
@@ -25,7 +27,7 @@ public class Equals extends AbstractOpExactCmp {
     }    
     
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected DVal codeGenPrint(DecacCompiler compiler) {
         int []regRead = compiler.openRead();
         if(regRead[0]!=-1) {
             this.codeGenInst(compiler);
@@ -34,10 +36,11 @@ public class Equals extends AbstractOpExactCmp {
         else {
             throw new UnsupportedOperationException("not yet implemented");
         }
+        return new NullOperand();
     }
     //TODO attention ce ci est le code de MUL
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected DVal codeGen(DecacCompiler compiler) {
         int []regRead1 = compiler.openRead();//lecture et écriture 
         int []regRead = compiler.openRead();
         super.getRightOperand().codeGenInst(compiler);
@@ -59,7 +62,7 @@ public class Equals extends AbstractOpExactCmp {
         compiler.closeRead();
         compiler.closeWrite();
         compiler.closeRead();
-        
+        return new NullOperand();
     }
     
 }

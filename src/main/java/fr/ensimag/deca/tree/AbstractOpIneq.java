@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.DVal;
 
 
 /**
@@ -14,12 +15,12 @@ public abstract class AbstractOpIneq extends AbstractOpCmp {
         super(leftOperand, rightOperand);
     }
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected DVal codeGenPrint(DecacCompiler compiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected DVal codeGen(DecacCompiler compiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 }

@@ -5,9 +5,10 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.AbstractExpr;
 import fr.ensimag.deca.tree.Plus;
 import fr.ensimag.deca.tree.TreeFunction;
+import fr.ensimag.ima.pseudocode.DVal;
 import java.io.PrintStream;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * Test for the Plus node in a manual way. The same test would be much easier to
@@ -58,6 +59,10 @@ public class TestPlusWithoutMock {
          */
         public void checkProperUse() {
             assertTrue("verifyExpr has not been called", hasBeenVerified);
+        }
+        @Override 
+        protected DVal codeGen(DecacCompiler compiler ){
+            throw new UnsupportedOperationException("Should not be called.");
         }
     }
 

@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.MUL;
 
@@ -21,7 +22,7 @@ public class And extends AbstractOpBool {
         return "&&";
     }
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected DVal codeGenPrint(DecacCompiler compiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }
     //TODO attention ce ci est le code de MUL

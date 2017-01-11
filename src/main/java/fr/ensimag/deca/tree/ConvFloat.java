@@ -1,9 +1,11 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.NullOperand;
 
 /**
  * Conversion of an int into a float. Used for implicit conversions.
@@ -26,6 +28,10 @@ public class ConvFloat extends AbstractUnaryExpr {
     @Override
     protected String getOperatorName() {
         return "/* conv float */";
+    }
+    @Override 
+    protected DVal codeGen(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
 }

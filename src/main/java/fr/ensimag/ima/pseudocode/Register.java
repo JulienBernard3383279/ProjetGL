@@ -1,5 +1,7 @@
 package fr.ensimag.ima.pseudocode;
 
+import fr.ensimag.deca.DecacCompiler;
+
 /**
  * Register operand (including special registers like SP).
  * 
@@ -16,7 +18,10 @@ public class Register extends DVal {
     public String toString() {
         return name;
     }
-
+    @Override
+    public void free(DecacCompiler compiler) {
+        compiler.freeRegister(this);
+    }
     /**
      * Global Base register
      */
@@ -54,5 +59,9 @@ public class Register extends DVal {
             res[i] = new GPRegister("R" + i, i);
         }
         return res;
+    }
+    @Override 
+    public boolean isRegister() {
+        return true;
     }
 }

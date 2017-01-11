@@ -316,11 +316,13 @@ sum_expr returns[AbstractExpr tree]
             assert($e1.tree != null);
             assert($e2.tree != null);
             $tree=new Plus($e1.tree,$e2.tree);
+            setLocation($tree,$PLUS);
         }
     | e1=sum_expr MINUS e2=mult_expr {
             assert($e1.tree != null);
             assert($e2.tree != null);
             $tree=new Minus($e1.tree,$e2.tree);
+            setLocation($tree,$MINUS);
         }
     ;
 
@@ -333,16 +335,19 @@ mult_expr returns[AbstractExpr tree]
             assert($e1.tree != null);                                         
             assert($e2.tree != null);
             $tree=new Multiply($e1.tree,$e2.tree);
+            setLocation($tree,$TIMES);
         }
     | e1=mult_expr SLASH e2=unary_expr {
             assert($e1.tree != null);                                         
             assert($e2.tree != null);
             $tree=new Divide($e1.tree,$e2.tree);
+            setLocation($tree,$SLASH);
         }
     | e1=mult_expr PERCENT e2=unary_expr {
             assert($e1.tree != null);                                                                          
             assert($e2.tree != null);
             $tree=new Modulo($e1.tree,$e2.tree);
+            setLocation($tree,$PERCENT);
         }
     ;
 
@@ -351,7 +356,6 @@ unary_expr returns[AbstractExpr tree]
             assert($e.tree != null);
             $tree=new UnaryMinus($e.tree);
             setLocation($tree,$op);
-            
         }
     | op=EXCLAM e=unary_expr {
             assert($e.tree != null);

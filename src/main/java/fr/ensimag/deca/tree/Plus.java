@@ -1,9 +1,13 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.ADD;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 
@@ -23,51 +27,75 @@ public class Plus extends AbstractOpArith {
         return "+";
     }
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
-        int []regRead = compiler.openRead();
-        this.codeGenInst(compiler);
-        //chercher le type dans les definition
-        if(regRead[0]!=-1)
-            if(regRead[0]!=1)//avoid line LOAD R1,R1
-                compiler.addInstruction(new LOAD(Register.getR(regRead[0]),Register.getR(1)));
-        else if(regRead[0]==-1)
-            throw new UnsupportedOperationException("not yet implemented");
-        if(super.getType().isFloat()) {
-            compiler.addInstruction(new WFLOAT());
+    protected DVal codeGenPrint(DecacCompiler compiler) {
+        DVal regRight = this.getRightOperand().codeGen(compiler);
+        DVal regLeft  = this.getLeftOperand().codeGen(compiler);
+        if(regRight.isGPRegister()) {
+            if(regLeft.isGPRegister())
+                compiler.addInstruction(new ADD(regLeft,(GPRegister)regRight));
+            else if(regLeft.isRegisterOffset())
+                compiler.addInstruction(new ADD(compiler.translate((RegisterOffset)regLeft),(GPRegister)regRight));
+            else 
+                throw new UnsupportedOperationException("Not supposed to be call");
+            compiler.addInstruction(new LOAD (regRight,Register.R1));
+            regRight.free(compiler);
+            regLeft.free(compiler);
+            if(super.getType().isFloat()) {
+                compiler.addInstruction(new WFLOAT());
+            }
+            else if(super.getType().isInt()) {
+                compiler.addInstruction(new WINT());
+            }
         }
-        else if(super.getType().isInt()) {
-            compiler.addInstruction(new WINT());
+        else if(regLeft.isGPRegister()) {
+            if(regRight.isGPRegister())
+                compiler.addInstruction(new ADD(regRight,(GPRegister)regLeft));
+            else if(regRight.isRegisterOffset())
+                compiler.addInstruction(new ADD(compiler.translate((RegisterOffset)regRight),(GPRegister)regLeft));
+            else 
+                throw new UnsupportedOperationException("Not supposed to be call");
+            compiler.addInstruction(new LOAD (regLeft,Register.R1));
+            regRight.free(compiler);
+            regLeft.free(compiler);
+            if(super.getType().isFloat()) {
+                compiler.addInstruction(new WFLOAT());
+            }
+            else if(super.getType().isInt()) {
+                compiler.addInstruction(new WINT());
+            }
         }
-        else {
-            throw new UnsupportedOperationException("Can't print object of type: "
-                    +super.getType().getName().getName());
-        }
-        compiler.closeRead();
-        compiler.closeRead();
+        else
+            throw new UnsupportedOperationException("Not supposed to be call");
+        return new NullOperand();
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
-        //TODO ietyftg
-        int []regRead1 = compiler.openRead();//lecture et écriture 
-        int []regRead = compiler.openRead();
-        super.getRightOperand().codeGenInst(compiler);
-        int []regWrite = compiler.openWrite();//normally equals to regRead1
-        super.getLeftOperand().codeGenInst(compiler);
-        if(regRead1[0]!=-1) {
-            //allocSucess 
-            if(regRead[0]!=-1) {
-                compiler.addInstruction(new ADD(Register.getR(regRead[0]),Register.getR(regWrite[0])));
-            }
-            else {
-                throw new UnsupportedOperationException("not yet implemented");
-            }
+    protected DVal codeGen(DecacCompiler compiler) {
+        DVal regRight = this.getRightOperand().codeGen(compiler);
+        DVal regLeft  = this.getLeftOperand().codeGen(compiler);
+        if(regRight.isGPRegister()) {
+            if(regLeft.isGPRegister())
+                compiler.addInstruction(new ADD(regLeft,(GPRegister)regRight));
+            else if(regLeft.isRegisterOffset())
+                compiler.addInstruction(new ADD(compiler.translate((RegisterOffset)regLeft),(GPRegister)regRight));
+            else 
+                throw new UnsupportedOperationException("Not supposed to be call");
+            compiler.addInstruction(new LOAD (regRight,Register.R1));
+            regLeft.free(compiler);
+            return regRight;
         }
-        else {
-            throw new UnsupportedOperationException("not yet implemented");
+        else if(regLeft.isGPRegister()) {
+            if(regRight.isGPRegister())
+                compiler.addInstruction(new ADD(regRight,(GPRegister)regLeft));
+            else if(regRight.isRegisterOffset())
+                compiler.addInstruction(new ADD(compiler.translate((RegisterOffset)regRight),(GPRegister)regLeft));
+            else 
+                throw new UnsupportedOperationException("Not supposed to be call");
+            compiler.addInstruction(new LOAD (regLeft,Register.R1));
+            regRight.free(compiler);
+            return regLeft;
         }
-        compiler.closeRead();
-        compiler.closeWrite();
-        compiler.closeRead();
+        else
+            throw new UnsupportedOperationException("Not supposed to be call");
     }
 }
