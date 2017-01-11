@@ -75,7 +75,7 @@ public class DecacCompiler {
     }
     
     public void initSymbolsAndEnvTypes(SymbolTable table) {
-                // create symbols for predefined types
+        // create symbols for predefined types
         this.symbols = table;
         Symbol symInt = symbols.create("int");
         Symbol symBool = symbols.create("boolean");
@@ -95,6 +95,7 @@ public class DecacCompiler {
         this.envTypes.put(symVoid, defVoid);
         this.envTypes.put(symObj, defObj);
     }
+
     /**
      * Source file associated with this compiler instance.
      */

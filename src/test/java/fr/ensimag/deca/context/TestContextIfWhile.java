@@ -15,6 +15,7 @@ import fr.ensimag.deca.tree.Assign;
 import fr.ensimag.deca.tree.BooleanLiteral;
 import fr.ensimag.deca.tree.ConvFloat;
 import fr.ensimag.deca.tree.DeclVar;
+import fr.ensimag.deca.tree.Equals;
 import fr.ensimag.deca.tree.Greater;
 import fr.ensimag.deca.tree.Identifier;
 import fr.ensimag.deca.tree.IfThenElse;
@@ -55,16 +56,16 @@ public class TestContextIfWhile {
         //create idents
         Symbol integer = symbols.create("int");
         Identifier Int = new Identifier(integer);
-        IntLiteral Zero = new IntLiteral(0);
-        IntLiteral One = new IntLiteral(1);
-        IntLiteral Two = new IntLiteral(2);
-        IntLiteral Three = new IntLiteral(3);
-        IntLiteral Five = new IntLiteral(5);
+        IntLiteral zero = new IntLiteral(0);
+        IntLiteral one = new IntLiteral(1);
+        IntLiteral two = new IntLiteral(2);
+        IntLiteral three = new IntLiteral(3);
+        IntLiteral five = new IntLiteral(5);
         Symbol i = symbols.create("i");
         Identifier I = new Identifier(i);
         //adds and assigns
-        Plus add1 = new Plus(I,Two);
-        Plus add2 = new Plus(I,One);
+        Plus add1 = new Plus(I,two);
+        Plus add2 = new Plus(I,one);
         Assign ass1 = new Assign(I,add1);
         Assign ass2 = new Assign(I,add2);
         ListInst l1 = new ListInst();
@@ -72,8 +73,8 @@ public class TestContextIfWhile {
         ListInst l2 = new ListInst();
         l2.add(ass2);
         //conditions
-        Greater gt = new Greater(I,Three);
-        Lower lt = new Lower(I,Five);
+        Greater gt = new Greater(I,three);
+        Lower lt = new Lower(I,five);
         //if and while
         IfThenElse ite = new IfThenElse(gt,l1,l2);
         ListInst l = new ListInst();
@@ -82,7 +83,7 @@ public class TestContextIfWhile {
         ListInst lf = new ListInst();
         lf.add(w);
         //declVar
-        Initialization init = new Initialization(Zero);
+        Initialization init = new Initialization(zero);
         DeclVar dec = new DeclVar(Int,I,init);
         ListDeclVar lv = new ListDeclVar();
         lv.add(dec);
@@ -94,4 +95,102 @@ public class TestContextIfWhile {
         //test
         prog.verifyProgram(compiler);
     }
+    
+    @Test
+    public void testCondinf() throws ContextualError{
+       compiler = new DecacCompiler(null,null);
+        compiler.initSymbolsAndEnvTypes(new SymbolTable());
+        SymbolTable symbols = compiler.getSymbols();
+        //create idents
+        Symbol integer = symbols.create("int");
+        Identifier Int = new Identifier(integer);
+        IntLiteral zero = new IntLiteral(0);
+        IntLiteral one = new IntLiteral(1);
+        IntLiteral two = new IntLiteral(2);
+        IntLiteral three = new IntLiteral(3);
+        IntLiteral five = new IntLiteral(5);
+        Symbol i = symbols.create("i");
+        Identifier I = new Identifier(i);
+        //adds and assigns
+        Plus add1 = new Plus(I,two);
+        Plus add2 = new Plus(I,one);
+        Assign ass1 = new Assign(I,add1);
+        Assign ass2 = new Assign(I,add2);
+        ListInst l1 = new ListInst();
+        l1.add(ass1);
+        ListInst l2 = new ListInst();
+        l2.add(ass2);
+        //conditions
+        Greater gt = new Greater(I,three);
+        Lower lt = new Lower(I,five);
+        //if and while
+        IfThenElse ite = new IfThenElse(lt,l1,l2);
+        ListInst l = new ListInst();
+        l.add(ite);
+        While w = new While(gt,l);
+        ListInst lf = new ListInst();
+        lf.add(w);
+        //declVar
+        Initialization init = new Initialization(zero);
+        DeclVar dec = new DeclVar(Int,I,init);
+        ListDeclVar lv = new ListDeclVar();
+        lv.add(dec);
+        //main
+        Main m = new Main(lv,lf);
+        ListDeclClass lc = new ListDeclClass();
+        Program prog = new Program(lc,m);
+        
+        //test
+        prog.verifyProgram(compiler);
+    }
+    
+     @Test
+    public void testCondEquals() throws ContextualError{
+        compiler = new DecacCompiler(null,null);
+        compiler.initSymbolsAndEnvTypes(new SymbolTable());
+        SymbolTable symbols = compiler.getSymbols();
+        //create idents
+        Symbol integer = symbols.create("int");
+        Identifier Int = new Identifier(integer);
+        IntLiteral zero = new IntLiteral(0);
+        IntLiteral one = new IntLiteral(1);
+        IntLiteral two = new IntLiteral(2);
+        IntLiteral three = new IntLiteral(3);
+        IntLiteral five = new IntLiteral(5);
+        Symbol i = symbols.create("i");
+        Identifier I = new Identifier(i);
+        //adds and assigns
+        Plus add1 = new Plus(I,two);
+        Plus add2 = new Plus(I,one);
+        Assign ass1 = new Assign(I,add1);
+        Assign ass2 = new Assign(I,add2);
+        ListInst l1 = new ListInst();
+        l1.add(ass1);
+        ListInst l2 = new ListInst();
+        l2.add(ass2);
+        //conditions
+        
+        //if and while
+        Equals eq = new Equals(one,two);
+        ListInst l = new ListInst();
+        l.add(eq);
+        While w = new While(eq,l);
+        ListInst lf = new ListInst();
+        lf.add(w);
+        //declVar
+        Initialization init = new Initialization(zero);
+        DeclVar dec = new DeclVar(Int,I,init);
+        ListDeclVar lv = new ListDeclVar();
+        lv.add(dec);
+        //main
+        Main m = new Main(lv,lf);
+        ListDeclClass lc = new ListDeclClass();
+        Program prog = new Program(lc,m);
+        
+        //test
+        prog.verifyProgram(compiler);
+    }
+    
+    
+    
 }

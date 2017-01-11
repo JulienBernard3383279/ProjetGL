@@ -9,6 +9,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
+import org.apache.log4j.Logger;
 
 /**
  * Assignment, i.e. lvalue = expr.
@@ -35,11 +36,11 @@ public class Assign extends AbstractBinaryExpr {
         Type t;
         try {
             t = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
-            assert(t.isInt());
             this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, t);
         } catch (ContextualError e) {
             throw e;
         }
+        this.setType(t);
         return t;
     }
 
