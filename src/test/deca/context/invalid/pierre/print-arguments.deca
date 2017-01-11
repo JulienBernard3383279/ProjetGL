@@ -1,0 +1,9 @@
+{
+    int daijoubu = 1;
+    print("oui");
+    println(2);
+    print(daijoubu);
+    println(0.555);
+    print(true);
+}
+    
