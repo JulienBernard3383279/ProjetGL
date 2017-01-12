@@ -8,9 +8,11 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import java.io.PrintStream;
 
 /**
@@ -60,14 +62,19 @@ public class BooleanLiteral extends AbstractExpr {
     }
     @Override 
     protected DVal codeGen(DecacCompiler compiler) {
-        //TODO
-        //alloc reg 
-        if(value) { 
-            //compiler.addInstruction(new LOAD(1,Register.R0));
+        DVal reg = compiler.allocRegister();
+        int data = value ? 1 : 0;
+        if(reg.isGPRegister()) {
+            compiler.addInstruction(new LOAD(data,(GPRegister)reg));
+        }
+        else if(reg.isRegisterOffset()) {
+            compiler.addInstruction(new LOAD(data,Register.R0));
+            compiler.addInstruction(new PUSH(Register.R0));
+            
         }
         else {
-            //compiler.addInstruction(new LOAD(1,Register.R0));
+            throw new UnsupportedOperationException("Not supposed to be call");
         }
-        return new NullOperand();
+        return reg;
     }
 }

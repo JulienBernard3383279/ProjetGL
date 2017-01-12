@@ -7,6 +7,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Label;
 
 /**
  *
@@ -42,11 +43,16 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
     }
     @Override
     protected DVal codeGenPrint(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        throw new UnsupportedOperationException("Should not be called");
     }
 
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+    
+    @Override
+    protected void codeGenCond(DecacCompiler compiler,Label l,boolean jump) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 }
