@@ -19,6 +19,7 @@ import fr.ensimag.deca.context.FloatType;
 import fr.ensimag.deca.context.IntType;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.context.VoidType;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
@@ -378,17 +379,17 @@ public class DecacCompiler {
     
     //DeclVar
     
-    private Map<Symbol, ExpDefinition> varMap = new HashMap();
+    private Map<Symbol, VariableDefinition> varMap = new HashMap();
     int varCounter = 0;
     
     public DAddr allocateVar() {
         this.varCounter++;
         return new RegisterOffset(this.varCounter,Register.GB);
     }
-    public void addVarToTable(Symbol sym,ExpDefinition def) {
+    public void addVarToTable(Symbol sym,VariableDefinition def) {
         this.varMap.put(sym, def);
     }
-    public Definition getVarData(Symbol sym) {
+    public VariableDefinition getVarData(Symbol sym) {
         return this.varMap.get(sym);
     }
     
