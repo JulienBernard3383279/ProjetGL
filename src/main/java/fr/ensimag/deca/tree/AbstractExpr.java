@@ -4,15 +4,11 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.FloatType;
-import fr.ensimag.deca.context.IntType;
-import fr.ensimag.deca.context.StringType;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -158,7 +154,9 @@ public abstract class AbstractExpr extends AbstractInst {
         decompile(s);
         s.print(";");
     }
-
+    protected void codeGenCond(DecacCompiler compiler,Label l,boolean jump) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
     @Override
     protected void prettyPrintType(PrintStream s, String prefix) {
         Type t = getType();
