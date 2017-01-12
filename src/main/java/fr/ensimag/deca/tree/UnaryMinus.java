@@ -29,7 +29,7 @@ public class UnaryMinus extends AbstractUnaryExpr {
         if (!t.isInt() && !t.isFloat()) {
             throw new ContextualError("Operand must be int or float",this.getOperand().getLocation());
         }
-        
+        this.setType(t);
         return t;
     }
 
