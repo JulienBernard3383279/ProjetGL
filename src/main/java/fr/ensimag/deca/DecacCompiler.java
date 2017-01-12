@@ -22,6 +22,7 @@ import fr.ensimag.deca.context.VoidType;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.Location;
+import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
@@ -377,8 +378,17 @@ public class DecacCompiler {
     //DeclVar
     
     private Map<Symbol, Definition> varMap = new HashMap();
+    int varCounter = 0;
     
-    public void allocateVar() {
-        }
+    public DAddr allocateVar() {
+        this.varCounter++;
+        return new RegisterOffset(this.varCounter,Register.GB);
+    }
+    public void addVarToTable(Symbol sym,Definition def) {
+        this.varMap.put(sym, def);
+    }
+    public Definition getVarData(Symbol sym) {
+        return this.varMap.get(sym);
+    }
     
 }
