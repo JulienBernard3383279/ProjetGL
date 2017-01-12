@@ -11,6 +11,7 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
+import org.apache.log4j.Logger;
 
 /**
  * Assignment, i.e. lvalue = expr.

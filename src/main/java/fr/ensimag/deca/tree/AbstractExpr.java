@@ -11,6 +11,7 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Label;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 /**
  * Expression, i.e. anything that has a value.
@@ -86,6 +87,7 @@ public abstract class AbstractExpr extends AbstractInst {
         Type t;
         try {
             t = this.verifyExpr(compiler, localEnv, currentClass);
+
         } catch (ContextualError e) {
             throw e;
         }

@@ -7,6 +7,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.DVal;
 import java.lang.*;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 /**
  * Arithmetic binary operations (+, -, /, ...)
@@ -44,8 +45,8 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 return t2;
             }
         }
-        this.setType(t1);
-        return t1;
+        this.setType(t2);
+        return t2;
     }
     @Override
     protected DVal codeGenPrint(DecacCompiler compiler) {
