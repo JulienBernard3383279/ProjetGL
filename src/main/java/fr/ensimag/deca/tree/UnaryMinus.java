@@ -1,6 +1,9 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.ConstructMUL;
+import fr.ensimag.deca.codegen.ConstructOPP;
+import fr.ensimag.deca.codegen.codeGenBinaryInstructionDValToReg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -40,7 +43,13 @@ public class UnaryMinus extends AbstractUnaryExpr {
     }
     @Override 
     protected DVal codeGen(DecacCompiler compiler) {
-        return new NullOperand();
+        DVal reg = this.getOperand().codeGen(compiler);
+         DVal returns = codeGenBinaryInstructionDValToReg.generate(compiler,
+                super.getType(),
+                new ConstructOPP(),
+                reg,
+                reg);
+        return returns;
     }
     @Override
     protected String getOperatorName() {
