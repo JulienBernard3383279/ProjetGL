@@ -16,7 +16,6 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.IndirectAddr;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;

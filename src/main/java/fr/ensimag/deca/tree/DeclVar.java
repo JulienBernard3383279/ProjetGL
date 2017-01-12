@@ -9,6 +9,7 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -85,7 +86,8 @@ public class DeclVar extends AbstractDeclVar {
         initialization.prettyPrint(s, prefix, true);
     }
     @Override
-    protected void codeGenVar(DecacCompiler compiler) {
-         throw new UnsupportedOperationException("Not supposed to be call");
+    protected void codeGenVar(DecacCompiler compiler) {        
+        VariableDefinition customDefinition=new VariableDefinition( this.type.getDefinition().getType(), this.getLocation() );
+        customDefinition.setOperand(compiler.allocateVar());
     }
 }
