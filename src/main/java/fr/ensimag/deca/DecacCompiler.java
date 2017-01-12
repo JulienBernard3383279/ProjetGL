@@ -347,6 +347,8 @@ public class DecacCompiler {
         return new RegisterOffset(register.getOffset()-overFlow,register.getRegister());
     }
 
+    //IfThenElse & While
+    
     private int fiCounter = -1;
     private int elseCounter = -1;
     private int beginWhileCounter = -1;
@@ -371,4 +373,12 @@ public class DecacCompiler {
         endWhileCounter++;
         return endWhileCounter;
     }
+    
+    //DeclVar
+    
+    private Map<Symbol, Definition> varMap = new HashMap();
+    
+    public void allocateVar() {
+        }
+    
 }
