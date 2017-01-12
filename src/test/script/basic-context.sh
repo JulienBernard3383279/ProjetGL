@@ -1,7 +1,5 @@
 #! /bin/sh
 
-exit 0
-
 # Auteur : gl58
 # Version initiale : 01/01/2017
 

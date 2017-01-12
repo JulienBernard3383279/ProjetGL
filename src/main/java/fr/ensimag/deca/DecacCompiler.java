@@ -65,7 +65,7 @@ public class DecacCompiler {
         this.envTypes = new HashMap<>();
 
     }
-    
+
     private Map<Symbol, Definition> envTypes;
     //symbol table implemented here so tests can use existing symbols
     private SymbolTable symbols;
@@ -344,5 +344,30 @@ public class DecacCompiler {
     }
     public RegisterOffset translate (RegisterOffset register) {
         return new RegisterOffset(register.getOffset()-overFlow,register.getRegister());
+    }
+
+    private int fiCounter = -1;
+    private int elseCounter = -1;
+    private int beginWhileCounter = -1;
+    private int endWhileCounter = -1;
+    
+    public int getFiCounter() {
+        fiCounter++;
+        return fiCounter;
+    }
+    
+    public int getElseCounter() {
+        elseCounter++;
+        return elseCounter;
+    }
+    
+    public int getBeginWhileCounter() {
+        beginWhileCounter++;
+        return beginWhileCounter;
+    }
+    
+    public int getEndWhileCounter() {
+        endWhileCounter++;
+        return endWhileCounter;
     }
 }
