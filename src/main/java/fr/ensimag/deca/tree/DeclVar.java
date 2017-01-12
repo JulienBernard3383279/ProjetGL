@@ -41,11 +41,16 @@ public class DeclVar extends AbstractDeclVar {
         try {
             t = this.type.verifyType(compiler);
             VariableDefinition def = new VariableDefinition(t,this.type.getLocation());
+            this.varName.setDefinition(def);
             localEnv.declare(this.varName.getName(), def);
         } catch (ContextualError e) {
             throw e;
         } catch (DoubleDefException d) {
             throw new ContextualError("Variable deja defini",this.getLocation());
+        }
+        
+        if (t.isVoid()) {
+                throw new ContextualError("Variable cannot be void",this.getLocation());
         }
         
         try {

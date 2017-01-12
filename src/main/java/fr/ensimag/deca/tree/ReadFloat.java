@@ -23,7 +23,7 @@ public class ReadFloat extends AbstractReadExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        Type t = new FloatType(null);
+        Type t = new FloatType(compiler.getSymbols().create("readFloat"));
         this.setType(t);
         return t;
     }
