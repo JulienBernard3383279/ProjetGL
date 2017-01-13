@@ -456,7 +456,7 @@ literal returns[AbstractExpr tree]
             setLocation($tree,$fd);
         }
     | str=STRING { 
-            $tree=new StringLiteral( $str.text );
+            $tree=new StringLiteral( $str.text.substring(1,$str.text.length()-1) );
             setLocation($tree,$str);
         }
     | TRUE {

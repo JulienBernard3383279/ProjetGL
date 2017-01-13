@@ -4,7 +4,13 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.ERROR;
+import fr.ensimag.ima.pseudocode.instructions.HALT;
 import fr.ensimag.ima.pseudocode.instructions.TSTO;
+import fr.ensimag.ima.pseudocode.instructions.WNL;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -50,7 +56,14 @@ public class Main extends AbstractMain {
         compiler.addComment("Beginning of main instructions:");
         declVariables.codeGenListVar(compiler);
         insts.codeGenListInst(compiler);
-        compiler.addInstruction(new TSTO(compiler.argTSTO()));
+        compiler.addInstruction(new HALT());
+        Label pilePleineLabel = new Label("pile_pleine");
+        compiler.addLabel(pilePleineLabel);
+        compiler.addInstruction(new WSTR("Erreur : pile pleine"));
+        compiler.addInstruction(new WNL());
+        compiler.addInstruction(new ERROR());
+        compiler.addInstructionAtProgramBeginning(new BOV(pilePleineLabel));
+        compiler.addInstructionAtProgramBeginning(new TSTO(compiler.argTSTO()));
         
     }
     

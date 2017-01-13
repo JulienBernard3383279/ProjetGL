@@ -1,18 +1,22 @@
+	TSTO #0
+	BOV pile_pleine
 ; start main program
 ; Main program
 ; Beginning of main instructions:
 	LOAD #1, R2
 	LOAD #0, R3
 	CMP R2, R3
-	LOAD R3, R1
-	BLT else0
-	WSTR """ok"""
+	BLT debutElse0
+	WSTR "ok"
 	WNL
-fi0:
-	BRA fi0
-	WSTR """erreur"""
+	BRA finElse0
+debutElse0:
+	WSTR "erreur"
 	WNL
-else0:
-	TSTO #0
+finElse0:
 	HALT
+pile_pleine:
+	WSTR "Erreur : pile pleine"
+	WNL
+	ERROR
 ; end main program
