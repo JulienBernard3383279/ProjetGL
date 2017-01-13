@@ -6,6 +6,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Label;
 
 /**
  *
@@ -44,5 +45,9 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
         throw new UnsupportedOperationException("not yet implemented");
+    }
+    @Override
+    protected void codeGenCond(DecacCompiler compiler,Label l,boolean jump) {
+        throw new UnsupportedOperationException("Should not be Called");
     }
 }

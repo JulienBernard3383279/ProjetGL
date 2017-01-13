@@ -62,5 +62,7 @@ public class Equals extends AbstractOpExactCmp {
                 l,
                 jump,
                 new ConstructBEQ());
+        regLeft.free(compiler);
+        regRight.free(compiler);
     }
 }

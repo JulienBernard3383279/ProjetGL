@@ -60,6 +60,8 @@ public class LowerOrEqual extends AbstractOpIneq {
                 l,
                 jump,
                 new ConstructBLE());
+        regLeft.free(compiler);
+        regRight.free(compiler);
     }
 
 }

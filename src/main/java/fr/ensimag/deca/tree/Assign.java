@@ -5,7 +5,13 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LEA;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
 /**
  * Assignment, i.e. lvalue = expr.
@@ -47,12 +53,22 @@ public class Assign extends AbstractBinaryExpr {
     }
     @Override
     protected DVal codeGenPrint(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        throw new UnsupportedOperationException("Should not be called");
     }
 
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        DVal reg = this.getRightOperand().codeGen(compiler);
+        DAddr addr  = this.getLeftOperand().getAddr(compiler);
+        if(reg.isGPRegister()) {
+            compiler.addInstruction(new LEA(addr,(GPRegister)reg));
+        }
+        else if(reg.isRegisterOffset()) {
+            compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)reg),Register.R0));
+            compiler.addInstruction(new LEA(addr,Register.R0));
+        }
+        reg.free(compiler);
+        return addr;
     }
 
 }

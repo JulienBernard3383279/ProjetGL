@@ -1,7 +1,10 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.codeGenBooleanOpToLabel;
+import fr.ensimag.deca.codegen.codeGenBooleanOpToReg;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.MUL;
 
@@ -27,7 +30,16 @@ public class And extends AbstractOpBool {
     }
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        DVal regLeft = this.getLeftOperand().codeGen(compiler);
+        DVal regRight = this.getRightOperand().codeGen(compiler);
+        regLeft = codeGenBooleanOpToReg.generate(compiler,0,regRight,regLeft);
+        return regLeft;
+    }
+    @Override
+    protected void codeGenCond(DecacCompiler compiler,Label l,boolean jump) {
+        DVal regLeft = this.getLeftOperand().codeGen(compiler);
+        DVal regRight = this.getRightOperand().codeGen(compiler);
+        codeGenBooleanOpToLabel.generate(compiler,0,l,jump,regRight,regLeft);
     }
     
 }

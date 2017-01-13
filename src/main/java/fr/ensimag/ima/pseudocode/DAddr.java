@@ -8,4 +8,8 @@ package fr.ensimag.ima.pseudocode;
  */
 public abstract class DAddr extends DVal {
     //TODO gestion des Addr
+    @Override
+    public boolean isDAddr() {
+        return true;
+    }
 }

@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<project name="" company="" manager="" phase="" project-start="20170105T000000Z" mrproject-version="2" calendar="1">
+  <properties/>
+  <phases/>
+  <calendars>
+    <day-types>
+      <day-type id="0" name="Working" description="A default working day"/>
+      <day-type id="1" name="Nonworking" description="A default non working day"/>
+      <day-type id="2" name="Use base" description="Use day from base calendar"/>
+    </day-types>
+    <calendar id="1" name="D&#xE9;faut">
+      <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="1" sun="1"/>
+      <overridden-day-types>
+        <overridden-day-type id="0">
+          <interval start="0800" end="1200"/>
+          <interval start="1300" end="1700"/>
+        </overridden-day-type>
+      </overridden-day-types>
+      <days/>
+    </calendar>
+  </calendars>
+  <tasks>
+    <task id="1" name="Sans Obj" note="" work="748800" start="20170105T000000Z" end="20170113T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="2" name="&#xC9;tape A" note="" work="144000" start="20170105T000000Z" end="20170109T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="3" name="Lexicographie" note="" work="86400" start="20170105T000000Z" end="20170109T170000Z" work-start="20170105T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="4" name="Analyse Syntaxique Arbre Abstrait" note="" work="57600" start="20170105T170000Z" end="20170109T170000Z" work-start="20170106T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="14" type="FS"/>
+          </predecessors>
+        </task>
+      </task>
+      <task id="5" name="&#xC9;tape B" note="" work="288000" start="20170105T000000Z" end="20170113T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="6" name="Enrichissement Arbre" note="" work="144000" start="20170105T000000Z" end="20170111T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="7" name="Parcour et impl&#xE9;mentation de l'environement" note="" work="86400" start="20170105T000000Z" end="20170109T170000Z" work-start="20170105T080000Z" percent-complete="95" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="8" name="Test" note="" work="57600" start="20170109T170000Z" end="20170111T170000Z" work-start="20170110T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="3" type="FS"/>
+              <predecessor id="1" predecessor-id="4" type="FS"/>
+              <predecessor id="1" predecessor-id="7" type="FS"/>
+            </predecessors>
+          </task>
+        </task>
+        <task id="9" name="Analyse Contextuel" note="" work="144000" start="20170105T000000Z" end="20170113T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="10" name="V&#xE9;rification Hi&#xE9;rarchie" note="" work="86400" start="20170105T000000Z" end="20170109T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="11" name="Test" note="" work="57600" start="20170111T170000Z" end="20170113T170000Z" work-start="20170112T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="8" type="FS"/>
+              <predecessor id="1" predecessor-id="3" type="FS"/>
+              <predecessor id="1" predecessor-id="4" type="FS"/>
+              <predecessor id="1" predecessor-id="10" type="FS"/>
+            </predecessors>
+          </task>
+        </task>
+      </task>
+      <task id="12" name="&#xC9;tape C" note="" work="316800" start="20170105T000000Z" end="20170113T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="13" name="&#xC9;criture du Main" note="" work="28800" start="20170105T000000Z" end="20170105T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="14" name="Parser du main et bind pour -p -b" note="" work="28800" start="20170105T000000Z" end="20170105T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        </task>
+        <task id="15" name="Traduction du Code en ASM" note="" work="288000" start="20170105T000000Z" end="20170113T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="16" name="Gestion des Class registres et adresse " note="" work="57600" start="20170105T000000Z" end="20170106T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="17" name="Gestion des condition et boucle while" note="" work="28800" start="20170110T170000Z" end="20170111T170000Z" work-start="20170111T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="18" type="FS"/>
+              <predecessor id="1" predecessor-id="4" type="FS"/>
+            </predecessors>
+          </task>
+          <task id="18" name="Gestion des op&#xE9;ration simple (ADD MULT ...)" note="" work="57600" start="20170106T170000Z" end="20170110T170000Z" work-start="20170109T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="16" type="FS"/>
+            </predecessors>
+          </task>
+          <task id="19" name="D&#xE9;claration variables et Asign " note="" work="28800" start="20170110T170000Z" end="20170111T170000Z" work-start="20170111T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="18" type="FS"/>
+              <predecessor id="1" predecessor-id="7" type="FS"/>
+            </predecessors>
+          </task>
+          <task id="20" name="Gestion des op&#xE9;ration Bool&#xE9;enes" note="" work="28800" start="20170111T170000Z" end="20170112T170000Z" work-start="20170112T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="19" type="FS"/>
+            </predecessors>
+          </task>
+          <task id="21" name="Gestion de TSTO et BOV" note="" work="57600" start="20170111T170000Z" end="20170113T170000Z" work-start="20170112T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="17" type="FS"/>
+            </predecessors>
+          </task>
+          <task id="22" name="Test de la partie C " note="" work="28800" start="20170112T170000Z" end="20170113T170000Z" work-start="20170113T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="20" type="FS"/>
+            </predecessors>
+          </task>
+        </task>
+      </task>
+    </task>
+    <task id="23" name="Recherche Documentaire extension" note="" work="115200" start="20170109T170000Z" end="20170113T170000Z" work-start="20170110T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="3" type="FS"/>
+      </predecessors>
+    </task>
+    <task id="24" name="Avec obj" note="" work="633600" start="20170113T170000Z" end="20170120T170000Z" work-start="20170116T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="25" name="Extension partie A" note="" work="115200" start="20170113T170000Z" end="20170119T170000Z" work-start="20170116T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="26" name="Analyse Arbre / D&#xE9;compilation " note="" work="86400" start="20170113T170000Z" end="20170118T170000Z" work-start="20170116T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="21" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="27" name="Tests syntaxiques" note="" work="28800" start="20170118T170000Z" end="20170119T170000Z" work-start="20170119T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="26" type="FS"/>
+          </predecessors>
+        </task>
+      </task>
+      <task id="28" name="Extension partie B" note="" work="230400" start="20170113T170000Z" end="20170119T170000Z" work-start="20170116T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="29" name="V&#xE9;rification classes et m&#xE9;thodes" note="" work="115200" start="20170113T170000Z" end="20170119T170000Z" work-start="20170116T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="11" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="30" name="Extension table des symboles / m&#xE9;thodes" note="" work="57600" start="20170113T170000Z" end="20170117T170000Z" work-start="20170116T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="23" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="31" name="Environnement exp &#xE9;tendu &#xE0; l'avec objet" note="" work="57600" start="20170117T170000Z" end="20170119T170000Z" work-start="20170118T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="30" type="FS"/>
+          </predecessors>
+        </task>
+      </task>
+      <task id="32" name="Extension partie C" note="" work="144000" start="20170113T170000Z" end="20170120T170000Z" work-start="20170116T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="33" name="Impl&#xE9;mentation des m&#xE9;th&#xF4;des" note="" work="144000" start="20170113T170000Z" end="20170120T170000Z" work-start="20170116T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="22" type="FS"/>
+          </predecessors>
+          <task id="34" name="Table des m&#xE9;thodes" note="" work="28800" start="20170113T170000Z" end="20170116T170000Z" work-start="20170116T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="35" name="Impl&#xE9;mentation des m&#xE9;thodes" note="" work="28800" start="20170116T170000Z" end="20170117T170000Z" work-start="20170117T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="34" type="FS"/>
+            </predecessors>
+          </task>
+          <task id="36" name="Tests" note="" work="86400" start="20170117T170000Z" end="20170120T170000Z" work-start="20170118T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="35" type="FS"/>
+            </predecessors>
+          </task>
+        </task>
+      </task>
+      <task id="37" name="Impl&#xE9;mentation des extensions" note="" work="144000" start="20170113T170000Z" end="20170120T170000Z" work-start="20170116T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="23" type="FS"/>
+        </predecessors>
+      </task>
+    </task>
+  </tasks>
+  <resource-groups/>
+  <resources>
+    <resource id="1" name="Emmanuel" short-name="" type="1" units="0" email="" note="" std-rate="0"/>
+    <resource id="2" name="Thibault" short-name="" type="1" units="0" email="" note="" std-rate="0"/>
+    <resource id="3" name="Pierre" short-name="" type="1" units="0" email="" note="" std-rate="0"/>
+    <resource id="4" name="Julien" short-name="" type="1" units="0" email="" note="" std-rate="0"/>
+    <resource id="5" name="Guillaume" short-name="" type="1" units="0" email="" note="" std-rate="0"/>
+  </resources>
+  <allocations>
+    <allocation task-id="6" resource-id="1" units="100"/>
+    <allocation task-id="23" resource-id="2" units="100"/>
+    <allocation task-id="3" resource-id="2" units="100"/>
+    <allocation task-id="9" resource-id="3" units="100"/>
+    <allocation task-id="10" resource-id="3" units="100"/>
+    <allocation task-id="21" resource-id="4" units="100"/>
+    <allocation task-id="17" resource-id="4" units="100"/>
+    <allocation task-id="14" resource-id="4" units="100"/>
+    <allocation task-id="4" resource-id="4" units="100"/>
+    <allocation task-id="15" resource-id="5" units="100"/>
+  </allocations>
+</project>

@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import java.util.Iterator;
 import org.apache.log4j.Logger;
 
 /**
@@ -26,8 +27,10 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
      */
     void verifyListClass(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify listClass: start");
-        //throw new UnsupportedOperationException("not yet implemented");
-        //no classes created for 'no object'
+        Iterator<AbstractDeclClass> it = this.iterator();
+        while (it.hasNext()) {
+            it.next().verifyClass(compiler);
+        }
         // LOG.debug("verify listClass: end");
     }
 
@@ -35,14 +38,20 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
      * Pass 2 of [SyntaxeContextuelle]
      */
     public void verifyListClassMembers(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Iterator<AbstractDeclClass> it = this.iterator();
+        while (it.hasNext()) {
+            it.next().verifyClassMembers(compiler);
+        }
     }
     
     /**
      * Pass 3 of [SyntaxeContextuelle]
      */
     public void verifyListClassBody(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Iterator<AbstractDeclClass> it = this.iterator();
+        while (it.hasNext()) {
+            it.next().verifyClassBody(compiler);
+        }
     }
 
 

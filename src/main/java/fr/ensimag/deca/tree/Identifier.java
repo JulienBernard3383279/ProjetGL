@@ -19,6 +19,7 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LEA;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -242,10 +243,12 @@ public class Identifier extends AbstractIdentifier {
     }
     @Override
     protected DVal codeGenPrint(DecacCompiler compiler) {
+        DAddr addr = this.getAddr(compiler);
+        compiler.addInstruction(new LEA(addr,Register.R1));
         return new NullOperand();
     }
     @Override 
     protected DVal codeGen(DecacCompiler compiler) {
-        return new NullOperand();
+        return this.getAddr(compiler);
     }
 }

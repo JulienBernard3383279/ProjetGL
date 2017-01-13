@@ -61,5 +61,7 @@ public class NotEquals extends AbstractOpExactCmp {
                 l,
                 jump,
                 new ConstructBNE());
+        regLeft.free(compiler);
+        regRight.free(compiler);
     }
 }

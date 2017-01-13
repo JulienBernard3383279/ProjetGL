@@ -199,6 +199,10 @@ public class DecacCompiler {
                 AbstractProgram prog = doLexingAndParsing(sourceFile, out);
                 prog.decompile(out);
                 return false;
+            } else if (compilerOptions.getVerif() ) {
+                AbstractProgram prog = doLexingAndParsing(sourceFile, out);
+                prog.verifyProgram(this);
+                return false ;
             }
             return doCompile(sourceFile, destFile, out, err);
         } catch (LocationException e) {
@@ -333,14 +337,19 @@ public class DecacCompiler {
         register.free(this);
     }
     public void freeStack(int index) {
-        if(index==overFlow)
-            overFlow--;
-        stack[index]=false;
+        if(stack[index]=!false) {
+            if(index==overFlow)
+                overFlow--;
+            stack[index]=false;
+        }
+        
     }
     public void freeRegister(Register register) {
         for(int i=0;i<regLim;i++) {
             if(register.equals(Register.getR(i))) {
-                reg[i]=false;
+                if(reg[i]!=false){
+                    reg[i]=false;
+                }
                 return;
             }
         }
@@ -397,4 +406,9 @@ public class DecacCompiler {
     
     int tstoCounter=0;
     
+    private int countAndOr = -1;
+    public int newAndOr() {
+        countAndOr++;
+        return countAndOr;
+    }
 }
