@@ -2,9 +2,13 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.ConstructREM;
+import fr.ensimag.deca.codegen.codeGenBinaryInstructionDValToReg;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.NullOperand;
 
 /**
  *
@@ -40,6 +44,30 @@ public class Modulo extends AbstractOpArith {
     @Override
     protected String getOperatorName() {
         return "%";
+    }
+    
+    @Override
+    protected DVal codeGenPrint(DecacCompiler compiler) {
+        DVal regRight = this.getRightOperand().codeGen(compiler);
+        DVal regLeft  = this.getLeftOperand().codeGen(compiler);
+        codeGenBinaryInstructionDValToReg.generatePrint(compiler,
+                super.getType(),
+                new ConstructREM(),
+                regRight,
+                regLeft);
+        return new NullOperand();
+    }
+
+    @Override
+    protected DVal codeGen(DecacCompiler compiler) {
+        DVal regRight = this.getRightOperand().codeGen(compiler);
+        DVal regLeft  = this.getLeftOperand().codeGen(compiler);
+        DVal returns = codeGenBinaryInstructionDValToReg.generate(compiler,
+                super.getType(),
+                new ConstructREM(),
+                regRight,
+                regLeft);
+        return returns;
     }
 
 }

@@ -4,14 +4,11 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.FloatType;
-import fr.ensimag.deca.context.IntType;
-import fr.ensimag.deca.context.StringType;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -145,22 +142,23 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected DVal codeGenPrint(DecacCompiler compiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        codeGen(compiler);
     }
-    
-
+    protected abstract DVal codeGen(DecacCompiler compiler);
     @Override
     protected void decompileInst(IndentPrintStream s) {
         decompile(s);
         s.print(";");
     }
-
+    protected void codeGenCond(DecacCompiler compiler,Label l,boolean jump) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
     @Override
     protected void prettyPrintType(PrintStream s, String prefix) {
         Type t = getType();

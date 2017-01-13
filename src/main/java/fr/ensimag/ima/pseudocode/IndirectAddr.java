@@ -6,6 +6,8 @@
 
 package fr.ensimag.ima.pseudocode;
 
+import fr.ensimag.deca.DecacCompiler;
+
 /**
  *
  * @author guignomes
@@ -40,5 +42,9 @@ public class IndirectAddr extends DAddr {
     @Override
     public String toString() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    @Override 
+    public void free(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("Not supposed to be call");
     }
 }

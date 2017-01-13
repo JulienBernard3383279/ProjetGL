@@ -1,5 +1,7 @@
 package fr.ensimag.ima.pseudocode;
 
+import fr.ensimag.deca.DecacCompiler;
+
 /**
  * The #null operand.
  *
@@ -12,5 +14,11 @@ public class NullOperand extends DVal {
     public String toString() {
         return "#null";
     }
-
+    public NullOperand () {
+        
+    }
+    @Override
+    public void free(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("Not supposed to be call");
+    }
 }

@@ -1,5 +1,6 @@
 package fr.ensimag.ima.pseudocode;
 
+import fr.ensimag.deca.DecacCompiler;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -25,5 +26,8 @@ public class LabelOperand extends DVal {
     public String toString() {
         return label.toString();
     }
-
+    @Override
+    public void free(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("Not supposed to be call");
+    }
 }

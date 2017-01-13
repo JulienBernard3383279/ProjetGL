@@ -22,6 +22,10 @@ import fr.ensimag.deca.context.VoidType;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.Location;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.NullOperand;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -296,73 +300,54 @@ public class DecacCompiler {
         parser.setDecacCompiler(this);
         return parser.parseProgramAndManageErrors(err);
     }
-    private static int regLim = 15;
-    private static int regOverFlowRead = 0;
-    private static int regOverFlowWrite = 0;
-    private static int regRead = 0;
-    private static int regWrite = 0;
-    public void initLim(int regNumber) {
-        regLim = regNumber;
-    }
-    public int [] openRead() {
-        int []tab=new int[2];
-        if(regRead<regWrite){
-            regRead=regWrite;
-        }
-        if(regRead>=regLim-1) {
-            regOverFlowRead ++;
-            tab[0]=-1;
-            tab[1]=regOverFlowRead;
-            return tab;
-        }
-        else {
-            regRead++;
-            tab[0]=regRead;
-            tab[1]=0;
-            return tab;
-        }
-    }
-    public int [] openWrite() {
-        int []tab=new int[2];
-        if(regWrite>=regLim-1) {
-            regOverFlowWrite ++;
-            tab[0]=-1;
-            tab[1]=regOverFlowWrite;
-            return tab;
-        }
-        else {
-            regWrite++;
-            tab[0]=regWrite;
-            tab[1]=0;
-            return tab;
-        }
-    }
-    public void closeRead() {
-        if(regRead>=regLim-1) {
-            if(regOverFlowRead>0) {
-                regOverFlowRead --;
-            }
-            else {
-                regRead--;
-            }
-        }
-        else {
-            regRead--;
-        }
-    }
-    public void closeWrite() {
-        if(regWrite>=regLim-1) {
-            if(regOverFlowWrite>0) {
-                regOverFlowWrite --;
-            }
-            else {
-                regWrite--;
-            }
-        }
-        else {
-            regWrite--;
-        }
-    }
     
-
+    private static int regLim = 15;
+    private static int stackLim = 15;
+    private static boolean [] stack=new boolean[stackLim];
+    private static boolean [] reg=new boolean[15];
+    int overFlow=0;
+    public static void setRegLim(int lim) {
+        regLim = lim;
+    }
+    public void initRegister () {
+        Arrays.fill(reg,false);
+        Arrays.fill(stack,false);
+    }
+    public DVal allocRegister () {
+        int i=0;
+        for(i=2;i<regLim;i++) {
+            if(reg[i]==false) {
+                reg[i]=true;
+                return Register.getR(i);
+            }
+        }
+        for(i=0;i<overFlow;i++) {
+            if(!stack[i]) {
+                stack[i]=true;
+                return new RegisterOffset(i,Register.SP);
+            }
+        }
+        overFlow++;
+        return new RegisterOffset(overFlow,Register.SP);
+    }
+    public void freeValue(DVal register) {
+        register.free(this);
+    }
+    public void freeStack(int index) {
+        if(index==overFlow)
+            overFlow--;
+        stack[index]=false;
+    }
+    public void freeRegister(Register register) {
+        for(int i=0;i<regLim;i++) {
+            if(register.equals(Register.getR(i))) {
+                reg[i]=false;
+                return;
+            }
+        }
+        throw new UnsupportedOperationException("ERROR : free register error");
+    }
+    public RegisterOffset translate (RegisterOffset register) {
+        return new RegisterOffset(register.getOffset()-overFlow,register.getRegister());
+    }
 }

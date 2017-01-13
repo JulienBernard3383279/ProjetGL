@@ -1,10 +1,12 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.NullOperand;
 
 /**
  * @author gl58
@@ -32,8 +34,14 @@ public class UnaryMinus extends AbstractUnaryExpr {
         this.setType(t);
         return t;
     }
-
-
+    @Override 
+    protected DVal codeGenPrint(DecacCompiler compiler) {
+        return new NullOperand();
+    }
+    @Override 
+    protected DVal codeGen(DecacCompiler compiler) {
+        return new NullOperand();
+    }
     @Override
     protected String getOperatorName() {
         return "-";

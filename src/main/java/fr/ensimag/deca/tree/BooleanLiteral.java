@@ -1,12 +1,18 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.BooleanType;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.NullOperand;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import java.io.PrintStream;
 
 /**
@@ -54,5 +60,21 @@ public class BooleanLiteral extends AbstractExpr {
     String prettyPrintNode() {
         return "BooleanLiteral (" + value + ")";
     }
-
+    @Override 
+    protected DVal codeGen(DecacCompiler compiler) {
+        DVal reg = compiler.allocRegister();
+        int data = value ? 1 : 0;
+        if(reg.isGPRegister()) {
+            compiler.addInstruction(new LOAD(data,(GPRegister)reg));
+        }
+        else if(reg.isRegisterOffset()) {
+            compiler.addInstruction(new LOAD(data,Register.R0));
+            compiler.addInstruction(new PUSH(Register.R0));
+            
+        }
+        else {
+            throw new UnsupportedOperationException("Not supposed to be call");
+        }
+        return reg;
+    }
 }

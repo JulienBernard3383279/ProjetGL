@@ -1,10 +1,14 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.CMP;
-import fr.ensimag.ima.pseudocode.instructions.SLE;
-import fr.ensimag.ima.pseudocode.instructions.WINT;
+import fr.ensimag.deca.codegen.ConstructBLE;
+import fr.ensimag.deca.codegen.ConstructCMP;
+import fr.ensimag.deca.codegen.ConstructSLE;
+import fr.ensimag.deca.codegen.codeGenBinaryInstructionDValToReg;
+import fr.ensimag.deca.codegen.codeGenUnaryInstructionToLabel;
+import fr.ensimag.deca.codegen.codeGenUnaryInstructionToReg;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Label;
 
 
 /**
@@ -24,41 +28,38 @@ public class LowerOrEqual extends AbstractOpIneq {
     }
     
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
-        int []regRead = compiler.openRead();
-        if(regRead[0]!=-1) {
-            this.codeGenInst(compiler);
-            compiler.addInstruction(new WINT());
-        }
-        else {
-            throw new UnsupportedOperationException("not yet implemented");
-        }
+    protected DVal codeGenPrint(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("Shouldn't be called");
     }
-    //TODO attention ce ci est le code de MUL
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
-        int []regRead1 = compiler.openRead();//lecture et écriture 
-        int []regRead = compiler.openRead();
-        super.getRightOperand().codeGenInst(compiler);
-        int []regWrite = compiler.openWrite();//normally equals to regRead1
-        super.getLeftOperand().codeGenInst(compiler);
-        if(regRead1[0]!=-1) {
-            //allocSucess 
-            if(regRead[0]!=-1) {
-                compiler.addInstruction(new CMP(Register.getR(regRead[0]),Register.getR(regWrite[0])));
-                compiler.addInstruction(new SLE(Register.getR(regWrite[0])));
-            }
-            else {
-                throw new UnsupportedOperationException("not yet implemented");
-            }
-        }
-        else {
-            throw new UnsupportedOperationException("not yet implemented");
-        }
-        compiler.closeRead();
-        compiler.closeWrite();
-        compiler.closeRead();
-        
+    protected DVal codeGen(DecacCompiler compiler) {
+        DVal regLeft=this.getLeftOperand().codeGen(compiler);
+        DVal regRight=this.getRightOperand().codeGen(compiler);
+        DVal returns = codeGenBinaryInstructionDValToReg.generate(compiler,
+                super.getType(),
+                new ConstructCMP(),
+                regRight,
+                regLeft);
+        returns = codeGenUnaryInstructionToReg.generate(compiler,
+                super.getType(),
+                new ConstructSLE(),
+                returns);
+        return returns;
+    }
+    
+    @Override
+    protected void codeGenCond(DecacCompiler compiler,Label l,boolean jump) {
+        DVal regLeft=this.getLeftOperand().codeGen(compiler);
+        DVal regRight=this.getRightOperand().codeGen(compiler);
+        codeGenBinaryInstructionDValToReg.generate(compiler,
+                super.getType(),
+                new ConstructCMP(),
+                regRight,
+                regLeft);
+        codeGenUnaryInstructionToLabel.generate(compiler,
+                l,
+                jump,
+                new ConstructBLE());
     }
 
 }

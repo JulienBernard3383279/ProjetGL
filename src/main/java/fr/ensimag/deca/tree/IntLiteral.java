@@ -7,9 +7,13 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.IntType;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.LiteralInteger;
+import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 import java.io.PrintStream;
 
@@ -59,22 +63,26 @@ public class IntLiteral extends AbstractExpr {
         // leaf node => nothing to do
     }
     @Override 
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected DVal codeGenPrint(DecacCompiler compiler) {
         compiler.addInstruction(new LOAD(value,Register.R1));
         compiler.addInstruction(new WINT());
+        return new NullOperand();
     }
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
-        
-        int []regWrite = compiler.openWrite();
-        if(regWrite[0]!=-1) {
-            compiler.addInstruction(new LOAD(new LiteralInteger(this.value),Register.getR(regWrite[0])));
+    protected DVal codeGen(DecacCompiler compiler) {
+        DVal reg = compiler.allocRegister();
+        if(reg.isGPRegister()) {
+            compiler.addInstruction(new LOAD(value,(GPRegister)reg));
+        }
+        else if(reg.isRegisterOffset()) {
+            compiler.addInstruction(new LOAD(value,Register.R0));
+            compiler.addInstruction(new PUSH(Register.R0));
+            
         }
         else {
-            //TODO voir ce que l'on doit faire si tout les registre sont attribué 
-            throw new UnsupportedOperationException("not yet implemented");
+            throw new UnsupportedOperationException("Not supposed to be call");
         }
-        compiler.closeWrite();
+        return reg;
     }
 
 }
