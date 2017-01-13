@@ -20,7 +20,7 @@
     </calendar>
   </calendars>
   <tasks>
-    <task id="1" name="Sans Obj" note="" work="604800" start="20170105T000000Z" end="20170113T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+    <task id="1" name="Sans Obj" note="" work="662400" start="20170105T000000Z" end="20170113T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
       <task id="2" name="&#xC9;tape A" note="" work="144000" start="20170105T000000Z" end="20170109T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
         <task id="3" name="Lexicographie" note="" work="86400" start="20170105T000000Z" end="20170109T170000Z" work-start="20170105T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work"/>
         <task id="4" name="Analyse Syntaxique Arbre Abstrait" note="" work="57600" start="20170105T170000Z" end="20170109T170000Z" work-start="20170106T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
@@ -51,38 +51,49 @@
           </task>
         </task>
       </task>
-      <task id="12" name="&#xC9;tape C" note="" work="230400" start="20170105T000000Z" end="20170113T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="12" name="&#xC9;tape C" note="" work="288000" start="20170105T000000Z" end="20170113T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
         <task id="13" name="&#xC9;criture du Main" note="" work="28800" start="20170105T000000Z" end="20170105T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
           <task id="14" name="Parser du main et bind pour -p -b" note="" work="28800" start="20170105T000000Z" end="20170105T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
         </task>
-        <task id="15" name="Traduction du Code en ASM" note="" work="201600" start="20170105T000000Z" end="20170113T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-          <task id="16" name="Gestion des Class registres et adresse " note="" work="28800" start="20170105T000000Z" end="20170105T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-          <task id="17" name="Gestion des condition" note="" work="28800" start="20170105T170000Z" end="20170106T170000Z" work-start="20170106T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="15" name="Traduction du Code en ASM" note="" work="259200" start="20170105T000000Z" end="20170113T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="16" name="Gestion des Class registres et adresse " note="" work="57600" start="20170105T000000Z" end="20170106T170000Z" work-start="20170105T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="17" name="Gestion des condition et boucle while" note="" work="28800" start="20170110T170000Z" end="20170111T170000Z" work-start="20170111T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="18" type="FS"/>
+              <predecessor id="1" predecessor-id="4" type="FS"/>
+            </predecessors>
+          </task>
+          <task id="18" name="Gestion des op&#xE9;ration simple (ADD MULT ...)" note="" work="57600" start="20170106T170000Z" end="20170110T170000Z" work-start="20170109T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
             <predecessors>
               <predecessor id="1" predecessor-id="16" type="FS"/>
             </predecessors>
           </task>
-          <task id="18" name="Gestion des op&#xE9;ration simple (ADD MULT ...)" note="" work="28800" start="20170106T170000Z" end="20170109T170000Z" work-start="20170109T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="19" name="D&#xE9;claration variables et Asign " note="" work="28800" start="20170110T170000Z" end="20170111T170000Z" work-start="20170111T080000Z" percent-complete="22" priority="0" type="normal" scheduling="fixed-work">
             <predecessors>
-              <predecessor id="1" predecessor-id="17" type="FS"/>
-            </predecessors>
-          </task>
-          <task id="19" name="D&#xE9;claration variables et Asign " note="" work="57600" start="20170111T170000Z" end="20170113T170000Z" work-start="20170112T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-            <predecessors>
-              <predecessor id="1" predecessor-id="20" type="FS"/>
               <predecessor id="1" predecessor-id="11" type="FS"/>
               <predecessor id="1" predecessor-id="8" type="FS"/>
             </predecessors>
           </task>
-          <task id="20" name="Gestion des op&#xE9;ration Bool&#xE9;enes" note="" work="57600" start="20170109T170000Z" end="20170111T170000Z" work-start="20170110T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="20" name="Gestion des op&#xE9;ration Bool&#xE9;enes" note="" work="28800" start="20170111T170000Z" end="20170112T170000Z" work-start="20170112T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
             <predecessors>
-              <predecessor id="1" predecessor-id="18" type="FS"/>
+              <predecessor id="1" predecessor-id="19" type="FS"/>
+            </predecessors>
+          </task>
+          <task id="21" name="Gestion de TSTO et BOV" note="" work="28800" start="20170111T170000Z" end="20170112T170000Z" work-start="20170112T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="17" type="FS"/>
+            </predecessors>
+          </task>
+          <task id="22" name="Test de la partie C " note="" work="28800" start="20170112T170000Z" end="20170113T170000Z" work-start="20170113T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+            <predecessors>
+              <predecessor id="1" predecessor-id="21" type="FS"/>
+              <predecessor id="1" predecessor-id="20" type="FS"/>
             </predecessors>
           </task>
         </task>
       </task>
     </task>
-    <task id="21" name="Recherche Documentaire extension" note="" work="28800" start="20170109T170000Z" end="20170110T170000Z" work-start="20170110T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+    <task id="23" name="Recherche Documentaire extension" note="" work="28800" start="20170109T170000Z" end="20170110T170000Z" work-start="20170110T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
       <predecessors>
         <predecessor id="1" predecessor-id="3" type="FS"/>
       </predecessors>
@@ -98,10 +109,12 @@
   </resources>
   <allocations>
     <allocation task-id="6" resource-id="1" units="100"/>
-    <allocation task-id="21" resource-id="2" units="100"/>
+    <allocation task-id="23" resource-id="2" units="100"/>
     <allocation task-id="3" resource-id="2" units="100"/>
     <allocation task-id="9" resource-id="3" units="100"/>
     <allocation task-id="10" resource-id="3" units="100"/>
+    <allocation task-id="21" resource-id="4" units="100"/>
+    <allocation task-id="17" resource-id="4" units="100"/>
     <allocation task-id="14" resource-id="4" units="100"/>
     <allocation task-id="4" resource-id="4" units="100"/>
     <allocation task-id="15" resource-id="5" units="100"/>
