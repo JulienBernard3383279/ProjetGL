@@ -18,8 +18,8 @@ public class codeGenUnaryInstructionToLabel {
             boolean jump, 
             ConstructUnaryInstructionToLabel constructor) {
         if(jump)
-            compiler.addInstruction(constructor.construct(l));
-        else 
             compiler.addInstruction(constructor.opposite(l));
+        else 
+            compiler.addInstruction(constructor.construct(l));
     }
 }

@@ -6,7 +6,7 @@
 	LOAD #1, R2
 	LOAD #0, R3
 	CMP R2, R3
-	BLT debutElse0
+	BGE debutElse0
 	WSTR "ok"
 	WNL
 	BRA finElse0
