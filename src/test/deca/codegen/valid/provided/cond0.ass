@@ -13,5 +13,6 @@ fi0:
 	WSTR """erreur"""
 	WNL
 else0:
+	TSTO #0
 	HALT
 ; end main program

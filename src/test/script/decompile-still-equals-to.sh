@@ -14,8 +14,6 @@ cd src/test/deca/syntax/valid/homebrew/ || exit 1
 
 PATH=../../../../../main/bin:"$PATH"
 
-pwd
-
 for cas_de_test in * ../idempotent/*
 do
     echo "$cas_de_test :"

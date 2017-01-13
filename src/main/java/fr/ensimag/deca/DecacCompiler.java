@@ -29,6 +29,7 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -174,8 +175,7 @@ public class DecacCompiler {
      * The main program. Every instruction generated will eventually end up here.
      */
     private final IMAProgram program = new IMAProgram();
- 
-
+    
     /**
      * Run the compiler (parse source file, generate code)
      *
@@ -416,11 +416,23 @@ public class DecacCompiler {
     }
     
     public int argTSTO() {
-        return maxOverFlow + tstoVariableCounter - this.compilerOptions.getNbRegisters();
+        if (maxOverFlow + tstoVariableCounter - this.compilerOptions.getNbRegisters() > 0) {
+            return maxOverFlow + tstoVariableCounter - this.compilerOptions.getNbRegisters();
+        }
+        else {
+            return 0;
+        }
     }
+
+    public void addInstructionAtProgramBeginning(Instruction instruction) {
+        program.addFirst(instruction);
+    }
+
     private int countAndOr = -1;
+    
     public int newAndOr() {
         countAndOr++;
         return countAndOr;
     }
+    
 }
