@@ -60,16 +60,25 @@ public class DeclField extends AbstractDeclField{
     
     @Override
     public void decompile(IndentPrintStream s) {
-        
+        s.print("public");
+        s.print(" ");
+        type.decompile(s);
+        s.print(" ");
+        fieldName.decompile(s);
+        init.decompile(s);
     }
     
     @Override
     protected void iterChildren(TreeFunction f) {
-        
+        type.iter(f);
+        fieldName.iter(f);
+        init.iter(f);
     }
     
     @Override
     protected void prettyPrintChildren(PrintStream s,String prefix) {
-        
+        type.prettyPrint(s,prefix,false);
+        fieldName.prettyPrint(s,prefix,false);
+        init.prettyPrint(s,prefix,false);
     }
 }

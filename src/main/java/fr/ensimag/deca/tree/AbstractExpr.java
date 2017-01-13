@@ -94,7 +94,7 @@ public abstract class AbstractExpr extends AbstractInst {
             if (expectedType.isFloat() && t.isInt()) {
                 return new ConvFloat(this);
             } else {
-                throw new ContextualError("Variable initialized with wrong type",this.getLocation());
+                throw new ContextualError("variable initialized with wrong type",this.getLocation());
             }
         }
         return this;
@@ -132,7 +132,7 @@ public abstract class AbstractExpr extends AbstractInst {
             throw e;
         }
         if (! t.isBoolean()) {
-            throw new ContextualError("Condition must be boolean",this.getLocation());
+            throw new ContextualError("condition must be boolean",this.getLocation());
         }
     }
 

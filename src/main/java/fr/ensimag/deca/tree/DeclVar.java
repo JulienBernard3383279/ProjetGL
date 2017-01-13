@@ -49,11 +49,11 @@ public class DeclVar extends AbstractDeclVar {
         } catch (ContextualError e) {
             throw e;
         } catch (DoubleDefException d) {
-            throw new ContextualError("Variable deja defini",this.getLocation());
+            throw new ContextualError("variable is already defined",this.getLocation());
         }
         
         if (t.isVoid()) {
-                throw new ContextualError("Variable cannot be void",this.getLocation());
+                throw new ContextualError("variable cannot be void",this.getLocation());
         }
         
         try {
