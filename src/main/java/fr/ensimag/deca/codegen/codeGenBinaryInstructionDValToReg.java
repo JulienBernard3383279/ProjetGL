@@ -83,7 +83,6 @@ public class codeGenBinaryInstructionDValToReg {
                 compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regLeft),(GPRegister)regRight));
             else 
                 throw new UnsupportedOperationException("Not supposed to be called");
-            compiler.addInstruction(new LOAD (regRight,Register.R1));
             regLeft.free(compiler);
             return regRight;
         }
