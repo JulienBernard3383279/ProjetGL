@@ -393,4 +393,8 @@ public class DecacCompiler {
         return this.varMap.get(sym);
     }
     
+    //TSTO
+    
+    int tstoCounter=0;
+    
 }

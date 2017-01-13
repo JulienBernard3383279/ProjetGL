@@ -52,4 +52,9 @@ public class NoInitialization extends AbstractInitialization {
         //No init => nothing to do 
     }
 
+    @Override
+    public boolean isInitialization() {
+        return false;
+    }
+
 }

@@ -65,4 +65,10 @@ public class Initialization extends AbstractInitialization {
     public void codeGen(DecacCompiler compiler) {
         getExpression().codeGenInst(compiler);
     }
+    
+    @Override
+    public boolean isInitialization() {
+        return true;
+    }
+
 }
