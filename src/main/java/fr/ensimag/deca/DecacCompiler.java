@@ -309,6 +309,8 @@ public class DecacCompiler {
     private static boolean [] stack=new boolean[stackLim];
     private static boolean [] reg=new boolean[15];
     int overFlow=0;
+    int maxOverFlow=0;
+    
     public static void setRegLim(int lim) {
         regLim = lim;
     }
@@ -331,6 +333,9 @@ public class DecacCompiler {
             }
         }
         overFlow++;
+        if (overFlow>maxOverFlow) {
+            maxOverFlow=overFlow;
+        }
         return new RegisterOffset(overFlow,Register.SP);
     }
     public void freeValue(DVal register) {
@@ -404,8 +409,15 @@ public class DecacCompiler {
     
     //TSTO
     
-    int tstoCounter=0;
+    private int tstoVariableCounter=0;
     
+    public void countVariable() {
+        tstoVariableCounter++;
+    }
+    
+    public int argTSTO() {
+        return maxOverFlow + tstoVariableCounter - this.compilerOptions.getNbRegisters();
+    }
     private int countAndOr = -1;
     public int newAndOr() {
         countAndOr++;

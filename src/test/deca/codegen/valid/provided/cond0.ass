@@ -1,0 +1,17 @@
+; start main program
+; Main program
+; Beginning of main instructions:
+	LOAD #1, R2
+	LOAD #0, R3
+	CMP R2, R3
+	LOAD R3, R1
+	BLT else0
+	WSTR """ok"""
+	WNL
+fi0:
+	BRA fi0
+	WSTR """erreur"""
+	WNL
+else0:
+	HALT
+; end main program
