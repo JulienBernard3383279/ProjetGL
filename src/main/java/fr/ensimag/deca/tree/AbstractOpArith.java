@@ -33,7 +33,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
             throw e;
         }
         if ((!t1.isInt()&&!t1.isFloat())||(!t2.isInt()&&!t2.isFloat())) {
-            throw new ContextualError("Operands must be int or float",this.getLocation());
+            throw new ContextualError("operands must be int or float",this.getLocation());
         } else {
             if (t1.isFloat() && t2.isInt()){
                 this.setRightOperand(this.getRightOperand().verifyRValue(compiler, localEnv, currentClass,t1));

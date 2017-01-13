@@ -18,7 +18,13 @@ import java.util.Iterator;
 public class ListDeclField extends TreeList<AbstractDeclField>{
     
     @Override
-    public void decompile(IndentPrintStream s) {}
+    public void decompile(IndentPrintStream s) {
+        Iterator<AbstractDeclField> it = this.iterator();
+        while (it.hasNext()) {
+            it.next().decompile(s);
+            s.println();
+        }
+    }
     
     /**
      * Verification des attributs d'une classe (Passe 2)

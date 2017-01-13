@@ -34,7 +34,7 @@ public class Modulo extends AbstractOpArith {
         }
         
         if ((! t1.isInt()) && (! t2.isInt())) {
-            throw new ContextualError("Modulo operands must be int",this.getLocation());
+            throw new ContextualError("modulo operands must be int",this.getLocation());
         }
         this.setType(t1);
         return t1;
