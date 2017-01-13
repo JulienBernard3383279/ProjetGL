@@ -1,6 +1,7 @@
 {
     int x = 1 ;
     int y = x + 1;
+    int a;
     boolean valid = (! false) && (true || true) ;
     while ( x < y ) {
         x = y % x;

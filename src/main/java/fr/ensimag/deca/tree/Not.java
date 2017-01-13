@@ -32,7 +32,7 @@ public class Not extends AbstractUnaryExpr {
         if (!t.isBoolean()) {
             throw new ContextualError("Operand must be boolean",this.getOperand().getLocation());
         }
-        
+        this.setType(t);
         return t;
     }
 
