@@ -16,8 +16,10 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.IndirectAddr;
 import fr.ensimag.ima.pseudocode.NullOperand;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LEA;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -237,18 +239,16 @@ public class Identifier extends AbstractIdentifier {
      */
     @Override
     public DAddr getAddr(DecacCompiler compiler) {
-        //TODO (table de correspondance entre les nom des variable et leur adresse dans compiler)
-        //this.getName().getName() => variable en String 
-        //this.getName() =>
-        
-        return new IndirectAddr(0,"GB");
+        return compiler.getVarData(this.name).getOperand();
     }
     @Override
     protected DVal codeGenPrint(DecacCompiler compiler) {
+        DAddr addr = this.getAddr(compiler);
+        compiler.addInstruction(new LEA(addr,Register.R1));
         return new NullOperand();
     }
     @Override 
     protected DVal codeGen(DecacCompiler compiler) {
-        return new NullOperand();
+        return this.getAddr(compiler);
     }
 }

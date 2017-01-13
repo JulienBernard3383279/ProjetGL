@@ -60,5 +60,7 @@ public class Lower extends AbstractOpIneq {
                 l,
                 jump,
                 new ConstructBLT());
+        regLeft.free(compiler);
+        regRight.free(compiler);
     }
 }

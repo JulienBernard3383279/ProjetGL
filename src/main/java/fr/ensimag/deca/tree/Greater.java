@@ -62,6 +62,8 @@ public class Greater extends AbstractOpIneq {
                 l,
                 jump,
                 new ConstructBGT());
+        regLeft.free(compiler);
+        regRight.free(compiler);
     }
 
 }

@@ -41,9 +41,9 @@ public class Not extends AbstractUnaryExpr {
     protected String getOperatorName() {
         return "!";
     }
-    @Override 
+    @Override
     protected DVal codeGenPrint(DecacCompiler compiler) {
-        return new NullOperand();
+        throw new UnsupportedOperationException("Shouldn't be called");
     }
     @Override 
     protected DVal codeGen(DecacCompiler compiler) {

@@ -14,14 +14,17 @@ import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.FloatType;
 import fr.ensimag.deca.context.IntType;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.context.VoidType;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.Location;
+import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
@@ -66,7 +69,7 @@ public class DecacCompiler {
         this.symbols = new SymbolTable();
 
     }
-    
+
     private Map<Symbol, Definition> envTypes;
     //symbol table implemented here so tests can use existing symbols
     private SymbolTable symbols;
@@ -334,14 +337,19 @@ public class DecacCompiler {
         register.free(this);
     }
     public void freeStack(int index) {
-        if(index==overFlow)
-            overFlow--;
-        stack[index]=false;
+        if(stack[index]=!false) {
+            if(index==overFlow)
+                overFlow--;
+            stack[index]=false;
+        }
+        
     }
     public void freeRegister(Register register) {
         for(int i=0;i<regLim;i++) {
             if(register.equals(Register.getR(i))) {
-                reg[i]=false;
+                if(reg[i]!=false){
+                    reg[i]=false;
+                }
                 return;
             }
         }
@@ -350,4 +358,48 @@ public class DecacCompiler {
     public RegisterOffset translate (RegisterOffset register) {
         return new RegisterOffset(register.getOffset()-overFlow,register.getRegister());
     }
+
+    //IfThenElse & While
+    
+    private int fiCounter = -1;
+    private int elseCounter = -1;
+    private int beginWhileCounter = -1;
+    private int endWhileCounter = -1;
+    
+    public int getFiCounter() {
+        fiCounter++;
+        return fiCounter;
+    }
+    
+    public int getElseCounter() {
+        elseCounter++;
+        return elseCounter;
+    }
+    
+    public int getBeginWhileCounter() {
+        beginWhileCounter++;
+        return beginWhileCounter;
+    }
+    
+    public int getEndWhileCounter() {
+        endWhileCounter++;
+        return endWhileCounter;
+    }
+    
+    //DeclVar
+    
+    private Map<Symbol, VariableDefinition> varMap = new HashMap();
+    int varCounter = 0;
+    
+    public DAddr allocateVar() {
+        this.varCounter++;
+        return new RegisterOffset(this.varCounter,Register.GB);
+    }
+    public void addVarToTable(Symbol sym,VariableDefinition def) {
+        this.varMap.put(sym, def);
+    }
+    public VariableDefinition getVarData(Symbol sym) {
+        return this.varMap.get(sym);
+    }
+    
 }

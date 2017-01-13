@@ -63,6 +63,8 @@ public class GreaterOrEqual extends AbstractOpIneq {
                 l,
                 jump,
                 new ConstructBGE());
+        regLeft.free(compiler);
+        regRight.free(compiler);
     }
 
 }

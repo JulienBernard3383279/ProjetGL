@@ -1,5 +1,4 @@
 #! /bin/sh
-
 # Auteur : gl58
 # Version initiale : 01/01/2017
 
