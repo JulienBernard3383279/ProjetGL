@@ -18,7 +18,7 @@ import fr.ensimag.ima.pseudocode.instructions.WINT;
 
 /**
  *
- * @author guignomes
+ * @author gl58
  */
 public class codeGenBinaryInstructionDValToReg {
     public static void generatePrint (DecacCompiler compiler,
@@ -47,26 +47,18 @@ public class codeGenBinaryInstructionDValToReg {
                 throw new UnsupportedOperationException("Not supposed to be called");
             }
         }
-        else if(regLeft.isGPRegister()) {
-            if(regRight.isGPRegister())
-                compiler.addInstruction(constructor.construct(regRight,(GPRegister)regLeft));
-            else if(regRight.isRegisterOffset())
+        else if(regRight.isRegisterOffset()) {
+            if(regLeft.isGPRegister()){
                 compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regRight),(GPRegister)regLeft));
+                compiler.addInstruction(new LOAD (regLeft,Register.R1));
+            }
+            else if(regLeft.isRegisterOffset()) {
+                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)regLeft),Register.R1));
+                compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regRight),Register.R1));
+                
+            }
             else 
                 throw new UnsupportedOperationException("Not supposed to be called");
-            compiler.addInstruction(new LOAD (regLeft,Register.R1));
-            regRight.free(compiler);
-            regLeft.free(compiler);
-            if(expType.isFloat())
-                compiler.addInstruction(new WFLOAT());
-            else if(expType.isInt())
-                compiler.addInstruction(new WINT());
-            else 
-                throw new UnsupportedOperationException("Not supposed to be called");
-        }
-        else if(regRight.isRegisterOffset()&&regLeft.isRegisterOffset()) {
-            compiler.addInstruction(new LOAD (compiler.translate((RegisterOffset)regLeft),Register.R1));
-            compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regRight), Register.R1));
             regRight.free(compiler);
             regLeft.free(compiler);
             if(expType.isFloat())
@@ -91,27 +83,26 @@ public class codeGenBinaryInstructionDValToReg {
                 compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regLeft),(GPRegister)regRight));
             else 
                 throw new UnsupportedOperationException("Not supposed to be called");
+            compiler.addInstruction(new LOAD (regRight,Register.R1));
             regLeft.free(compiler);
             return regRight;
         }
-        else if(regLeft.isGPRegister()) {
-            if(regRight.isGPRegister())
-                compiler.addInstruction(constructor.construct(regRight,(GPRegister)regLeft));
-            else if(regRight.isRegisterOffset())
+        else if(regRight.isRegisterOffset()) {
+            if(regLeft.isGPRegister()){
                 compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regRight),(GPRegister)regLeft));
+            }
+            else if(regLeft.isRegisterOffset()) {
+                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)regLeft),Register.R1));
+                compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regRight),Register.R1));
+                compiler.addInstruction(new LEA(compiler.translate((RegisterOffset)regLeft),Register.R1));
+                
+            }
             else 
                 throw new UnsupportedOperationException("Not supposed to be called");
             regRight.free(compiler);
             return regLeft;
         }
-        else if(regRight.isRegisterOffset()&&regLeft.isRegisterOffset()) {
-            compiler.addInstruction(new LOAD (compiler.translate((RegisterOffset)regLeft),Register.R0));
-            compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regRight),Register.R0));
-            regRight.free(compiler);
-            compiler.addInstruction(new LEA(compiler.translate((RegisterOffset)regLeft),Register.R1));
-            return regLeft;
-        }
-        else
+        else 
             throw new UnsupportedOperationException("Not supposed to be called");
     }
 }

@@ -398,4 +398,9 @@ public class DecacCompiler {
         return this.varMap.get(sym);
     }
     
+    private int countAndOr = -1;
+    public int newAndOr() {
+        countAndOr++;
+        return countAndOr;
+    }
 }
