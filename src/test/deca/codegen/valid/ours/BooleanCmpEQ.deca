@@ -1,0 +1,23 @@
+{
+    int var = 2;
+    boolean x= (3*5)==5;
+    boolean y=2==var;
+    if(var==2) {
+	println("Boolean EQ : OK"); 
+    }
+    else {
+	println("Boolean EQ : FAIL");
+    }
+    if(x) {
+	println("Boolean EQ(1) : FAIL"); 
+    }
+    else {
+	println("Boolean EQ(1) : OK");
+    }
+    if(y) {
+	println("Boolean EQ(2) : OK");
+    }
+    else {
+	println("Boolean EQ(2) : FAIL");
+    }
+}

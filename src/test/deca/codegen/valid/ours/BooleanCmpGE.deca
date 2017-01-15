@@ -1,0 +1,69 @@
+{
+    int var = 1;
+    int var1 = 0;
+    boolean x = 3*5>=5;
+    boolean y = 0 >= var;
+    boolean z = 1>=var;
+    if(x) {
+	println("Boolean GE(1) : OK"); 
+    }
+    else {
+	println("Boolean GE(1) : FAIL");
+    }
+    if(y) {
+	println("Boolean GE(2) : FAIL");
+    }
+    else {
+	println("Boolean GE(2) : OK");
+    }
+    if(3*5>=3) {
+	println("Boolean GE(3) : OK");
+    }
+    else {
+	println("Boolean GE(3) : FAIL");
+    }
+    if(z) {                                                                 
+	println("Boolean GE(4) : OK");
+    }
+    else {
+	println("Boolean GE(4) : FAIL");
+    }
+    if(var>=0) {
+	println("Boolean GE(5) : OK");
+    }
+    else {
+	println("Boolean GE(5) : FAIL");
+    }
+    if(var>=3) {
+	println("Boolean GE(6) : FAIL");
+    }
+    else {
+	println("Boolean GE(6) : OK");
+    }
+    if(1>=var) {
+	println("Boolean GE(7) : OK");
+    }
+    else {
+	println("Boolean GE(7) : FAIL");
+    }
+    if(var>=var1) {
+	println("Boolean GE(8) : OK");
+    }
+    else {
+	println("Boolean GE(8) : FAIL");
+    }
+    if(var1>=var) {
+	println("Boolean GE(9) : FAIL");
+    }
+    else {
+	println("Boolean GE(9) : OK");
+    }
+    var1=1;
+    var=1;
+    if(var>=var1) {
+	println("Boolean GE(10) : OK");
+    }
+    else {
+	println("Boolean GE(10) : FAIL");
+    }
+}

@@ -1,0 +1,6 @@
+{
+    float x=5;
+    float y=2;
+    println(x*y);
+    prinln(x*2.345);
+}

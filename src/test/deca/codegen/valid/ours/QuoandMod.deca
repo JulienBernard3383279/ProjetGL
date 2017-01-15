@@ -1,0 +1,20 @@
+{
+    int x=10;
+    int y=3;
+    int z=x/y;
+    int a=x%y;
+    if(z==3) {
+	println("QUO : OK");
+    }
+    else {
+	println("QUO : FAIL");
+    }
+    if(a==1) {
+	println("MOD : OK");
+    }
+    else {
+	println("MOD : FAIL");
+	print("A VAUT: ");
+	println(a);
+    }
+}

@@ -1,0 +1,6 @@
+{
+    boolean x=true;
+    boolean y=flase;
+    x=x&&y;
+    x=x&&true;
+}

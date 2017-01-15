@@ -1,0 +1,6 @@
+{
+    boolean x=true;
+    boolean y=false;
+    x= x||y;
+    x= y||false;
+}

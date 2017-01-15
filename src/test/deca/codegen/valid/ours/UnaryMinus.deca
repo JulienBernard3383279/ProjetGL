@@ -1,0 +1,9 @@
+{
+    int x=-3;
+    if(x==(0-3)) {
+	println("UNARY MINUS : OK");
+    }
+    else {
+	println("UNARY MINUS : FAIL");
+    }
+}

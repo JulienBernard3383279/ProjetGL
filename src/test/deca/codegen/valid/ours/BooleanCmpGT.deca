@@ -1,0 +1,69 @@
+{
+    int var = 1;
+    int var1 = 0;
+    boolean x = 3*5>5;
+    boolean y = 2 > var;
+    boolean z = 1>var;
+    if(x) {
+	println("Boolean GT(1) : OK"); 
+    }
+    else {
+	println("Boolean GT(1) : FAIL");
+    }
+    if(y) {
+	println("Boolean GT(2) : OK");
+    }
+    else {
+	println("Boolean GT(2) : FAIL");
+    }
+    if(3*5>3) {
+	println("Boolean GT(3) : OK");
+    }
+    else {
+	println("Boolean GT(3) : FAIL");
+    }
+    if(z) {                                                                 
+	println("Boolean GT(4) : FAIL");
+    }
+    else {
+	println("Boolean GT(4) : OK");
+    }
+    if(var>0) {
+	println("Boolean GT(5) : OK");
+    }
+    else {
+	println("Boolean GT(5) : FAIL");
+    }
+    if(var>3) {
+	println("Boolean GT(6) : FAIL");
+    }
+    else {
+	println("Boolean GT(6) : OK");
+    }
+    if(1>var) {
+	println("Boolean GT(7) : FAIL");
+    }
+    else {
+	println("Boolean GT(7) : OK");
+    }
+    if(var>var1) {
+	println("Boolean GT(8) : OK");
+    }
+    else {
+	println("Boolean GT(8) : FAIL");
+    }
+    if(var1>var) {
+	println("Boolean GT(9) : FAIL");
+    }
+    else {
+	println("Boolean GT(9) : OK");
+    }
+    var1=1;
+    var=1;
+    if(var>var1) {
+	println("Boolean GT(10) : FAIL");
+    }
+    else {
+	println("Boolean GT(10) : OK");
+    }
+}
