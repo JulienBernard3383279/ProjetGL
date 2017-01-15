@@ -6,6 +6,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
 import java.io.PrintStream;
 
 /**
@@ -23,7 +24,10 @@ public class NoInitialization extends AbstractInitialization {
             throws ContextualError {
         //Nothing to check
     }
-
+    @Override
+    public DVal codeGen(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("Not supposed to be called"); 
+    }
 
     /**
      * Node contains no real information, nothing to check.
@@ -46,10 +50,6 @@ public class NoInitialization extends AbstractInitialization {
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // leaf node => nothing to do
-    }
-    @Override
-    public void codeGen(DecacCompiler compiler) {
-        //No init => nothing to do 
     }
 
     @Override

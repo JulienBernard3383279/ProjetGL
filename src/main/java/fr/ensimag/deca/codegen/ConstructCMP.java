@@ -20,5 +20,9 @@ public class ConstructCMP extends ConstructBinaryInstructionDValToReg{
     public BinaryInstructionDValToReg construct(DVal op1,GPRegister op2) {
         return new CMP(op1,op2);
     }
+    @Override
+    public boolean isCMP() {
+        return true;
+    }
     
 }

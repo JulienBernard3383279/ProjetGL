@@ -16,10 +16,20 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.BEQ;
+import fr.ensimag.ima.pseudocode.instructions.BNE;
+import fr.ensimag.ima.pseudocode.instructions.CMP;
 import fr.ensimag.ima.pseudocode.instructions.LEA;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WINT;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -239,16 +249,50 @@ public class Identifier extends AbstractIdentifier {
      */
     @Override
     public DAddr getAddr(DecacCompiler compiler) {
-        return compiler.getVarData(this.name).getOperand();
+        return compiler.getVarData(this.name.getName()).getOperand();
     }
     @Override
     protected DVal codeGenPrint(DecacCompiler compiler) {
         DAddr addr = this.getAddr(compiler);
-        compiler.addInstruction(new LEA(addr,Register.R1));
+        compiler.addInstruction(new LOAD(addr,Register.R1));
+        if(super.getType().isInt()) {
+            compiler.addInstruction(new WINT());
+        }
+        else if(super.getType().isFloat()) {
+            compiler.addInstruction(new WFLOAT());
+        }
+        else 
+            throw new UnsupportedOperationException("Shouldn't be called");
         return new NullOperand();
     }
     @Override 
     protected DVal codeGen(DecacCompiler compiler) {
-        return this.getAddr(compiler);
+        DVal reg = compiler.allocRegister();
+        if(reg.isGPRegister()) {
+            compiler.addInstruction(new LOAD(this.getAddr(compiler),(GPRegister)reg));
+        }
+        else if(reg.isRegisterOffset()){
+            compiler.addInstruction(new LOAD(this.getAddr(compiler),Register.R0));
+            compiler.addInstruction(new STORE(Register.R0,compiler.translate((RegisterOffset)reg)));
+        }
+        else 
+            throw new UnsupportedOperationException("Shouldn't be called!");
+        return reg;
+    }
+    @Override
+    protected void codeGenCond(DecacCompiler compiler,Label l,boolean jump) {
+        if(!super.getType().isBoolean()) {
+            throw new UnsupportedOperationException("Can't call condition on int or float!");
+        }
+        else {
+            compiler.addInstruction(new LOAD(this.getAddr(compiler),Register.R0));
+            compiler.addInstruction(new CMP(new ImmediateInteger(1),Register.R0));
+            if(jump){
+                compiler.addInstruction(new BEQ(l));
+            }
+            else {
+                compiler.addInstruction(new BNE(l));
+            }
+        }
     }
 }

@@ -29,6 +29,7 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.POP;
 import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -349,6 +350,18 @@ public class DecacCompiler {
         }
         
     }
+    public void resetReg() {
+        for(int i=0;i<regLim;i++)  {
+            reg[i]=false;
+        }
+        for(int i=0;i<stackLim;i++) {
+            stack[i]=false;
+        }
+        while(overFlow>0) {
+            this.addInstruction(new POP(Register.R0));
+            overFlow--;
+        }
+    }
     public void freeRegister(Register register) {
         for(int i=0;i<regLim;i++) {
             if(register.equals(Register.getR(i))) {
@@ -361,6 +374,9 @@ public class DecacCompiler {
         throw new UnsupportedOperationException("ERROR : free register error");
     }
     public RegisterOffset translate (RegisterOffset register) {
+        if(register.getRegister().equals(Register.GB)) {
+            return register;
+        }
         return new RegisterOffset(register.getOffset()-overFlow,register.getRegister());
     }
 
@@ -393,17 +409,17 @@ public class DecacCompiler {
     
     //DeclVar
     
-    private Map<Symbol, VariableDefinition> varMap = new HashMap();
+    private Map<String, VariableDefinition> varMap = new HashMap();
     int varCounter = 0;
     
     public DAddr allocateVar() {
         this.varCounter++;
         return new RegisterOffset(this.varCounter,Register.GB);
     }
-    public void addVarToTable(Symbol sym,VariableDefinition def) {
+    public void addVarToTable(String sym,VariableDefinition def) {
         this.varMap.put(sym, def);
     }
-    public VariableDefinition getVarData(Symbol sym) {
+    public VariableDefinition getVarData(String sym) {
         return this.varMap.get(sym);
     }
     

@@ -11,8 +11,8 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
-import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 
@@ -49,12 +49,14 @@ public class codeGenBinaryInstructionDValToReg {
         }
         else if(regRight.isRegisterOffset()) {
             if(regLeft.isGPRegister()){
-                compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regRight),(GPRegister)regLeft));
-                compiler.addInstruction(new LOAD (regLeft,Register.R1));
+                compiler.addInstruction(new LOAD (compiler.translate((RegisterOffset)regRight),Register.R1));
+                compiler.addInstruction(constructor.construct((GPRegister)regLeft,Register.R1));
+                
+                
             }
             else if(regLeft.isRegisterOffset()) {
-                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)regLeft),Register.R1));
-                compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regRight),Register.R1));
+                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)regRight),Register.R1));
+                compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regLeft),Register.R1));
                 
             }
             else 
@@ -88,13 +90,17 @@ public class codeGenBinaryInstructionDValToReg {
         }
         else if(regRight.isRegisterOffset()) {
             if(regLeft.isGPRegister()){
-                compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regRight),(GPRegister)regLeft));
+                compiler.addInstruction(new LOAD (compiler.translate((RegisterOffset)regRight),Register.R1));
+                compiler.addInstruction(constructor.construct((GPRegister)regLeft,Register.R1));
+                if(!constructor.isCMP())
+                    compiler.addInstruction(new STORE (Register.R1,compiler.translate((RegisterOffset)regRight)));
+                
             }
             else if(regLeft.isRegisterOffset()) {
-                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)regLeft),Register.R1));
-                compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regRight),Register.R1));
-                compiler.addInstruction(new LEA(compiler.translate((RegisterOffset)regLeft),Register.R1));
-                
+                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)regRight),Register.R1));
+                compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regLeft),Register.R1));
+                if(!constructor.isCMP())
+                    compiler.addInstruction(new STORE (Register.R1,compiler.translate((RegisterOffset)regRight)));
             }
             else 
                 throw new UnsupportedOperationException("Not supposed to be called");

@@ -9,9 +9,11 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
-import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -92,9 +94,19 @@ public class DeclVar extends AbstractDeclVar {
         VariableDefinition customDefinition=new VariableDefinition( this.type.getDefinition().getType(), this.getLocation() );
         DAddr resultAllocate = compiler.allocateVar();
         customDefinition.setOperand(resultAllocate);
+        compiler.addVarToTable(this.varName.getName().getName(),customDefinition);
         if (this.initialization.isInitialization()) {
-            this.initialization.codeGen(compiler);
-        }
-        compiler.addInstruction(new STORE(Register.R0,resultAllocate));        
+            DVal initVal = this.initialization.codeGen(compiler);
+            if(initVal.isGPRegister()) {
+                compiler.addInstruction(new STORE((GPRegister)initVal,resultAllocate)); 
+            }
+            else if(initVal.isRegisterOffset()) {
+                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)initVal),Register.R0));
+                compiler.addInstruction(new STORE(Register.R0,resultAllocate));
+            }
+            else {
+                throw new UnsupportedOperationException("Not supposed to be called"); 
+            }
+        }               
     }
 }

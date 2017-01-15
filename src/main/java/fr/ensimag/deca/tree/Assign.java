@@ -10,9 +10,8 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
-import fr.ensimag.ima.pseudocode.instructions.FLOAT;
-import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 
 /**
  * Assignment, i.e. lvalue = expr.
@@ -62,11 +61,11 @@ public class Assign extends AbstractBinaryExpr {
         DVal reg = this.getRightOperand().codeGen(compiler);
         DAddr addr  = this.getLeftOperand().getAddr(compiler);
         if(reg.isGPRegister()) {
-            compiler.addInstruction(new LEA(addr,(GPRegister)reg));  
+            compiler.addInstruction(new STORE((GPRegister)reg,addr));  
         }
         else if(reg.isRegisterOffset()) {
             compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)reg),Register.R0));
-            compiler.addInstruction(new LEA(addr,Register.R0));
+            compiler.addInstruction(new STORE(Register.R0,addr)) ;
         }
         reg.free(compiler);
         return addr;
