@@ -1,9 +1,0 @@
-{
-    boolean x=true;
-    if(x) {
-	prinln("BooleanLiteral : OK");
-    }
-    else {
-	println("BooleanLiteral : FAIL");
-    }
-}
