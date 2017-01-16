@@ -29,6 +29,7 @@ import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -255,12 +256,12 @@ public class Identifier extends AbstractIdentifier {
     protected DVal codeGenPrint(DecacCompiler compiler) {
         DAddr addr = this.getAddr(compiler);
         compiler.addInstruction(new LOAD(addr,Register.R1));
-        if(super.getType().isInt()) {
+        if(super.getType().isInt())
             compiler.addInstruction(new WINT());
-        }
-        else if(super.getType().isFloat()) {
+        else if(super.getType().isFloat()&&!compiler.getPrintHex()) 
             compiler.addInstruction(new WFLOAT());
-        }
+        else if(super.getType().isFloat()&&compiler.getPrintHex())
+            compiler.addInstruction(new WFLOATX());
         else 
             throw new UnsupportedOperationException("Shouldn't be called");
         return new NullOperand();
