@@ -208,7 +208,7 @@ public class DecacCompiler {
             } else if (compilerOptions.getVerif() ) {
                 AbstractProgram prog = doLexingAndParsing(sourceFile, out);
                 prog.verifyProgram(this);
-                prog.prettyPrint(out);
+                //prog.prettyPrint(out);
                 return false ;
             }
             return doCompile(sourceFile, destFile, out, err);
