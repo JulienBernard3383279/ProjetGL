@@ -40,4 +40,3 @@
 	println("Boolean And (6) : FAIL");
     }
 }
-}
