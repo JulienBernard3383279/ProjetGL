@@ -20,5 +20,8 @@ public class ConstructMUL extends ConstructBinaryInstructionDValToReg{
     public BinaryInstructionDValToReg construct(DVal op1,GPRegister op2) {
         return new MUL(op1,op2);
     }
-    
+    @Override
+    public boolean canOV() {
+        return true;
+    }
 }

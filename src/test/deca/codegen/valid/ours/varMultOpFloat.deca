@@ -1,6 +1,23 @@
 {
-    float x=5;
-    float y=2;
-    println(x*y);
-    prinln(x*2.345);
+    float x=2;
+    float y=5.1;
+    if(x*y==5.1) {
+	println("Mult OP (1) : OK");
+    }
+    else {
+	println("Mult OP (1) : FAIL");
+    }
+    /*if(x*2*3==6.0) {
+	println("Mult OP (2) : OK");
+    }
+    else {
+	println("Mult OP (2) : FAIL");
+    }
+    x=3.0*4+y;
+    if(x==17.1) {
+	println("Mult OP (3) : OK"); 
+    }
+    else {
+	println("Mult OP (3) : FAIL");
+    }*/
 }

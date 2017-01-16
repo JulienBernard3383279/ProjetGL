@@ -20,5 +20,9 @@ public class ConstructADD extends ConstructBinaryInstructionDValToReg{
     public BinaryInstructionDValToReg construct(DVal op1,GPRegister op2) {
         return new ADD(op1,op2);
     }
+    @Override
+    public boolean canOV() {
+        return true;
+    }
     
 }
