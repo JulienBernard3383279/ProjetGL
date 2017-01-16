@@ -1,5 +1,5 @@
 {
-    float x=2;
+    float x=1.0;
     float y=5.1;
     if(x*y==5.1) {
 	println("Mult OP (1) : OK");
