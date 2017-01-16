@@ -7,7 +7,13 @@ import fr.ensimag.deca.context.FloatType;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.NullOperand;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.FLOAT;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 
 /**
  * Conversion of an int into a float. Used for implicit conversions.
@@ -33,10 +39,17 @@ public class ConvFloat extends AbstractUnaryExpr {
     }
     @Override 
     protected DVal codeGen(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        DVal reg = super.getOperand().codeGen(compiler);
+        if(reg.isGPRegister()) {
+            compiler.addInstruction(new FLOAT(reg,(GPRegister)reg));
+            return reg;
+        }
+        else if(reg.isRegisterOffset()) {
+            compiler.addInstruction(new FLOAT(reg,Register.R0));
+            compiler.addInstruction(new STORE(Register.R0,compiler.translate((RegisterOffset)reg)));
+            return reg;
+        }
+        else 
+            throw new UnsupportedOperationException("Not supposed to be called");       
     }
-    /*@Override
-    public Type getType() {
-        return new FloatType(new Symbol("CONV"));
-    }*/
 }
