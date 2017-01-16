@@ -1,6 +1,43 @@
 {
-    boolean x=true;
-    boolean y=false;
-    x= x||y;
-    x= y||false;
+    int x=0;
+    int y=3;
+    boolean a=true;
+    boolean b=false;
+    if(x==0||y==3) {
+	println("Boolean And (1) : OK");
+    }
+    else {
+	println("Boolean And (1) : FAIL");
+    }
+    if(x==1||y==3) {
+	println("Boolean And (2) : OK");
+    }
+    else {
+	println("Boolean And (2) : FAIL");
+    }
+    if(a||b) {
+	println("Boolean And (3) : OK");
+    }
+    else {
+	println("Boolean And (3) : FAIL");
+    }
+    if(a||true) {
+	println("Boolean And (4) : OK");
+    }
+    else {
+	println("Boolean And (4) : FAIL");
+    }
+    if(a||true||true||false) {
+	println("Boolean And (5) : OK");
+    }
+    else {
+	println("Boolean And (5) : FAIL");
+    }
+    if(b||b||b){
+	println("Boolean And (6) : FAIL");
+    }
+    else {
+	println("Boolean And (6) : OK");
+    }
 }
+

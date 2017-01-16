@@ -18,4 +18,7 @@ public abstract class ConstructBinaryInstructionDValToReg {
     public boolean isCMP() {
         return false;
     }
+    public boolean canOV() {
+        return false;
+    }
 }

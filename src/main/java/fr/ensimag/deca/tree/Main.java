@@ -49,19 +49,27 @@ public class Main extends AbstractMain {
 
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
-        // A FAIRE: traiter les déclarations de variables.
         compiler.addComment("Beginning of main instructions:");
         declVariables.codeGenListVar(compiler);
         insts.codeGenListInst(compiler);
         compiler.addInstruction(new HALT());
-        Label pilePleineLabel = new Label("pile_pleine");
-        compiler.addLabel(pilePleineLabel);
-        compiler.addInstruction(new WSTR("Erreur : pile pleine"));
-        compiler.addInstruction(new WNL());
-        compiler.addInstruction(new ERROR());
-        compiler.addInstructionAtProgramBeginning(new BOV(pilePleineLabel));
-        compiler.addInstructionAtProgramBeginning(new TSTO(compiler.argTSTO()));
-        
+        if(compiler.getCompilerOptions().getChecks()) {
+            Label pilePleineLabel = new Label("pile_pleine");
+            compiler.addLabel(pilePleineLabel);
+            compiler.addInstruction(new WSTR("Erreur : pile pleine"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+            compiler.addInstructionAtProgramBeginning(new BOV(pilePleineLabel));
+            compiler.addInstructionAtProgramBeginning(new TSTO(compiler.argTSTO()));
+            compiler.addLabel(compiler.getIOLabel());
+            compiler.addInstruction(new WSTR("Error: Input/Output error"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+            compiler.addLabel(compiler.getOVLabel());
+            compiler.addInstruction(new WSTR("Error: Arithmetic Overflow"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
     }
     
     @Override

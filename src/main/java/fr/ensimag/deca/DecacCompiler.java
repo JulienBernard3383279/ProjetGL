@@ -450,5 +450,12 @@ public class DecacCompiler {
         countAndOr++;
         return countAndOr;
     }
-    
+    private Label IOOverflow = new Label("io_error");
+    public Label getIOLabel() {
+        return IOOverflow;
+    }
+    private Label OVArith = new Label("overflow_error");
+    public Label getOVLabel() {
+        return OVArith;
+    }
 }

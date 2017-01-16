@@ -3,7 +3,9 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.FloatType;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.NullOperand;
 
@@ -33,5 +35,8 @@ public class ConvFloat extends AbstractUnaryExpr {
     protected DVal codeGen(DecacCompiler compiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }
-
+    /*@Override
+    public Type getType() {
+        return new FloatType(new Symbol("CONV"));
+    }*/
 }
