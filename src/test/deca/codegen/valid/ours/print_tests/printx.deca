@@ -1,0 +1,6 @@
+{
+    float y=3.0;
+    printx(y,"     ");
+    printlnx(y);
+    println();
+}

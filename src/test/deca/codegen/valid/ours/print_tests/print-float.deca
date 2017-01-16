@@ -1,0 +1,6 @@
+{
+    float y=2.3;
+    print(1.1);
+    println(y);
+    println(2.0);
+}
