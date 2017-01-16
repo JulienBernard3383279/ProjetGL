@@ -9,11 +9,13 @@
 # résultat attendu dans un fichier pour chaque fichier source.
 cd "$(dirname "$0")"/../../.. || exit 1
 
-$PATH=./src/test/script/launchers:./src/main/bin:"$PATH"
+export PATH=./src/test/script/launchers:./src/main/bin:"$PATH"
+
+echo $PATH
+
 # On ne teste qu'un fichier. Avec une boucle for appropriée, on
 # pourrait faire bien mieux ...
 rm -f ./src/test/deca/codegen/valid/provided/cond0.ass 2>/dev/null
-echo "je plante ici"
 decac ./src/test/deca/codegen/valid/provided/cond0.deca || exit 1
 if [ ! -f ./src/test/deca/codegen/valid/provided/cond0.ass ]; then
     echo "Fichier cond0.ass non généré."

@@ -36,3 +36,29 @@ do
     fi
 done
 rm *.ass
+PATH=../../../../../../main/bin:"$PATH"
+cd print_tests
+for i in *.deca
+do 
+    decac $i
+    echo "$i est compilé"
+done 
+ext=".expect"
+for j in *.ass
+do 
+    echo 
+    value=$(ima $j)
+    comp=$(cat $j$ext)
+    echo "execution de $j :"
+    if [ "$value" == "$comp" ]
+    then 
+	echo "PASS"
+    else 
+	echo "FAILED"
+	echo "attendait : $comp"
+	echo "a recus : $value"
+	which ima
+	exit 1
+    fi
+done
+rm *.ass 
