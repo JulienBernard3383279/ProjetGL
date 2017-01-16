@@ -69,7 +69,12 @@ public class DecacCompiler {
         this.source = source;
         this.envTypes = new HashMap<>();
         this.symbols = new SymbolTable();
-//        this.regLim=compilerOptions.getNbRegisters();
+//        this.regLim=6;
+        if (compilerOptions!=null && source !=null) {this.regLim=compilerOptions.getNbRegisters();}
+        //Les tests contextuels créent leurs arbres indépendamment de la construction syntaxique correcte
+        //pour qu'un échec syntaxique n'impacte pas ces tests.
+        //Pour ce faire, ils appellent compiler sans initialiser ses options.
+        //D'où la nécessité de ce test.
     }
 
     private Map<Symbol, Definition> envTypes;
