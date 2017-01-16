@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 # Test de l'interface en ligne de commande de decac.
 # On ne met ici qu'un test trivial, a vous d'en ecrire de meilleurs.

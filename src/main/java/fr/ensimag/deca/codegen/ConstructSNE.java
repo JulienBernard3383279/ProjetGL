@@ -11,7 +11,7 @@ import fr.ensimag.ima.pseudocode.instructions.SNE;
 
 /**
  *
- * @author guignomes
+ * @author gl58
  */
 public class ConstructSNE extends ConstructUnaryInstructionToReg{
     @Override

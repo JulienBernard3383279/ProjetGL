@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 # Quelques tests que tous les compilateurs devraient passer.
 # Le code est volontairement peu illisible : ce n'est pas un exemple à

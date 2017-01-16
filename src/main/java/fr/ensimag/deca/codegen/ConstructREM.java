@@ -12,7 +12,7 @@ import fr.ensimag.ima.pseudocode.instructions.REM;
 
 /**
  *
- * @author guignomes
+ * @author gl58
  */
 public class ConstructREM extends ConstructBinaryInstructionDValToReg{
 
