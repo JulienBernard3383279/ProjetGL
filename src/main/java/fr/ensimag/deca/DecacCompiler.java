@@ -69,7 +69,7 @@ public class DecacCompiler {
         this.source = source;
         this.envTypes = new HashMap<>();
         this.symbols = new SymbolTable();
-
+//        this.regLim=compilerOptions.getNbRegisters();
     }
 
     private Map<Symbol, Definition> envTypes;
@@ -305,14 +305,14 @@ public class DecacCompiler {
         return parser.parseProgramAndManageErrors(err);
     }
     
-    private static int regLim = 15;
+    private int regLim = 16 ;
     private static int stackLim = 15;
     private static boolean [] stack=new boolean[stackLim];
-    private static boolean [] reg=new boolean[15];
+    private static boolean [] reg=new boolean[16];
     int overFlow=0;
     int maxOverFlow=0;
     
-    public static void setRegLim(int lim) {
+    public void setRegLim(int lim) {
         regLim = lim;
     }
     public void initRegister () {
