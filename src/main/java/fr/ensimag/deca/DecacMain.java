@@ -54,7 +54,10 @@ public class DecacMain {
             // compiler, et lancer l'exécution des méthodes compile() de chaque
             // instance en parallèle. Il est conseillé d'utiliser
             // java.util.concurrent de la bibliothèque standard Java.
-            throw new UnsupportedOperationException("Parallel build not yet implemented");
+            for (File source : options.getSourceFiles()) {
+                CompilerThread loopThread = new CompilerThread(options,source);
+                loopThread.start();
+            }
         } else {
             for (File source : options.getSourceFiles()) {
                 DecacCompiler compiler = new DecacCompiler(options, source);

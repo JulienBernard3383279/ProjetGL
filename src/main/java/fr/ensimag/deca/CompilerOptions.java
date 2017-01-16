@@ -56,7 +56,7 @@ public class CompilerOptions {
     private boolean parallel = false;
     private boolean printBanner = false;
     private List<File> sourceFiles = new ArrayList<File>();
-    private int nbRegisters = 16;
+    private int nbRegisters = 15;
     private boolean waitingForNbRegisters=false;
     private boolean checks=true;
     private boolean parse=false;
@@ -85,7 +85,7 @@ public class CompilerOptions {
                     parallel=true;
                     break;
                 case "-n" :
-                    checks=false;
+                    checks=false; //Supprime les tests de débordement mémoire (autres tests non faits de base)
                     break;
                 case "-v" :
                     verif=true;
