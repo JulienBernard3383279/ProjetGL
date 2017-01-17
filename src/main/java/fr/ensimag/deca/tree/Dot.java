@@ -65,8 +65,8 @@ public class Dot extends AbstractExpr {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        expr.prettyPrint(s,prefix,false);
-        name.prettyPrint(s,prefix,true);
+        left.prettyPrint(s,prefix,false);
+        right.prettyPrint(s,prefix,true);
     }
 
     @Override

@@ -83,9 +83,9 @@ public class DotMethod extends AbstractExpr {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        expr.prettyPrint(s,prefix,false);
+        instance.prettyPrint(s,prefix,false);
         name.prettyPrint(s,prefix,false);
-        list.prettyPrint(s,prefix,true);
+        params.prettyPrint(s,prefix,true);
     }
 
     @Override
