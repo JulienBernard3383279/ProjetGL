@@ -54,5 +54,7 @@ public class MethodBody extends AbstractMethodBody{
     
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
+        decls.prettyPrint(s,prefix,false);
+        insts.prettyPrint(s,prefix,true);
     }
 }
