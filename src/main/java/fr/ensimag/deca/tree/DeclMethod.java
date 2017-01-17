@@ -26,6 +26,14 @@ public class DeclMethod extends AbstractDeclMethod{
     public ListDeclParam params;
     public AbstractMethodBody body;
     
+    //A changer lors de l'ajout du 4ème param
+    public DeclMethod(AbstractIdentifier type, AbstractIdentifier methodName, ListDeclParam params,AbstractMethodBody body) {
+        this.type=type;
+        this.methodName=methodName;
+        this.params=params;
+        this.body=body;
+    }
+    
     @Override
     protected void verifyDeclMethod(DecacCompiler compiler, ClassDefinition currentClass,int index) throws ContextualError{
         Type t;
@@ -38,7 +46,7 @@ public class DeclMethod extends AbstractDeclMethod{
             this.params.verifyListParam(compiler, currentClass,def,methodEnv);
             this.methodName.setDefinition(def);
             classEnv.declare(methodName.getName(), def);
-            this.body.verifyMethodBody(compiler,currentClass,def,methodEnv);
+            this.body.verifyMethodBody(compiler,currentClass,methodEnv,t);
         } catch (ContextualError e) {
             throw e;
         } catch (EnvironmentExp.DoubleDefException d) {

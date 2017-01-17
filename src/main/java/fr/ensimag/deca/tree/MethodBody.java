@@ -7,8 +7,10 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.MethodDefinition;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 
@@ -17,10 +19,22 @@ import java.io.PrintStream;
  * @author pierre
  */
 public class MethodBody extends AbstractMethodBody{
+    ListDeclVar decls;
+    ListInst insts;
+    
+    public MethodBody(ListDeclVar decls, ListInst insts) {
+        this.decls=decls;
+        this.insts=insts;
+    }
     
     @Override 
-    protected void verifyMethodBody(DecacCompiler compiler, ClassDefinition currentClass, MethodDefinition currentMethod, EnvironmentExp localEnv) {
-        
+    protected void verifyMethodBody(DecacCompiler compiler, ClassDefinition currentClass, EnvironmentExp localEnv, Type returnType) throws ContextualError{
+        try {
+            this.decls.verifyListDeclVariable(compiler, localEnv, currentClass);
+            this.insts.verifyListInst(compiler, localEnv, currentClass, returnType);
+        } catch (ContextualError e) {
+            throw e;
+        }
     }
     
     @Override

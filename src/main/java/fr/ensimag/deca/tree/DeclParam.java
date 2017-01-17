@@ -24,6 +24,10 @@ public class DeclParam extends AbstractDeclParam{
     public AbstractIdentifier type;
     public AbstractIdentifier paramName;
     
+    public DeclParam(AbstractIdentifier type, AbstractIdentifier paramName) {
+        this.type=type;
+        this.paramName=paramName;
+    }
     @Override
     protected void verifyDeclParam(DecacCompiler compiler, ClassDefinition currentClass, MethodDefinition currentMethod, EnvironmentExp localEnv) throws ContextualError{
         Type t;

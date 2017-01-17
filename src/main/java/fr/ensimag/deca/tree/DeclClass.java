@@ -17,7 +17,17 @@ import java.io.PrintStream;
  * @date 01/01/2017
  */
 public class DeclClass extends AbstractDeclClass {
-
+    
+    //modif
+    public DeclClass(AbstractIdentifier className, 
+            AbstractIdentifier superClass,
+            ListDeclField field) {
+        this.className = className;
+        this.superClass = superClass;
+        this.field = field;
+    }
+    //fin modif
+    
     @Override
     public void decompile(IndentPrintStream s) {
         
