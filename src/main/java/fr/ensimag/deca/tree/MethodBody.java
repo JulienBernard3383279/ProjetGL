@@ -7,7 +7,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 
@@ -15,15 +15,15 @@ import java.io.PrintStream;
  *
  * @author pierre
  */
-public class DeclMethod extends AbstractDeclMethod{
+public class MethodBody extends AbstractMethodBody{
     
-    public AbstractIdentifier type;
-    public AbstractIdentifier methodName;
-    public ListDeclParam params;
-    public AbstractMethodBody body;
+    @Override 
+    protected void verifyMethodBody(DecacCompiler compiler, ClassDefinition currentClass, MethodDefinition currentMethod) {
+        
+    }
     
     @Override
-    protected void verifyDeclMethod(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError{
+    protected void codeGenMethodBody(DecacCompiler compiler) {
         
     }
     
@@ -39,6 +39,5 @@ public class DeclMethod extends AbstractDeclMethod{
     
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        
     }
 }
