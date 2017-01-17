@@ -47,6 +47,10 @@ public class DeclMethod extends AbstractDeclMethod{
     
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
+        type.prettyPrint(s,prefix,false);
+        methodName.prettyPrint(s,prefix,false);
+        params.prettyPrint(s,prefix,false);
+        body.prettyPrint(s,prefix,true);
         
     }
 }
