@@ -574,10 +574,12 @@ decl_field[AbstractIdentifier t, Visibility v] returns [AbstractDeclField tree]
     }
     ;
 
-decl_method
+decl_method returns [AbstractDeclMethod tree]
 @init {
 }
     : type ident OPARENT params=list_params CPARENT (block {
+        $tree=new DeclMethod($type.tree,$ident.tree,$params.tree);
+        setLocation($tree,$type.start);
         }
       | ASM OPARENT code=multi_line_string CPARENT SEMI {
         }

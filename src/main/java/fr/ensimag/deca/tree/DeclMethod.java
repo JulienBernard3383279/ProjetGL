@@ -21,6 +21,13 @@ public class DeclMethod extends AbstractDeclMethod{
     public AbstractIdentifier methodName;
     public ListDeclParam params;
     
+    //A changer lors de l'ajout du 4ème param
+    public DeclMethod(AbstractIdentifier type, AbstractIdentifier methodName, ListDeclParam params) {
+        this.type=type;
+        this.methodName=methodName;
+        this.params=params;
+    }
+    
     @Override
     protected void verifyDeclMethod(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError{
         
