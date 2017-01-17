@@ -1,0 +1,23 @@
+{
+    int x=1;
+    int y=5;
+    if(x*y==5) {
+	println("Mult OP (1) : OK");
+    }
+    else {
+	println("Mult OP (1) : FAIL");
+    }
+    if(x*2*3==6) {
+	println("Mult OP (2) : OK");
+    }
+    else {
+	println("Mult OP (2) : FAIL");
+    }
+    x=3*4+y;
+    if(x==17) {
+	println("Mult OP (3) : OK"); 
+    }
+    else {
+	println("Mult OP (3) : FAIL");
+    }
+}

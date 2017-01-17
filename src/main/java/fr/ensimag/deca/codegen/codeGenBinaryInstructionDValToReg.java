@@ -11,9 +11,11 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
-import fr.ensimag.ima.pseudocode.instructions.LEA;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 
 /**
@@ -27,18 +29,28 @@ public class codeGenBinaryInstructionDValToReg {
             DVal regRight,
             DVal regLeft) {
         if(regRight.isGPRegister()) {
-            if(regLeft.isGPRegister())
+            if(regLeft.isGPRegister()) {
                 compiler.addInstruction(constructor.construct(regLeft,(GPRegister)regRight));
-            else if(regLeft.isRegisterOffset())
+                if(constructor.canOV()&&expType.isFloat()&&compiler.getCompilerOptions().getChecks()) {
+                    compiler.addInstruction(new BOV(compiler.getOVLabel()));
+                }
+            }
+            else if(regLeft.isRegisterOffset()){
                 compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regLeft),(GPRegister)regRight));
+                if(constructor.canOV()&&expType.isFloat()&&compiler.getCompilerOptions().getChecks()) {
+                    compiler.addInstruction(new BOV(compiler.getOVLabel()));
+                }
+            }
             else 
                 throw new UnsupportedOperationException("Not supposed to be called");
             compiler.addInstruction(new LOAD (regRight,Register.R1));
             regRight.free(compiler);
             regLeft.free(compiler);
-            if(expType.isFloat()) {
+            if(expType.isFloat()&&!compiler.getPrintHex()) {
                 compiler.addInstruction(new WFLOAT());
             }
+            else if(expType.isFloat()&&compiler.getPrintHex())
+                compiler.addInstruction(new WFLOATX());
             else if(expType.isInt()) {
                 compiler.addInstruction(new WINT());
             }
@@ -49,19 +61,27 @@ public class codeGenBinaryInstructionDValToReg {
         }
         else if(regRight.isRegisterOffset()) {
             if(regLeft.isGPRegister()){
-                compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regRight),(GPRegister)regLeft));
-                compiler.addInstruction(new LOAD (regLeft,Register.R1));
+                compiler.addInstruction(new LOAD (compiler.translate((RegisterOffset)regRight),Register.R1));
+                compiler.addInstruction(constructor.construct((GPRegister)regLeft,Register.R1));
+                if(constructor.canOV()&&expType.isFloat()&&compiler.getCompilerOptions().getChecks()) {
+                    compiler.addInstruction(new BOV(compiler.getOVLabel()));
+                }
             }
             else if(regLeft.isRegisterOffset()) {
-                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)regLeft),Register.R1));
-                compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regRight),Register.R1));
+                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)regRight),Register.R1));
+                compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regLeft),Register.R1));
+                if(constructor.canOV()&&expType.isFloat()&&compiler.getCompilerOptions().getChecks()) {
+                    compiler.addInstruction(new BOV(compiler.getOVLabel()));
+                }
                 
             }
             else 
                 throw new UnsupportedOperationException("Not supposed to be called");
             regRight.free(compiler);
             regLeft.free(compiler);
-            if(expType.isFloat())
+            if(expType.isFloat()&&compiler.getPrintHex())
+                compiler.addInstruction(new WFLOATX());
+            else if(expType.isFloat()&&!compiler.getPrintHex())
                 compiler.addInstruction(new WFLOAT());
             else if(expType.isInt())
                 compiler.addInstruction(new WINT());
@@ -77,10 +97,18 @@ public class codeGenBinaryInstructionDValToReg {
             DVal regRight,
             DVal regLeft) {
         if(regRight.isGPRegister()) {
-            if(regLeft.isGPRegister())
+            if(regLeft.isGPRegister()){
                 compiler.addInstruction(constructor.construct(regLeft,(GPRegister)regRight));
-            else if(regLeft.isRegisterOffset())
+                if(constructor.canOV()&&expType.isFloat()&&compiler.getCompilerOptions().getChecks()) {
+                    compiler.addInstruction(new BOV(compiler.getOVLabel()));
+                }
+            }
+            else if(regLeft.isRegisterOffset()){
                 compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regLeft),(GPRegister)regRight));
+                if(constructor.canOV()&&expType.isFloat()&&compiler.getCompilerOptions().getChecks()) {
+                    compiler.addInstruction(new BOV(compiler.getOVLabel()));
+                }
+            }
             else 
                 throw new UnsupportedOperationException("Not supposed to be called");
             regLeft.free(compiler);
@@ -88,13 +116,23 @@ public class codeGenBinaryInstructionDValToReg {
         }
         else if(regRight.isRegisterOffset()) {
             if(regLeft.isGPRegister()){
-                compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regRight),(GPRegister)regLeft));
+                compiler.addInstruction(new LOAD (compiler.translate((RegisterOffset)regRight),Register.R1));
+                compiler.addInstruction(constructor.construct((GPRegister)regLeft,Register.R1));
+                if(constructor.canOV()&&expType.isFloat()&&compiler.getCompilerOptions().getChecks()) {
+                    compiler.addInstruction(new BOV(compiler.getOVLabel()));
+                }
+                if(!constructor.isCMP())
+                    compiler.addInstruction(new STORE (Register.R1,compiler.translate((RegisterOffset)regRight)));
+                
             }
             else if(regLeft.isRegisterOffset()) {
-                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)regLeft),Register.R1));
-                compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regRight),Register.R1));
-                compiler.addInstruction(new LEA(compiler.translate((RegisterOffset)regLeft),Register.R1));
-                
+                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)regRight),Register.R1));
+                compiler.addInstruction(constructor.construct(compiler.translate((RegisterOffset)regLeft),Register.R1));
+                if(constructor.canOV()&&expType.isFloat()&&compiler.getCompilerOptions().getChecks()) {
+                    compiler.addInstruction(new BOV(compiler.getOVLabel()));
+                }
+                if(!constructor.isCMP())
+                    compiler.addInstruction(new STORE (Register.R1,compiler.translate((RegisterOffset)regRight)));
             }
             else 
                 throw new UnsupportedOperationException("Not supposed to be called");

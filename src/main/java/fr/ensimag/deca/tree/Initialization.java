@@ -6,6 +6,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Instruction;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -62,8 +63,9 @@ public class Initialization extends AbstractInitialization {
         expression.prettyPrint(s, prefix, true);
     }
     @Override
-    public void codeGen(DecacCompiler compiler) {
-        getExpression().codeGenInst(compiler);
+    public DVal codeGen(DecacCompiler compiler) {
+        DVal returns = getExpression().codeGen(compiler);
+        return returns;
     }
     
     @Override

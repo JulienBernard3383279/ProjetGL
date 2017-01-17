@@ -28,8 +28,8 @@ public class Minus extends AbstractOpArith {
         codeGenBinaryInstructionDValToReg.generatePrint(compiler,
                 super.getType(),
                 new ConstructSUB(),
-                regRight,
-                regLeft);
+                regLeft,
+                regRight);
         return new NullOperand();
     }
 
@@ -40,8 +40,8 @@ public class Minus extends AbstractOpArith {
         DVal returns = codeGenBinaryInstructionDValToReg.generate(compiler,
                 super.getType(),
                 new ConstructSUB(),
-                regRight,
-                regLeft);
+                regLeft,
+                regRight);
         return returns;
     }
     

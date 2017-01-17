@@ -40,8 +40,8 @@ public class Greater extends AbstractOpIneq {
         DVal returns = codeGenBinaryInstructionDValToReg.generate(compiler,
                 super.getType(),
                 new ConstructCMP(),
-                regRight,
-                regLeft);
+                regLeft,
+                regRight);
         returns = codeGenUnaryInstructionToReg.generate(compiler,
                 super.getType(),
                 new ConstructSGT(),
@@ -56,8 +56,8 @@ public class Greater extends AbstractOpIneq {
         codeGenBinaryInstructionDValToReg.generate(compiler,
                 super.getType(),
                 new ConstructCMP(),
-                regRight,
-                regLeft);
+                regLeft,
+                regRight);
         codeGenUnaryInstructionToLabel.generate(compiler,
                 l,
                 jump,
@@ -65,5 +65,4 @@ public class Greater extends AbstractOpIneq {
         regLeft.free(compiler);
         regRight.free(compiler);
     }
-
 }

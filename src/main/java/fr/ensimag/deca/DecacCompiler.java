@@ -29,6 +29,8 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -67,7 +69,12 @@ public class DecacCompiler {
         this.source = source;
         this.envTypes = new HashMap<>();
         this.symbols = new SymbolTable();
-
+//        this.regLim=6;
+        if (compilerOptions!=null && source !=null) {this.regLim=compilerOptions.getNbRegisters();}
+        //Les tests contextuels créent leurs arbres indépendamment de la construction syntaxique correcte
+        //pour qu'un échec syntaxique n'impacte pas ces tests.
+        //Pour ce faire, ils appellent compiler sans initialiser ses options.
+        //D'où la nécessité de ce test.
     }
 
     private Map<Symbol, Definition> envTypes;
@@ -174,8 +181,7 @@ public class DecacCompiler {
      * The main program. Every instruction generated will eventually end up here.
      */
     private final IMAProgram program = new IMAProgram();
- 
-
+    
     /**
      * Run the compiler (parse source file, generate code)
      *
@@ -202,6 +208,7 @@ public class DecacCompiler {
             } else if (compilerOptions.getVerif() ) {
                 AbstractProgram prog = doLexingAndParsing(sourceFile, out);
                 prog.verifyProgram(this);
+                //prog.prettyPrint(out);
                 return false ;
             }
             return doCompile(sourceFile, destFile, out, err);
@@ -304,14 +311,14 @@ public class DecacCompiler {
         return parser.parseProgramAndManageErrors(err);
     }
     
-    private static int regLim = 15;
+    private int regLim = 16 ;
     private static int stackLim = 15;
     private static boolean [] stack=new boolean[stackLim];
-    private static boolean [] reg=new boolean[15];
+    private static boolean [] reg=new boolean[16];
     int overFlow=0;
     int maxOverFlow=0;
     
-    public static void setRegLim(int lim) {
+    public void setRegLim(int lim) {
         regLim = lim;
     }
     public void initRegister () {
@@ -349,6 +356,18 @@ public class DecacCompiler {
         }
         
     }
+    public void resetReg() {
+        for(int i=0;i<regLim;i++)  {
+            reg[i]=false;
+        }
+        for(int i=0;i<stackLim;i++) {
+            stack[i]=false;
+        }
+        while(overFlow>0) {
+            this.addInstruction(new POP(Register.R0));
+            overFlow--;
+        }
+    }
     public void freeRegister(Register register) {
         for(int i=0;i<regLim;i++) {
             if(register.equals(Register.getR(i))) {
@@ -361,6 +380,9 @@ public class DecacCompiler {
         throw new UnsupportedOperationException("ERROR : free register error");
     }
     public RegisterOffset translate (RegisterOffset register) {
+        if(register.getRegister().equals(Register.GB)) {
+            return register;
+        }
         return new RegisterOffset(register.getOffset()-overFlow,register.getRegister());
     }
 
@@ -393,17 +415,17 @@ public class DecacCompiler {
     
     //DeclVar
     
-    private Map<Symbol, VariableDefinition> varMap = new HashMap();
+    private Map<String, VariableDefinition> varMap = new HashMap();
     int varCounter = 0;
     
     public DAddr allocateVar() {
         this.varCounter++;
         return new RegisterOffset(this.varCounter,Register.GB);
     }
-    public void addVarToTable(Symbol sym,VariableDefinition def) {
+    public void addVarToTable(String sym,VariableDefinition def) {
         this.varMap.put(sym, def);
     }
-    public VariableDefinition getVarData(Symbol sym) {
+    public VariableDefinition getVarData(String sym) {
         return this.varMap.get(sym);
     }
     
@@ -416,11 +438,37 @@ public class DecacCompiler {
     }
     
     public int argTSTO() {
-        return maxOverFlow + tstoVariableCounter - this.compilerOptions.getNbRegisters();
+        if (maxOverFlow + tstoVariableCounter - this.compilerOptions.getNbRegisters() > 0) {
+            return maxOverFlow + tstoVariableCounter - this.compilerOptions.getNbRegisters();
+        }
+        else {
+            return 0;
+        }
     }
+
+    public void addInstructionAtProgramBeginning(Instruction instruction) {
+        program.addFirst(instruction);
+    }
+
     private int countAndOr = -1;
+    
     public int newAndOr() {
         countAndOr++;
         return countAndOr;
+    }
+    private Label IOOverflow = new Label("io_error");
+    public Label getIOLabel() {
+        return IOOverflow;
+    }
+    private Label OVArith = new Label("overflow_error");
+    public Label getOVLabel() {
+        return OVArith;
+    }
+    private boolean printx=false;
+    public void setPrintHex(boolean value) {
+        printx=value;
+    }
+    public boolean getPrintHex() {
+        return printx;
     }
 }

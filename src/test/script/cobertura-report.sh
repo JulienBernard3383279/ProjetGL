@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 # If we're not in the root of the Maven project, then find it using
 # this script's name:

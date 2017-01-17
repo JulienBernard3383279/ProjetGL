@@ -1,0 +1,69 @@
+{
+    int var = 1;
+    int var1 = 0;
+    boolean x = 3*5<=5;
+    boolean y = 0 <= var;
+    boolean z = 1<=var;
+    if(x) {
+	println("Boolean LE(1) : FAIL"); 
+    }
+    else {
+	println("Boolean LE(1) : OK");
+    }
+    if(y) {
+	println("Boolean LE(2) : OK");
+    }
+    else {
+	println("Boolean LE(2) : FAIL");
+    }
+    if(3*5<=3) {
+	println("Boolean LE(3) : FAIL");
+    }
+    else {
+	println("Boolean LE(3) : OK");
+    }
+    if(z) {                                                                 
+	println("Boolean LE(4) : OK");
+    }
+    else {
+	println("Boolean LE(4) : FAIL");
+    }
+    if(var<=0) {
+	println("Boolean LE(5) : FAIL");
+    }
+    else {
+	println("Boolean LE(5) : OK");
+    }
+    if(var<=3) {
+	println("Boolean LE(6) : OK");
+    }
+    else {
+	println("Boolean LE(6) : FAIL");
+    }
+    if(1<=var) {
+	println("Boolean LE(7) : OK");
+    }
+    else {
+	println("Boolean LE(7) : FAIL");
+    }
+    if(var<=var1) {
+	println("Boolean LE(8) : FAIL");
+    }
+    else {
+	println("Boolean LE(8) : OK");
+    }
+    if(var1<=var) {
+	println("Boolean LE(9) : OK");
+    }
+    else {
+	println("Boolean LE(9) : FAIL");
+    }
+    var1=1;
+    var=1;
+    if(var<=var1) {
+	println("Boolean LE(10) : OK");
+    }
+    else {
+	println("Boolean LE(10) : FAIL");
+    }
+}

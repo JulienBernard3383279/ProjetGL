@@ -39,8 +39,8 @@ public class NotEquals extends AbstractOpExactCmp {
         DVal returns = codeGenBinaryInstructionDValToReg.generate(compiler,
                 super.getType(),
                 new ConstructCMP(),
-                regRight,
-                regLeft);
+                regLeft,
+                regRight);
         returns = codeGenUnaryInstructionToReg.generate(compiler,
                 super.getType(),
                 new ConstructSNE(),
@@ -55,8 +55,8 @@ public class NotEquals extends AbstractOpExactCmp {
         codeGenBinaryInstructionDValToReg.generate(compiler,
                 super.getType(),
                 new ConstructCMP(),
-                regRight,
-                regLeft);
+                regLeft,
+                regRight);
         codeGenUnaryInstructionToLabel.generate(compiler,
                 l,
                 jump,

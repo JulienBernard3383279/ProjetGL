@@ -7,12 +7,6 @@ import fr.ensimag.deca.codegen.ConstructQUO;
 import fr.ensimag.deca.codegen.codeGenBinaryInstructionDValToReg;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.NullOperand;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.DIV;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.QUO;
-import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
-import fr.ensimag.ima.pseudocode.instructions.WINT;
 
 
 /**
@@ -38,16 +32,16 @@ public class Divide extends AbstractOpArith {
             codeGenBinaryInstructionDValToReg.generatePrint(compiler,
                 super.getType(),
                 new ConstructQUO(),
-                regRight,
-                regLeft);
+                regLeft,
+                regRight);
         return new NullOperand();
         }
         else if(super.getType().isFloat()){
             codeGenBinaryInstructionDValToReg.generatePrint(compiler,
                 super.getType(),
                 new ConstructDIV(),
-                regRight,
-                regLeft);
+                regLeft,
+                regRight);
         return new NullOperand();
         }
         else {
@@ -64,15 +58,15 @@ public class Divide extends AbstractOpArith {
             returns = codeGenBinaryInstructionDValToReg.generate(compiler,
                 super.getType(),
                 new ConstructQUO(),
-                regRight,
-                regLeft);
+                regLeft,
+                regRight);
         }
         else if(super.getType().isFloat()){
             returns = codeGenBinaryInstructionDValToReg.generate(compiler,
                 super.getType(),
                 new ConstructDIV(),
-                regRight,
-                regLeft);
+                regLeft,
+                regRight);
         }
         else {
             throw new UnsupportedOperationException("Not supposed to be called");

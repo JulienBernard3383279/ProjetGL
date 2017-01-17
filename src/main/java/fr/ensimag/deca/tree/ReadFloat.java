@@ -9,6 +9,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.NullOperand;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import java.io.PrintStream;
@@ -46,12 +47,18 @@ public class ReadFloat extends AbstractReadExpr {
     @Override 
     protected DVal codeGenPrint(DecacCompiler compiler) {
         compiler.addInstruction(new RFLOAT());
+        if(compiler.getCompilerOptions().getChecks()) {
+            compiler.addInstruction(new BOV(compiler.getIOLabel()));
+        }
         compiler.addInstruction(new WFLOAT());
         return new NullOperand();
     }
     @Override 
     protected DVal codeGen(DecacCompiler compiler) {
         compiler.addInstruction(new RFLOAT());
+        if(compiler.getCompilerOptions().getChecks()) {
+            compiler.addInstruction(new BOV(compiler.getIOLabel()));
+        }
         return new NullOperand();
     }
 }

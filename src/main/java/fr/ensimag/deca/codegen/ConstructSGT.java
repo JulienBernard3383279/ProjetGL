@@ -11,7 +11,7 @@ import fr.ensimag.ima.pseudocode.instructions.SGT;
 
 /**
  *
- * @author guignomes
+ * @author gl58
  */
 public class ConstructSGT extends ConstructUnaryInstructionToReg {
     @Override

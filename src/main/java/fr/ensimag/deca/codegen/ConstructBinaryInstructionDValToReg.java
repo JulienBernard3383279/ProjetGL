@@ -15,4 +15,10 @@ import fr.ensimag.ima.pseudocode.GPRegister;
  */
 public abstract class ConstructBinaryInstructionDValToReg {
     public abstract BinaryInstructionDValToReg construct(DVal op1,GPRegister op2);
+    public boolean isCMP() {
+        return false;
+    }
+    public boolean canOV() {
+        return false;
+    }
 }

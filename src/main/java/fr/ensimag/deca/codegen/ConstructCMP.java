@@ -12,13 +12,17 @@ import fr.ensimag.ima.pseudocode.instructions.CMP;
 
 /**
  *
- * @author guignomes
+ * @author gl58
  */
 public class ConstructCMP extends ConstructBinaryInstructionDValToReg{
 
     @Override
     public BinaryInstructionDValToReg construct(DVal op1,GPRegister op2) {
         return new CMP(op1,op2);
+    }
+    @Override
+    public boolean isCMP() {
+        return true;
     }
     
 }

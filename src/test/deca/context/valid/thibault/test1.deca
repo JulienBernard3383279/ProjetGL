@@ -1,0 +1,16 @@
+{
+	int a;
+	int b;
+	boolean t;
+	float c;
+	a=0;
+	b=10;
+	if(a<b){
+		t=true;
+	}
+	else{
+		t=false;
+	}
+	c=(b-a-1)/b;
+}
+	

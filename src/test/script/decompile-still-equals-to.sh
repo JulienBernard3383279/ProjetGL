@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 # Auteur : gl58
 # Version initiale : 01/01/2017
@@ -13,8 +13,6 @@ cd "$(dirname "$0")"/../../.. || exit 1
 cd src/test/deca/syntax/valid/homebrew/ || exit 1
 
 PATH=../../../../../main/bin:"$PATH"
-
-pwd
 
 for cas_de_test in * ../idempotent/*
 do

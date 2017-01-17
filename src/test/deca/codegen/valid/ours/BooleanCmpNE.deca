@@ -1,0 +1,5 @@
+{
+    int var = 2;
+    boolean x = 3*5 !=5;
+    boolean y = 2 != var;
+}

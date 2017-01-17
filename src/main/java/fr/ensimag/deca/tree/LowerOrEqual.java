@@ -38,8 +38,8 @@ public class LowerOrEqual extends AbstractOpIneq {
         DVal returns = codeGenBinaryInstructionDValToReg.generate(compiler,
                 super.getType(),
                 new ConstructCMP(),
-                regRight,
-                regLeft);
+                regLeft,
+                regRight);
         returns = codeGenUnaryInstructionToReg.generate(compiler,
                 super.getType(),
                 new ConstructSLE(),
@@ -54,8 +54,8 @@ public class LowerOrEqual extends AbstractOpIneq {
         codeGenBinaryInstructionDValToReg.generate(compiler,
                 super.getType(),
                 new ConstructCMP(),
-                regRight,
-                regLeft);
+                regLeft,
+                regRight);
         codeGenUnaryInstructionToLabel.generate(compiler,
                 l,
                 jump,

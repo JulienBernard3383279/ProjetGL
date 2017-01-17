@@ -12,7 +12,7 @@ import fr.ensimag.ima.pseudocode.instructions.SUB;
 
 /**
  *
- * @author guignomes
+ * @author gl58
  */
 public class ConstructSUB extends ConstructBinaryInstructionDValToReg{
 

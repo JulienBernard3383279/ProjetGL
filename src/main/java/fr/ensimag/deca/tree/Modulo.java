@@ -53,8 +53,8 @@ public class Modulo extends AbstractOpArith {
         codeGenBinaryInstructionDValToReg.generatePrint(compiler,
                 super.getType(),
                 new ConstructREM(),
-                regRight,
-                regLeft);
+                regLeft,
+                regRight);
         return new NullOperand();
     }
 
@@ -65,8 +65,8 @@ public class Modulo extends AbstractOpArith {
         DVal returns = codeGenBinaryInstructionDValToReg.generate(compiler,
                 super.getType(),
                 new ConstructREM(),
-                regRight,
-                regLeft);
+                regLeft,
+                regRight);
         return returns;
     }
 
