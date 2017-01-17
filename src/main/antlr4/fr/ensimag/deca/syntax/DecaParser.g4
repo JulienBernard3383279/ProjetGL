@@ -585,11 +585,17 @@ decl_method
         }
     ;
 
-list_params
+list_params returns [ListDeclParam tree]
     @init {
-        
+        $tree = new ListDeclParam();
+        }
     : (p1=param {
-        } (COMMA p2=param {
+        assert($p1.tree!=null);
+        $tree.add($p1.tree);
+        } 
+      (COMMA p2=param {
+        assert($p2.tree!=null);
+        $tree.add($p2.tree);                   
         }
       )*)?
     ;
@@ -603,9 +609,11 @@ multi_line_string returns[String text, Location location]
             $text = $s.text;
             $location = tokenLocation($s);
         }
-    ;
+    ; //? Présent de base, pas modifié.
 
-param
-    : type ident {
+param returns [AbstractDeclParam tree]
+    : t=type i=ident {
+        $tree=new DeclParam($t.tree,$i.tree);
+        setLocation($tree,$type.start);
         }
     ;
