@@ -30,7 +30,14 @@ public class CastExpr extends AbstractExpr{
     
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type t;
+        try {
+            t= type.verifyType(compiler);
+        } catch (ContextualError e) {
+            throw e;
+        }
+        this.setType(t);
+        return t;
     }
 
     @Override

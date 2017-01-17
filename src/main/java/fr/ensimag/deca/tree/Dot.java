@@ -10,8 +10,10 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.deca.tree.Visibility;
 import fr.ensimag.ima.pseudocode.DVal;
 import java.io.PrintStream;
 
@@ -48,7 +50,11 @@ public class Dot extends AbstractExpr {
         if (! ct.getDefinition().getMembers().get(right.getName()).isField()) {
             throw new ContextualError("identifier is not a field",this.right.getLocation());
         }
-        Type ft = ct.getDefinition().getMembers().get(right.getName()).getType();
+        FieldDefinition fieldDef = ct.getDefinition().getMembers().get(right.getName()).asFieldDefinition("",this.getLocation());
+        if ((fieldDef.getVisibility()==Visibility.PROTECTED) && (currentClass.getMembers().get(right.getName())==null)) {
+            throw new ContextualError("field is protected",this.right.getLocation());
+        }
+        Type ft = fieldDef.getType();
         this.setType(ft);
         return ft;
     }

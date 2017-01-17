@@ -36,7 +36,7 @@ public class Program extends AbstractProgram {
     public void verifyProgram(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify program: start");
         try {
-            //this.classes.verifyListClass(compiler);
+            this.classes.verifyListClass(compiler);
             this.main.verifyMain(compiler);
         } catch (ContextualError e) {
             throw e;

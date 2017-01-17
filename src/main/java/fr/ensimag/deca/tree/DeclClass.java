@@ -70,7 +70,8 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
         
-        throw new UnsupportedOperationException("not yet implemented");
+        ClassDefinition def = (ClassDefinition)compiler.getEnvTypes().get(this.className.getName());
+        this.method.verifyListMethod(compiler,def);
     }
 
 
