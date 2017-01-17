@@ -1,6 +1,0 @@
-{
-    println("Hello-world");
-    print("chaine");
-    println("");
-}
-
