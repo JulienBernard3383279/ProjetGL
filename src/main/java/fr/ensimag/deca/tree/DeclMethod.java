@@ -7,6 +7,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 
@@ -21,7 +22,7 @@ public class DeclMethod extends AbstractDeclMethod{
     public ListDeclParam params;
     
     @Override
-    protected void verifyDeclMethod(DecacCompiler compiler, ClassDefinition currentClass){
+    protected void verifyDeclMethod(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError{
         
     }
     
