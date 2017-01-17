@@ -20,7 +20,19 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        s.print("class { ... A FAIRE ... }"); //sans-objet
+        
+        
+        s.print("class");
+        s.print(" ");//sans-objet
+        this.className.decompile(s);
+        s.print("extends");
+        s.print(" ");
+        this.superClass.decompile(s);
+        s.print(" {");
+        
+        
+        
+        
     }
 
     @Override
@@ -47,6 +59,7 @@ public class DeclClass extends AbstractDeclClass {
     
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
+        
         throw new UnsupportedOperationException("not yet implemented");
     }
 
