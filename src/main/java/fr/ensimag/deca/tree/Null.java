@@ -42,7 +42,8 @@ public class Null extends AbstractExpr {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        s.print(prefix);
+        s.print("null");
     }
 
     @Override
