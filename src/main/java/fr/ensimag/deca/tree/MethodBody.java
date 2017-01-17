@@ -16,6 +16,13 @@ import java.io.PrintStream;
  * @author pierre
  */
 public class MethodBody extends AbstractMethodBody{
+    ListDeclVar decls;
+    ListInst insts;
+    
+    public MethodBody(ListDeclVar decls, ListInst insts) {
+        this.decls=decls;
+        this.insts=insts;
+    }
     
     @Override 
     protected void verifyMethodBody(DecacCompiler compiler, ClassDefinition currentClass, MethodDefinition currentMethod) {

@@ -23,10 +23,11 @@ public class DeclMethod extends AbstractDeclMethod{
     public AbstractMethodBody body;
     
     //A changer lors de l'ajout du 4ème param
-    public DeclMethod(AbstractIdentifier type, AbstractIdentifier methodName, ListDeclParam params) {
+    public DeclMethod(AbstractIdentifier type, AbstractIdentifier methodName, ListDeclParam params,AbstractMethodBody body) {
         this.type=type;
         this.methodName=methodName;
         this.params=params;
+        this.body=body;
     }
     
     @Override

@@ -167,7 +167,9 @@ inst returns[AbstractInst tree]
         }
     | RETURN expr SEMI {
             assert($expr.tree != null);
-            //sans-objet ?
+            $tree = new Return($expr.tree);
+            setLocation($tree,$RETURN);
+            //new
         }
     ;
 
@@ -575,15 +577,21 @@ decl_field[AbstractIdentifier t, Visibility v] returns [AbstractDeclField tree]
     ;
 
 decl_method returns [AbstractDeclMethod tree]
-@init {
-}
+    @init {
+        AbstractMethodBody localBody;
+    }
     : type ident OPARENT params=list_params CPARENT (block {
-        $tree=new DeclMethod($type.tree,$ident.tree,$params.tree);
-        setLocation($tree,$type.start);
+        localBody=new MethodBody($block.decls,$block.insts);
+        setLocation(localBody,$block.start);
+
         }
       | ASM OPARENT code=multi_line_string CPARENT SEMI {
+        localBody=new MethodAsmBody($code.text);
+        localBody.setLocation($code.location);
         }
       ) {
+        $tree=new DeclMethod($type.tree,$ident.tree,$params.tree, localBody);
+        setLocation($tree,$type.start);
         }
     ;
 
