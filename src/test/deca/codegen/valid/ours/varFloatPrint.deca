@@ -1,6 +1,0 @@
-{
-    float x=0.0;
-    println(x);
-    x=0;
-    println(x);
-}
