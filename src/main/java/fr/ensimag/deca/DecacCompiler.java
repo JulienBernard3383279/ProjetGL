@@ -17,6 +17,8 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.FloatType;
 import fr.ensimag.deca.context.IntType;
+import fr.ensimag.deca.context.MethodDefinition;
+import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.context.VariableDefinition;
@@ -97,18 +99,29 @@ public class DecacCompiler {
         Symbol symFloat = symbols.create("float");
         Symbol symVoid = symbols.create("void");
         Symbol symObj = symbols.create("Object");
+        Symbol symEquals = symbols.create("equals");
         // create definitions from symbols
         TypeDefinition defInt = new TypeDefinition(new IntType(symInt),Location.BUILTIN);
         TypeDefinition defBool = new TypeDefinition(new BooleanType(symBool),Location.BUILTIN);
         TypeDefinition defFloat = new TypeDefinition(new FloatType(symFloat),Location.BUILTIN);
         TypeDefinition defVoid = new TypeDefinition(new VoidType(symVoid),Location.BUILTIN);
         ClassDefinition defObj = new ClassDefinition(new ClassType(symObj,Location.BUILTIN,null),Location.BUILTIN,null);
+        Signature sigEq = new Signature();
+        sigEq.add(new ClassType(symObj,Location.BUILTIN,null));
+        MethodDefinition defEq = new MethodDefinition(new BooleanType(symBool),Location.BUILTIN,sigEq,0);
+        
         // add types to envTypes
         this.envTypes.put(symInt, defInt);
         this.envTypes.put(symBool, defBool);
         this.envTypes.put(symFloat, defFloat);
         this.envTypes.put(symVoid, defVoid);
         this.envTypes.put(symObj, defObj);
+        try {
+            defObj.getMembers().declare(symEquals, defEq);
+            defObj.incNumberOfMethods();
+        } catch (EnvironmentExp.DoubleDefException d) {
+            
+        }
     }
 
     /**

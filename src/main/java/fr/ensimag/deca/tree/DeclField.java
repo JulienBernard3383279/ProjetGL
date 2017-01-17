@@ -47,6 +47,7 @@ public class DeclField extends AbstractDeclField{
             FieldDefinition def = new FieldDefinition(t,this.type.getLocation(),this.visib,currentClass,index);
             this.fieldName.setDefinition(def);
             classEnv.declare(this.fieldName.getName(), def);
+            currentClass.incNumberOfFields();
         } catch (ContextualError e) {
             throw e;
         } catch (EnvironmentExp.DoubleDefException d) {

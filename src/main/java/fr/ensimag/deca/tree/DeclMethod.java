@@ -46,6 +46,7 @@ public class DeclMethod extends AbstractDeclMethod{
             this.params.verifyListParam(compiler, currentClass,def,methodEnv);
             this.methodName.setDefinition(def);
             classEnv.declare(methodName.getName(), def);
+            currentClass.incNumberOfMethods();
             this.body.verifyMethodBody(compiler,currentClass,methodEnv,t);
         } catch (ContextualError e) {
             throw e;
