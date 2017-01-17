@@ -11,7 +11,7 @@ import fr.ensimag.ima.pseudocode.instructions.SLE;
 
 /**
  *
- * @author guignomes
+ * @author gl58
  */
 public class ConstructSLE extends ConstructUnaryInstructionToReg{
     @Override

@@ -12,7 +12,7 @@ import fr.ensimag.ima.pseudocode.instructions.MUL;
 
 /**
  *
- * @author guignomes
+ * @author gl58
  */
 public class ConstructMUL extends ConstructBinaryInstructionDValToReg{
 

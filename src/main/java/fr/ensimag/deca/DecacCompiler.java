@@ -464,4 +464,11 @@ public class DecacCompiler {
     public Label getOVLabel() {
         return OVArith;
     }
+    private boolean printx=false;
+    public void setPrintHex(boolean value) {
+        printx=value;
+    }
+    public boolean getPrintHex() {
+        return printx;
+    }
 }

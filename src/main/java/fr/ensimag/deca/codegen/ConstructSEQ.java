@@ -11,7 +11,7 @@ import fr.ensimag.ima.pseudocode.instructions.SEQ;
 
 /**
  *
- * @author guignomes
+ * @author gl58
  */
 public class ConstructSEQ extends ConstructUnaryInstructionToReg{
     @Override

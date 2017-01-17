@@ -15,6 +15,7 @@ import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 
 /**
@@ -45,9 +46,11 @@ public class codeGenBinaryInstructionDValToReg {
             compiler.addInstruction(new LOAD (regRight,Register.R1));
             regRight.free(compiler);
             regLeft.free(compiler);
-            if(expType.isFloat()) {
+            if(expType.isFloat()&&!compiler.getPrintHex()) {
                 compiler.addInstruction(new WFLOAT());
             }
+            else if(expType.isFloat()&&compiler.getPrintHex())
+                compiler.addInstruction(new WFLOATX());
             else if(expType.isInt()) {
                 compiler.addInstruction(new WINT());
             }
@@ -76,7 +79,9 @@ public class codeGenBinaryInstructionDValToReg {
                 throw new UnsupportedOperationException("Not supposed to be called");
             regRight.free(compiler);
             regLeft.free(compiler);
-            if(expType.isFloat())
+            if(expType.isFloat()&&compiler.getPrintHex())
+                compiler.addInstruction(new WFLOATX());
+            else if(expType.isFloat()&&!compiler.getPrintHex())
                 compiler.addInstruction(new WFLOAT());
             else if(expType.isInt())
                 compiler.addInstruction(new WINT());

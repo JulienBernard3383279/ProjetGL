@@ -12,7 +12,7 @@ import fr.ensimag.ima.pseudocode.instructions.QUO;
 
 /**
  *
- * @author guignomes
+ * @author gl58
  */
 public class ConstructQUO extends ConstructBinaryInstructionDValToReg{
 

@@ -21,7 +21,7 @@ import fr.ensimag.ima.pseudocode.instructions.SNE;
 
 /**
  *
- * @author guignomes
+ * @author gl58
  */
 public class codeGenBooleanOpToReg {
     public static DVal generate(DecacCompiler compiler,int value,DVal regRight,DVal regLeft) {

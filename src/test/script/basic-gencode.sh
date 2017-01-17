@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 # Auteur : gl58
 # Version initiale : 01/01/2017
 
@@ -9,7 +9,9 @@
 # résultat attendu dans un fichier pour chaque fichier source.
 cd "$(dirname "$0")"/../../.. || exit 1
 
-PATH=./src/test/script/launchers:./src/main/bin:"$PATH"
+export PATH=./src/test/script/launchers:./src/main/bin:"$PATH"
+
+echo $PATH
 
 # On ne teste qu'un fichier. Avec une boucle for appropriée, on
 # pourrait faire bien mieux ...
