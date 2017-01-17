@@ -45,7 +45,8 @@ public class CastExpr extends AbstractExpr{
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        type.prettyPrint(s,prefix,false);
+        expr.prettyPrint(s,prefix,true);
     }
 
     @Override
