@@ -1,7 +1,20 @@
 {
     int var = 2;
+    int var1 = 2;
+    int var2 = 3;
+    float f= 2.0;
+    float f1= 2.0;
+    float f2= 3.0;
     boolean x= (3*5)==5;
-    boolean y=2==var;
+    boolean x1= 5==5;
+    boolean y= 2==var;
+    boolean y1= 3==var;
+    boolean z= var==var1;
+    boolean z1= var==var2;
+    boolean a= f==2.0;
+    boolean a1= f==1.0;
+    boolean b= f==f1;
+    boolean b1= f==f2;
     if(var==2) {
 	println("Boolean EQ : OK"); 
     }
@@ -19,5 +32,71 @@
     }
     else {
 	println("Boolean EQ(2) : FAIL");
+    }
+    if(var==var1) {
+	println("Boolean EQ(3) : OK");
+    }
+    else {
+	println("Boolean EQ(3) : FAIL");
+    }
+    if(var==var2) {
+	println("Boolean EQ(4) : FAIL");
+    }
+    else {
+	println("Boolean EQ(4) : OK");
+    }
+    if(f2==f) {
+	println("Boolean EQ(5) : FAIL");
+    }
+    else {
+	println("Boolean EQ(5) : OK");
+    }
+    if(f==f1) {
+	println("Boolean EQ(6) : OK");
+    }
+    else {
+	println("Boolean EQ(6) : FAIL");
+    }
+    if(y1) {
+	println("Boolean EQ(7) : FAIL");
+    }
+    else {
+	println("Boolean EQ(7) : OK");
+    }
+    if(z) {
+	println("Boolean EQ(8) : OK");
+    }
+    else {
+	println("Boolean EQ(8) : FAIL");
+    }
+    if(z1) {
+	println("Boolean EQ(9) : FAIL");
+    }
+    else {
+	println("Boolean EQ(9) : OK");
+    }
+    if(a) {
+	println("Boolean EQ(10) : OK");
+    }
+    else {
+	println("Boolean EQ(10) : FAIL");
+    }
+    if(a1) {
+	println("Boolean EQ(11) : FAIL");
+    }
+    else {
+	println("Boolean EQ(11) : OK");
+    }
+    if(b) {
+	println("Boolean EQ(12) : OK");
+    }
+    else {
+	println("Boolean EQ(12) : FAIL");
+    }
+    if(b1) {
+	println("Boolean EQ(13) : FAIL");
+    }
+    else {
+	println("Boolean EQ(13) : OK");
     }
 }

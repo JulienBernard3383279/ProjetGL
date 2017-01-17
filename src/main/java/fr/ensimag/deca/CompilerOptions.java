@@ -74,7 +74,8 @@ public class CompilerOptions {
                 }
                 waitingForNbRegisters=false;
             }
-            switch(str) {
+            else {
+                switch(str) {
                 case "-b" :
                     printBanner=true;
                     if (args.length!=1) {
@@ -102,6 +103,7 @@ public class CompilerOptions {
                 default:
                     sourceFiles.add(new File(str));
                     break;
+                }
             }
             if (verif && parse) {
                 throw new UnsupportedOperationException("Options -p and -v are incompatible.");

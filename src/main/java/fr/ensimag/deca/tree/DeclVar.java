@@ -98,7 +98,7 @@ public class DeclVar extends AbstractDeclVar {
         if (this.initialization.isInitialization()) {
             DVal initVal = this.initialization.codeGen(compiler);
             if(initVal.isGPRegister()) {
-                compiler.addInstruction(new STORE((GPRegister)initVal,resultAllocate)); 
+                compiler.addInstruction(new STORE((GPRegister)initVal,resultAllocate));
             }
             else if(initVal.isRegisterOffset()) {
                 compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)initVal),Register.R0));
@@ -107,6 +107,8 @@ public class DeclVar extends AbstractDeclVar {
             else {
                 throw new UnsupportedOperationException("Not supposed to be called"); 
             }
-        }               
+            initVal.free(compiler);
+        }
+        
     }
 }
