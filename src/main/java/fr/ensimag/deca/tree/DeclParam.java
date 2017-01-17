@@ -8,6 +8,10 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.MethodDefinition;
+import fr.ensimag.deca.context.ParamDefinition;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 
@@ -21,8 +25,16 @@ public class DeclParam extends AbstractDeclParam{
     public AbstractIdentifier paramName;
     
     @Override
-    protected void verifyDeclParam(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError{
-        
+    protected void verifyDeclParam(DecacCompiler compiler, ClassDefinition currentClass, MethodDefinition currentMethod, EnvironmentExp localEnv) throws ContextualError{
+        Type t;
+        try {
+            t = this.type.verifyType(compiler);
+            ParamDefinition def = new ParamDefinition(t,this.getLocation());
+            currentMethod.getSignature().add(t);
+            localEnv.declare(this.paramName.getName(),def);
+        } catch (EnvironmentExp.DoubleDefException d) {
+            throw new ContextualError("parameter already defined",this.paramName.getLocation());
+        }
     }
     
     @Override 

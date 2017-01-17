@@ -35,12 +35,12 @@ public class DeclField extends AbstractDeclField{
     @Override
     protected void verifyDeclField(DecacCompiler compiler, ClassDefinition currentClass,int index) throws ContextualError {
         Type t;
-        EnvironmentExp localEnv = currentClass.getMembers();
+        EnvironmentExp classEnv = currentClass.getMembers();
         try {
             t = this.type.verifyType(compiler);
             FieldDefinition def = new FieldDefinition(t,this.type.getLocation(),this.visib,currentClass,index);
             this.fieldName.setDefinition(def);
-            localEnv.declare(this.fieldName.getName(), def);
+            classEnv.declare(this.fieldName.getName(), def);
         } catch (ContextualError e) {
             throw e;
         } catch (EnvironmentExp.DoubleDefException d) {
@@ -52,7 +52,7 @@ public class DeclField extends AbstractDeclField{
         }
         
         try {
-            this.init.verifyInitialization(compiler, t, localEnv, currentClass);
+            this.init.verifyInitialization(compiler, t, classEnv, currentClass);
         } catch (ContextualError i) {
             throw i;
         }

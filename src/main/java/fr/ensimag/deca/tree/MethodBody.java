@@ -7,6 +7,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
@@ -18,7 +19,7 @@ import java.io.PrintStream;
 public class MethodBody extends AbstractMethodBody{
     
     @Override 
-    protected void verifyMethodBody(DecacCompiler compiler, ClassDefinition currentClass, MethodDefinition currentMethod) {
+    protected void verifyMethodBody(DecacCompiler compiler, ClassDefinition currentClass, MethodDefinition currentMethod, EnvironmentExp localEnv) {
         
     }
     
