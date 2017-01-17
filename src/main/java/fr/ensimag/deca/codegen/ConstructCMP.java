@@ -12,7 +12,7 @@ import fr.ensimag.ima.pseudocode.instructions.CMP;
 
 /**
  *
- * @author guignomes
+ * @author gl58
  */
 public class ConstructCMP extends ConstructBinaryInstructionDValToReg{
 

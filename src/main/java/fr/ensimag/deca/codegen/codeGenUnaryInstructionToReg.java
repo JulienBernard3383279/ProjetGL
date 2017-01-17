@@ -14,6 +14,7 @@ import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 
 /**
@@ -61,9 +62,11 @@ public class codeGenUnaryInstructionToReg {
         else {
             throw new UnsupportedOperationException("Not supposed to be called"); 
         }
-        if(expType.isFloat()) {
+        if(expType.isFloat()&&!compiler.getPrintHex()) {
                 compiler.addInstruction(new WFLOAT());
             }
+        else if(expType.isFloat()&&compiler.getPrintHex())
+                compiler.addInstruction(new WFLOATX());
             else if(expType.isInt()) {
                 compiler.addInstruction(new WINT());
             }
