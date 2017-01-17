@@ -26,6 +26,12 @@ public class DeclField extends AbstractDeclField{
     public AbstractIdentifier fieldName;
     public AbstractInitialization init;
     
+    public DeclField(Visibility visib, AbstractIdentifier type, AbstractIdentifier fieldName, AbstractInitialization init) {
+        this.visib=visib;
+        this.type=type;
+        this.fieldName=fieldName;
+        this.init=init;
+    }
     /**
      * Verification d'un attribut (Passe 2)
      * @param compiler 
@@ -60,7 +66,11 @@ public class DeclField extends AbstractDeclField{
     
     @Override
     public void decompile(IndentPrintStream s) {
-        s.print("public");
+        if (visib.equals("PROTECTED")) {
+            s.print("protected");
+        } else { 
+            s.print("public");    
+        }
         s.print(" ");
         type.decompile(s);
         s.print(" ");

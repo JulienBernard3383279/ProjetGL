@@ -92,7 +92,9 @@ public abstract class AbstractExpr extends AbstractInst {
         }
         if (! t.sameType(expectedType)){
             if (expectedType.isFloat() && t.isInt()) {
-                return new ConvFloat(this);
+                ConvFloat conv = new ConvFloat(this);
+                conv.verifyExpr(compiler,localEnv,currentClass);
+                return conv;
             } else {
                 throw new ContextualError("variable initialized with wrong type",this.getLocation());
             }

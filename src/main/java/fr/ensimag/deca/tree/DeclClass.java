@@ -17,10 +17,32 @@ import java.io.PrintStream;
  * @date 01/01/2017
  */
 public class DeclClass extends AbstractDeclClass {
-
+    
+    //modif
+    public DeclClass(AbstractIdentifier className, 
+            AbstractIdentifier superClass,
+            ListDeclField field) {
+        this.className = className;
+        this.superClass = superClass;
+        this.field = field;
+    }
+    //fin modif
+    
     @Override
     public void decompile(IndentPrintStream s) {
-        s.print("class { ... A FAIRE ... }"); //sans-objet
+        
+        
+        s.print("class");
+        s.print(" ");//sans-objet
+        this.className.decompile(s);
+        s.print("extends");
+        s.print(" ");
+        this.superClass.decompile(s);
+        s.print(" {");
+        
+        
+        
+        
     }
 
     @Override
@@ -47,6 +69,7 @@ public class DeclClass extends AbstractDeclClass {
     
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
+        
         throw new UnsupportedOperationException("not yet implemented");
     }
 
