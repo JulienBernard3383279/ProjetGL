@@ -17,7 +17,7 @@ import java.io.PrintStream;
 
 /**
  *
- * @author pierre
+ * @author gl58
  */
 public class DeclField extends AbstractDeclField{
     
