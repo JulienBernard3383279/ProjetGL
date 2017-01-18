@@ -1,4 +1,5 @@
 package fr.ensimag.deca;
+import fr.ensimag.deca.codegen.Method;
 import fr.ensimag.deca.context.BooleanType;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
@@ -179,6 +180,9 @@ public class DecacCompiler {
      */
     public void addInstruction(Instruction instruction, String comment) {
         program.addInstruction(instruction, comment);
+    }
+    public void addASMCode(String code) {
+        program.addASMCode(code);
     }
     
     /**
@@ -361,7 +365,6 @@ public class DecacCompiler {
         else {
             stack.set(overFlow-1,true);
         }
-        //this.addInstruction(new LEA(new RegisterOffset(0,Register.SP),Register.R0));
         this.addInstruction(new PUSH(Register.R0));
         regis = new RegisterOffset(overFlow,Register.SP);
         overFlow++;
@@ -449,7 +452,7 @@ public class DecacCompiler {
     
     public DAddr allocateVar() {
         this.varCounter++;
-        return new RegisterOffset(this.varCounter,Register.GB);
+        return new RegisterOffset(this.varCounter+this.methodCounter,Register.GB);
     }
     public void addVarToTable(String sym,VariableDefinition def) {
         this.varMap.put(sym, def);
@@ -502,5 +505,12 @@ public class DecacCompiler {
     }
     public int getSizeOfConstantStack() {
         return this.varCounter;
+    }
+    private int methodCounter = 0;
+    public int getCurrentMethodNumber() {
+        return methodCounter;
+    }
+    public void addMethod(int offSet) {
+        methodCounter += offSet;
     }
 }

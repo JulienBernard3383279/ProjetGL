@@ -22,10 +22,15 @@ public class Line extends AbstractLine {
         this.instruction = instruction;
     }
 
-    public Line(String comment) {
+    public Line(String text,boolean isComment) {
         super();
-        checkComment(comment);
-        this.comment = comment;
+        if(isComment) {
+            checkComment(text);
+            this.comment = text;
+        }
+        else {
+            this.asmCode = text;
+        }
     }
 
     public Line(Label label) {
@@ -47,6 +52,7 @@ public class Line extends AbstractLine {
     private Instruction instruction;
     private String comment;
     private Label label;
+    private String asmCode;
 
     @Override
     void display(PrintStream s) {
@@ -66,6 +72,9 @@ public class Line extends AbstractLine {
                             s.print("\t");
                         }
             s.print("; " + comment);
+        }
+        if(asmCode != null) {
+            s.print(asmCode);
         }
         s.println();
     }

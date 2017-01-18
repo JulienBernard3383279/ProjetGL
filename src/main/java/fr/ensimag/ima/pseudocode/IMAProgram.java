@@ -18,7 +18,7 @@ public class IMAProgram {
     }
 
     public void addComment(String s) {
-        lines.add(new Line(s));
+        lines.add(new Line(s,true));
     }
 
     public void addLabel(Label l) {
@@ -31,6 +31,9 @@ public class IMAProgram {
 
     public void addInstruction(Instruction i, String s) {
         lines.add(new Line(null, i, s));
+    }
+    public void addASMCode(String s) {
+        lines.add(new Line(s,false));
     }
 
     /**

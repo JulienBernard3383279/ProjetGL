@@ -32,7 +32,7 @@ public class MethodAsmBody extends AbstractMethodBody {
     
     @Override
     protected void codeGenMethodBody(DecacCompiler compiler) {
-        
+        compiler.addASMCode(this.text);
     }
     
     @Override
