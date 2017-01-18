@@ -1,0 +1,12 @@
+class myClass {}
+class notMyClass {
+    int x;
+}
+class notMyClassEither {
+    void direBonjour() {
+        print("Bonjour");
+    }
+}
+
+{
+}
