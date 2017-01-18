@@ -8,6 +8,10 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.MethodDefinition;
+import fr.ensimag.deca.context.Signature;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 
@@ -31,13 +35,41 @@ public class DeclMethod extends AbstractDeclMethod{
     }
     
     @Override
-    protected void verifyDeclMethod(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError{
+    protected void verifyDeclMethod(DecacCompiler compiler, ClassDefinition currentClass,int index) throws ContextualError{
+        Type t;
+        EnvironmentExp classEnv = currentClass.getMembers();
+        MethodDefinition def;
+        try {
+            t = this.type.verifyType(compiler);
+            def = new MethodDefinition(t,this.getLocation(),new Signature(),index);
+            EnvironmentExp methodEnv = new EnvironmentExp(classEnv);
+            this.params.verifyListParam(compiler, currentClass,def,methodEnv);
+            this.methodName.setDefinition(def);
+            classEnv.declare(methodName.getName(), def);
+            currentClass.incNumberOfMethods();
+            this.body.verifyMethodBody(compiler,currentClass,methodEnv,t);
+        } catch (ContextualError e) {
+            throw e;
+        } catch (EnvironmentExp.DoubleDefException d) {
+            throw new ContextualError("method already defined",this.methodName.getLocation());
+        }
         
+        EnvironmentExp superEnv = currentClass.getSuperClass().getMembers();
+        MethodDefinition superDef = (MethodDefinition) superEnv.get(methodName.getName());
+        if (!superDef.getSignature().equals(def.getSignature())) {
+            throw new ContextualError("method overrides method with different signature",this.getLocation());
+        }
     }
     
     @Override
     public void decompile(IndentPrintStream s) {
-        
+        type.decompile(s);
+        methodName.decompile(s);
+        s.print("(");
+        params.decompile(s);
+        s.println(") {"); s.indent();
+        body.decompile(s);
+        s.unindent(); s.println("}");
     }
     
     @Override
@@ -47,6 +79,10 @@ public class DeclMethod extends AbstractDeclMethod{
     
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
+        type.prettyPrint(s,prefix,false);
+        methodName.prettyPrint(s,prefix,false);
+        params.prettyPrint(s,prefix,false);
+        body.prettyPrint(s,prefix,true);
         
     }
 }

@@ -7,39 +7,31 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
 import java.io.PrintStream;
 
 /**
  *
  * @author bernajul
  */
-public class Return extends AbstractInst {
-    private AbstractExpr expr;
-    
-    public Return(AbstractExpr expr) {
-        this.expr=expr;
-    }
+public class This extends AbstractExpr {
+
+    public This() {}
     
     @Override
-    protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass, Type returnType) throws ContextualError {
-        Type t;
-        try {
-            t = this.expr.verifyExpr(compiler, localEnv, currentClass);
-        } catch (ContextualError e) {
-            throw e;
-        }
-        
-        if (! t.sameType(returnType)) {
-            throw new ContextualError("type of expression must match method type",this.expr.getLocation());
-        }
+    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
+        ClassType t = currentClass.getType();
+        this.setType(t);
+        return t;
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected DVal codeGen(DecacCompiler compiler) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -50,7 +42,7 @@ public class Return extends AbstractInst {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        expr.prettyPrint(s,prefix,true);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

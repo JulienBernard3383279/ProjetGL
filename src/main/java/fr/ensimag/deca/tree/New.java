@@ -11,35 +11,38 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
 import java.io.PrintStream;
 
 /**
  *
  * @author bernajul
  */
-public class Return extends AbstractInst {
-    private AbstractExpr expr;
+public class New extends AbstractExpr {
     
-    public Return(AbstractExpr expr) {
-        this.expr=expr;
+    private AbstractIdentifier ident;
+    
+    public New(AbstractIdentifier ident) {
+        this.ident=ident;
     }
     
     @Override
-    protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass, Type returnType) throws ContextualError {
+    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
         Type t;
         try {
-            t = this.expr.verifyExpr(compiler, localEnv, currentClass);
+            t = ident.verifyType(compiler);
         } catch (ContextualError e) {
             throw e;
         }
-        
-        if (! t.sameType(returnType)) {
-            throw new ContextualError("type of expression must match method type",this.expr.getLocation());
+        if (! t.isClass()) {
+            throw new ContextualError("identifier is not a class",this.ident.getLocation());
         }
+        this.setType(t);
+        return t;
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected DVal codeGen(DecacCompiler compiler) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -50,7 +53,7 @@ public class Return extends AbstractInst {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        expr.prettyPrint(s,prefix,true);
+        ident.prettyPrint(s,prefix,true);
     }
 
     @Override

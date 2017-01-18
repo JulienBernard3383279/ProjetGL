@@ -6,6 +6,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.BooleanType;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -19,17 +20,25 @@ import java.io.PrintStream;
  * @author bernajul
  */
 public class InstanceOf extends AbstractExpr {
-    AbstractExpr expr;
-    AbstractIdentifier type;
+    private AbstractExpr name;
+    private AbstractIdentifier type;
     
     public InstanceOf(AbstractExpr expr, AbstractIdentifier type) {
-        this.expr=expr;
+        this.name=expr;
         this.type=type;
     }
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            name.verifyExpr(compiler, localEnv, currentClass);
+            type.verifyType(compiler);
+        } catch (ContextualError e) {
+            throw e;
+        }
+        Type t = new BooleanType(compiler.getSymbols().create("boolean"));
+        this.setType(t);
+        return t;
     }
 
     @Override
