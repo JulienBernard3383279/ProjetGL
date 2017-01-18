@@ -1,4 +1,0 @@
-class MyClass {
-    String mystere() asm ("#TSTO 0
-    BOV");
-}

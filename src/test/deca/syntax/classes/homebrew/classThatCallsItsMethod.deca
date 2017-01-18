@@ -1,9 +1,0 @@
-class MyClass {
-    void direBonjour() {
-        print("Bonjour !");
-    }
-    void direBonjourDeuxFois() {
-        this.direBonjour();
-        this.direBonjour();
-    }
-}

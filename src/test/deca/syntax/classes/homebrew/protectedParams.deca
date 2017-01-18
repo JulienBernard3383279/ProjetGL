@@ -1,5 +1,0 @@
-class MyClass {
-    protected int x;
-    int y;
-    protected float z;
-}

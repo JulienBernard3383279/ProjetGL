@@ -1,5 +1,0 @@
-class MyClass {
-    int returnOne() {
-        return 1;
-    }
-}
