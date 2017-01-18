@@ -501,6 +501,6 @@ public class DecacCompiler {
         return printx;
     }
     public int getSizeOfConstantStack() {
-        return this.envTypes.size();
+        return this.varCounter;
     }
 }
