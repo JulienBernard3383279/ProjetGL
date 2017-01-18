@@ -9,6 +9,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
@@ -41,29 +42,52 @@ public class DeclMethod extends AbstractDeclMethod{
         MethodDefinition def;
         try {
             t = this.type.verifyType(compiler);
-            def = new MethodDefinition(t,this.getLocation(),new Signature(),index);
+            ExpDefinition superDef = classEnv.get(methodName.getName());
+            if (superDef != null) {
+                if (superDef.isMethod()) {
+                    MethodDefinition superDef2 = (MethodDefinition)superDef;
+                    def = new MethodDefinition(t,this.getLocation(),new Signature(),superDef2.getIndex());
+                } else {
+                    def = new MethodDefinition(t,this.getLocation(),new Signature(),index);
+                    currentClass.incNumberOfMethods();
+                    index = index + 1;
+                }
+            } else {
+                def = new MethodDefinition(t,this.getLocation(),new Signature(),index);
+                currentClass.incNumberOfMethods();
+                index = index + 1;
+            }
             EnvironmentExp methodEnv = new EnvironmentExp(classEnv);
             this.params.verifyListParam(compiler, currentClass,def,methodEnv);
             this.methodName.setDefinition(def);
             classEnv.declare(methodName.getName(), def);
             currentClass.incNumberOfMethods();
-            this.body.verifyMethodBody(compiler,currentClass,methodEnv,t);
+            //this.body.verifyMethodBody(compiler,currentClass,methodEnv,t);
         } catch (ContextualError e) {
             throw e;
         } catch (EnvironmentExp.DoubleDefException d) {
             throw new ContextualError("method already defined",this.methodName.getLocation());
         }
-        
         EnvironmentExp superEnv = currentClass.getSuperClass().getMembers();
-        MethodDefinition superDef = (MethodDefinition) superEnv.get(methodName.getName());
-        if (!superDef.getSignature().equals(def.getSignature())) {
-            throw new ContextualError("method overrides method with different signature",this.getLocation());
+        if (superEnv.get(methodName.getName())!=null) {
+            if (superEnv.get(methodName.getName()).isMethod()) {
+                MethodDefinition superDef = (MethodDefinition) superEnv.get(methodName.getName());
+                if (superDef.getSignature().size() != def.getSignature().size()) {
+                    throw new ContextualError("method overrides method with different signature",this.getLocation());
+                }
+            }
         }
     }
     
     @Override
     public void decompile(IndentPrintStream s) {
-        
+        type.decompile(s);
+        methodName.decompile(s);
+        s.print("(");
+        params.decompile(s);
+        s.println(") {"); s.indent();
+        body.decompile(s);
+        s.unindent(); s.println("}");
     }
     
     @Override

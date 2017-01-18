@@ -9,6 +9,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.VariableDefinition;
@@ -42,12 +43,26 @@ public class DeclField extends AbstractDeclField{
     protected void verifyDeclField(DecacCompiler compiler, ClassDefinition currentClass,int index) throws ContextualError {
         Type t;
         EnvironmentExp classEnv = currentClass.getMembers();
+        FieldDefinition def;
         try {
             t = this.type.verifyType(compiler);
-            FieldDefinition def = new FieldDefinition(t,this.type.getLocation(),this.visib,currentClass,index);
+            ExpDefinition superDef = classEnv.get(fieldName.getName());
+            if (superDef != null) {
+                if (superDef.isField()) {
+                    FieldDefinition superDef2 = (FieldDefinition)superDef;
+                    def = new FieldDefinition(t,this.type.getLocation(),this.visib,currentClass,superDef2.getIndex());
+                } else {
+                    def = new FieldDefinition(t,this.type.getLocation(),this.visib,currentClass,index);
+                    currentClass.incNumberOfFields();
+                    index = index + 1;
+                }
+            } else {
+                def = new FieldDefinition(t,this.type.getLocation(),this.visib,currentClass,index);
+                currentClass.incNumberOfFields();
+                index = index + 1;
+            }
             this.fieldName.setDefinition(def);
             classEnv.declare(this.fieldName.getName(), def);
-            currentClass.incNumberOfFields();
         } catch (ContextualError e) {
             throw e;
         } catch (EnvironmentExp.DoubleDefException d) {

@@ -24,7 +24,7 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod>{
     
     protected void verifyListMethod(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError{
         Iterator<AbstractDeclMethod> it = this.iterator();
-        int index = 0;
+        int index = currentClass.getSuperClass().getNumberOfMethods();
         while (it.hasNext()) {
             try {
                 it.next().verifyDeclMethod(compiler, currentClass,index);
@@ -33,5 +33,6 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod>{
                 throw e;
             }
         }
+        currentClass.setNumberOfMethods(index);
     }
 }

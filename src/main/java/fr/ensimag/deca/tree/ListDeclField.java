@@ -31,7 +31,7 @@ public class ListDeclField extends TreeList<AbstractDeclField>{
      * @param compiler 
      */
     public void verifyListField(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError{
-        int n = 0 ;
+        int n = currentClass.getSuperClass().getNumberOfFields() ;
         Iterator<AbstractDeclField> it = this.iterator();
         while (it.hasNext()) {
             try {
@@ -40,5 +40,6 @@ public class ListDeclField extends TreeList<AbstractDeclField>{
                 throw e;
             }
         }
+        currentClass.setNumberOfFields(n);
     }
 }

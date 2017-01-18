@@ -53,13 +53,18 @@ public class EnvironmentExp {
      * symbol is undefined.
      */
     public ExpDefinition get(Symbol key) {
-        if(this.dico.containsKey(key)){
-           ExpDefinition def=this.dico.get(key);
-           return def;   
-        } else {
-           return null;
- 
+        EnvironmentExp curr = this;
+        while (curr != null) {
+            if(curr.dico.containsKey(key)){
+                ExpDefinition def=curr.dico.get(key);
+                return def;   
+            } else {
+                curr = curr.parentEnvironment;
+            }
         }
+        return null;
+ 
+        
     }
 
     /**

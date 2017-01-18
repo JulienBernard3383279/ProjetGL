@@ -30,14 +30,19 @@ public class CastExpr extends AbstractExpr{
     
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        Type t;
+        Type t1, t2;
         try {
-            t= type.verifyType(compiler);
+            t1 = type.verifyType(compiler);
+            t2 = expr.verifyExpr(compiler, localEnv, currentClass);
         } catch (ContextualError e) {
             throw e;
         }
-        this.setType(t);
-        return t;
+        
+        if (!t1.isClass() && !t2.isClass() && !t1.isFloat() && !t2.isInt()) {
+            throw new ContextualError("incompatible types for cast",this.getLocation());
+        }
+        this.setType(t1);
+        return t1;
     }
 
     @Override

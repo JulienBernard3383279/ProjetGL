@@ -44,6 +44,7 @@ public class Null extends AbstractExpr {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         s.print(prefix);
         s.print("null");
+        s.println();
     }
 
     @Override

@@ -15,7 +15,7 @@ public abstract class AbstractDeclClass extends Tree {
     protected AbstractIdentifier className;
     protected AbstractIdentifier superClass;
     protected ListDeclField field;
-    protected ListDeclMethod method;
+    protected ListDeclMethod methods;
     
     /**
      * Pass 1 of [SyntaxeContextuelle]. Verify that the class declaration is OK
