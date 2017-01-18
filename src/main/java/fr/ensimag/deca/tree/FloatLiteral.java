@@ -12,9 +12,11 @@ import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.ImmediateFloat;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.FLOAT;
+import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import java.io.PrintStream;
@@ -88,7 +90,7 @@ public class FloatLiteral extends AbstractExpr {
         }
         else if(reg.isRegisterOffset()) {
             compiler.addInstruction(new LOAD(new ImmediateFloat(value),Register.R0));
-            compiler.addInstruction(new PUSH(Register.R0));
+            compiler.addInstruction(new STORE(Register.R0,compiler.translate((RegisterOffset)reg)));
             
         }
         else {

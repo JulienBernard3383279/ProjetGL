@@ -69,7 +69,7 @@ public class CompilerOptions {
         for (String str : args) {
             if (waitingForNbRegisters) {
                 nbRegisters=Integer.parseInt(str);
-                if (nbRegisters<4 || nbRegisters>16) {
+                if (nbRegisters<2 || nbRegisters>16) {
                     throw new UnsupportedOperationException("The number of registers must be set between 4 and 16.");
                 }
                 waitingForNbRegisters=false;
