@@ -78,7 +78,12 @@ public class DotMethod extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        instance.decompile(s);
+        s.print(".");
+        name.decompile(s);
+        s.print("(");
+        params.decompile(s);
+        s.print(")");
     }
 
     @Override

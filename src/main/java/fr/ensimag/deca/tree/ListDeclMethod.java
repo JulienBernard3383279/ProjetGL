@@ -19,7 +19,10 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod>{
     
     @Override
     public void decompile(IndentPrintStream s) {
-        
+        for (AbstractDeclMethod c : getList()) {
+            c.decompile(s);
+            s.println();
+        }
     }
     
     protected void verifyListMethod(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError{
