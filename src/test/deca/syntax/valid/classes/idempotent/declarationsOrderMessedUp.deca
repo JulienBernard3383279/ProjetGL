@@ -1,0 +1,11 @@
+class MyClass extends Object {
+	int x;
+	float y;
+	void doNothing() {
+		}
+
+	void doNothingEither() {
+		}
+
+ }
+

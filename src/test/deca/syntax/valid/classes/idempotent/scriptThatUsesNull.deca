@@ -1,0 +1,7 @@
+{
+	int x = 1;
+	if ((x != null)) {
+		print("Hey, listen !");
+	} else {
+	} 
+}

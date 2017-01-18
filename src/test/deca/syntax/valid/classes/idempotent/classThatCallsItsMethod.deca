@@ -1,0 +1,12 @@
+class MyClass extends Object {
+	void direBonjour() {
+		print("Bonjour !");
+		}
+
+	void direBonjourDeuxFois() {
+		this.direBonjour();
+		this.direBonjour();
+		}
+
+ }
+

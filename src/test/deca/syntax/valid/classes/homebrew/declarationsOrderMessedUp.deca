@@ -1,0 +1,6 @@
+class MyClass {
+    int x;
+    void doNothing() {}
+    float y;
+    void doNothingEither() {}
+}

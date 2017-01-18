@@ -1,0 +1,16 @@
+class MyClass extends Object {
+	void direDesChoses(String a, int b, int c) {
+		if ((b == c)) {
+			print("Bonjour !");
+		} else {
+		} 
+		}
+
+	void direPlusieursChoses() {
+		this.direDesChoses("Hey", 2, 2);
+		this.direDesChoses("Sup", 2, 3);
+		this.direDesChoses("Listen !", 3, 3);
+		}
+
+ }
+

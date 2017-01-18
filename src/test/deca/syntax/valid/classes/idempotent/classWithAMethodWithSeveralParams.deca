@@ -1,0 +1,9 @@
+class MyClass extends Object {
+	void direPlusieursChoses(String s, int r, float u) {
+		print(s);
+		println(r);
+		print(u);
+		}
+
+ }
+

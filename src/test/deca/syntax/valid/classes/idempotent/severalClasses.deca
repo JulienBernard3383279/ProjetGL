@@ -1,0 +1,14 @@
+class myClass extends Object {
+ }
+
+class notMyClass extends Object {
+	int x;
+ }
+
+class notMyClassEither extends Object {
+	void direBonjour() {
+		print("Bonjour");
+		}
+
+ }
+

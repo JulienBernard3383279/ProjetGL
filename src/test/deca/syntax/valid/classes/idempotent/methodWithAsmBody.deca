@@ -1,0 +1,7 @@
+class MyClass extends Object {
+	String mystere() asm ("#TSTO 0
+    BOV");
+
+
+ }
+

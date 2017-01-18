@@ -1,0 +1,7 @@
+class MyClass {
+    void direPlusieursChoses(String s, int r, float u) {
+        print(s);
+        println(r);
+        print(u);
+    }
+}
