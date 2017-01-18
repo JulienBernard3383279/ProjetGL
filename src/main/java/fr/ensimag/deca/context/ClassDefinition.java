@@ -74,7 +74,7 @@ public class ClassDefinition extends TypeDefinition {
         } else {
             parent = null;
         }
-       
+               
         members = new EnvironmentExp(parent);
 
         this.superClass = superClass;

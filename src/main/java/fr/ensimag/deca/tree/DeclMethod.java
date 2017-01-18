@@ -62,7 +62,6 @@ public class DeclMethod extends AbstractDeclMethod{
             this.methodName.setDefinition(def);
             classEnv.declare(methodName.getName(), def);
             currentClass.incNumberOfMethods();
-            //this.body.verifyMethodBody(compiler,currentClass,methodEnv,t);
         } catch (ContextualError e) {
             throw e;
         } catch (EnvironmentExp.DoubleDefException d) {
@@ -77,6 +76,14 @@ public class DeclMethod extends AbstractDeclMethod{
                 }
             }
         }
+    }
+    
+    @Override
+    protected void verifyMethodBody(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError{
+        EnvironmentExp methodEnv = new EnvironmentExp(currentClass.getMembers());
+        this.params.verifyListParam(compiler, currentClass, null, methodEnv);
+        Type t = this.type.verifyType(compiler);
+        this.body.verifyMethodBody(compiler, currentClass, methodEnv, t);
     }
     
     @Override

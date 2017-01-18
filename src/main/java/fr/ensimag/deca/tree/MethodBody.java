@@ -44,7 +44,8 @@ public class MethodBody extends AbstractMethodBody{
     
     @Override
     public void decompile(IndentPrintStream s) {
-        
+        decls.decompile(s);
+        insts.decompile(s);
     }
     
     @Override

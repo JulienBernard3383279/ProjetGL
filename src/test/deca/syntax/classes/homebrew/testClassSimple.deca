@@ -1,9 +1,0 @@
-class uneClasse {
-	public int x;
-	public int y;
-	
-	public uneClasse ( int z ) {
-		x=z-1;
-		y=z-x;
-	}
-}

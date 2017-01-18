@@ -19,7 +19,10 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod>{
     
     @Override
     public void decompile(IndentPrintStream s) {
-        
+        for (AbstractDeclMethod c : getList()) {
+            c.decompile(s);
+            s.println();
+        }
     }
     
     protected void verifyListMethod(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError{
@@ -34,5 +37,16 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod>{
             }
         }
         currentClass.setNumberOfMethods(index);
+    }
+    
+    protected void verifyListBody(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError{
+        Iterator<AbstractDeclMethod> it = this.iterator();
+        while (it.hasNext()) {
+            try {
+                it.next().verifyMethodBody(compiler, currentClass);
+            } catch (ContextualError e) {
+                throw e;
+            }
+        }
     }
 }

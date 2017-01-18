@@ -14,6 +14,7 @@ import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.Visibility;
+import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
 import java.io.PrintStream;
 
@@ -21,7 +22,7 @@ import java.io.PrintStream;
  *
  * @author bernajul
  */
-public class Dot extends AbstractExpr {
+public class Dot extends AbstractLValue {
     
     private AbstractExpr left;
     private AbstractIdentifier right;
@@ -36,7 +37,6 @@ public class Dot extends AbstractExpr {
         Type t;
         try {
             t = left.verifyExpr(compiler, localEnv, currentClass);
-            right.verifyExpr(compiler, localEnv, currentClass);
         } catch (ContextualError e) {
             throw e;
         } 
@@ -44,6 +44,11 @@ public class Dot extends AbstractExpr {
             throw new ContextualError("left operand is not an instance of class",this.left.getLocation());
         }
         ClassType ct = (ClassType) t;
+        try {
+            right.verifyExpr(compiler, ct.getDefinition().getMembers(),currentClass);
+        } catch (ContextualError e) {
+            
+        }
         if (ct.getDefinition().getMembers().get(right.getName())==null){
             throw new ContextualError("no such field in class",this.right.getLocation());
         }
@@ -66,7 +71,9 @@ public class Dot extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        
+        left.decompile(s);
+        s.print(".");
+        right.decompile(s);
     }
 
     @Override
@@ -79,4 +86,9 @@ public class Dot extends AbstractExpr {
     protected void iterChildren(TreeFunction f) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public DAddr getAddr(DecacCompiler compiler) {
+        return null; //Pas encore implémenté
+    }
+
 }

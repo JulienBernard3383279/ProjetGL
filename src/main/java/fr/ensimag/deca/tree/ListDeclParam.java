@@ -21,7 +21,13 @@ public class ListDeclParam extends TreeList<AbstractDeclParam>{
  
     @Override
     public void decompile(IndentPrintStream s) {
-        
+        Iterator<AbstractDeclParam> it = this.iterator();
+        while (it.hasNext()) {
+            it.next().decompile(s);
+            if (it.hasNext()) {
+                s.print(", ");
+            }
+        }
     }
     
     protected void verifyListParam(DecacCompiler compiler, ClassDefinition currentClass, MethodDefinition currentMethod, EnvironmentExp localEnv) throws ContextualError {

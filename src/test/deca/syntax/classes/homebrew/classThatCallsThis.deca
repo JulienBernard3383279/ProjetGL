@@ -1,0 +1,10 @@
+class myClass {
+    int x=1;
+    void sayNo() {
+        if (this.x == 2) {
+            print("No.");
+        } else {
+            print("What ?");
+        }
+    }
+}

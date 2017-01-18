@@ -37,19 +37,21 @@ public class DotMethod extends AbstractExpr {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
         Type t;
         ClassType ct;
+        MethodDefinition def;
         try {
             t = instance.verifyExpr(compiler, localEnv, currentClass);
             if (! t.isClass()) {
                 throw new ContextualError("expression is not instance of a class",this.instance.getLocation());
             }
             ct = (ClassType) t;
+            name.verifyExpr(compiler,ct.getDefinition().getMembers(),currentClass);
             if (ct.getDefinition().getMembers().get(name.getName())==null) {
                 throw new ContextualError("no such method in class",this.name.getLocation());
             }
             if (! ct.getDefinition().getMembers().get(name.getName()).isMethod()) {
                 throw new ContextualError("identifier is not a method",this.name.getLocation());
             }
-            MethodDefinition def = ct.getDefinition().getMembers().get(name.getName()).asMethodDefinition("",this.getLocation());
+            def = ct.getDefinition().getMembers().get(name.getName()).asMethodDefinition("",this.getLocation());
             Signature sig = def.getSignature();
             if (sig.size()!=params.size()) {
                 throw new ContextualError("number of parameters does not match signature",this.getLocation());
@@ -67,8 +69,9 @@ public class DotMethod extends AbstractExpr {
         } catch (ContextualError e) {
             throw e;
         }
-        this.setType(ct);
-        return ct;
+        t = def.getType();
+        this.setType(t);
+        return t;
     }
 
     @Override
@@ -78,7 +81,12 @@ public class DotMethod extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        instance.decompile(s);
+        s.print(".");
+        name.decompile(s);
+        s.print("(");
+        params.decompile(s);
+        s.print(")");
     }
 
     @Override
