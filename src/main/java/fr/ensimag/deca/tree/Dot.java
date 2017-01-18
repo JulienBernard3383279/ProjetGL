@@ -12,6 +12,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
 import java.io.PrintStream;
 
@@ -19,7 +20,7 @@ import java.io.PrintStream;
  *
  * @author bernajul
  */
-public class Dot extends AbstractExpr {
+public class Dot extends AbstractLValue {
     
     private AbstractExpr left;
     private AbstractIdentifier right;
@@ -60,7 +61,9 @@ public class Dot extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        
+        left.decompile(s);
+        s.print(".");
+        right.decompile(s);
     }
 
     @Override
@@ -73,4 +76,9 @@ public class Dot extends AbstractExpr {
     protected void iterChildren(TreeFunction f) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public DAddr getAddr(DecacCompiler compiler) {
+        return null; //Pas encore implémenté
+    }
+
 }

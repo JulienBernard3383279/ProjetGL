@@ -1,0 +1,6 @@
+class MyClass {
+    int x;
+    float y = 0.5;
+    String z = "Bonjour !";
+    boolean b = true;
+}

@@ -48,7 +48,9 @@ public class InstanceOf extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        name.decompile(s);
+        s.print("instanceof");
+        type.decompile(s);
     }
 
     @Override
