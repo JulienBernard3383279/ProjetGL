@@ -1,0 +1,43 @@
+class Tree extends Object {
+	String value = "Non initialisé";
+	Tree filsGauche = null;
+	Tree filsDroit = null;
+	void setValue(String value) {
+		(this.value = value);
+		}
+
+	int getX() {
+		return value;
+		}
+
+	void setFilsGauche(Tree filsGauche) {
+		(this.filsGauche = filsGauche);
+		}
+
+	void setFilsDroit(Tree filsDroit) {
+		(this.filsDroit = filsDroit);
+		}
+
+	void parcoursInfixe() {
+		if ((filsGauche != null)) {
+			filsGauche.parcoursInfixe();
+		} else {
+		} 
+		print(value);
+		if ((filsDroit != null)) {
+			filsDroit.parcoursInfixe();
+		} else {
+		} 
+		}
+
+ }
+
+{
+	Tree root = new Tree();
+	Tree futurFilsDroit;
+	root.setValue("Moi c est la racine");
+	(futurFilsDroit = new Tree());
+	futurFilsDroit.setValue(" J'aimerais bien un frère :( ");
+	root.setFilsDroit(futurFilsDroit);
+	root.parcoursInfixe();
+}

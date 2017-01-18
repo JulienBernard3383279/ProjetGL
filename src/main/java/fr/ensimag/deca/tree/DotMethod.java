@@ -24,17 +24,15 @@ import java.util.Iterator;
  */
 public class DotMethod extends AbstractExpr {
     private AbstractExpr instance;
-    private AbstractIdentifier name;
-    private ListExpr params;
+    private CallMethod method;
     
     public DotMethod(AbstractExpr expr, AbstractIdentifier name, ListExpr list) {
         this.instance=expr;
-        this.name=name;
-        this.params=list;
+        this.method=new CallMethod(name,list);
     }
 
     @Override
-    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
+    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError { /*
         Type t;
         ClassType ct;
         try {
@@ -62,13 +60,14 @@ public class DotMethod extends AbstractExpr {
                 if (! t.sameType(sig.paramNumber(index))) {
                     throw new ContextualError("parameter type does not match signature",e.getLocation());
                 }
-                index = index + 1;
+                index = index + 1; 
             }
         } catch (ContextualError e) {
             throw e;
         }
         this.setType(ct);
-        return ct;
+        return ct; */
+        throw new UnsupportedOperationException("Encore du travail ?");
     }
 
     @Override
@@ -80,17 +79,13 @@ public class DotMethod extends AbstractExpr {
     public void decompile(IndentPrintStream s) {
         instance.decompile(s);
         s.print(".");
-        name.decompile(s);
-        s.print("(");
-        params.decompile(s);
-        s.print(")");
+        method.decompile(s);
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         instance.prettyPrint(s,prefix,false);
-        name.prettyPrint(s,prefix,false);
-        params.prettyPrint(s,prefix,true);
+        method.prettyPrint(s,prefix,true);
     }
 
     @Override

@@ -1,0 +1,7 @@
+class MyClass extends Object {
+	int returnOne() {
+		return 1;
+		}
+
+ }
+

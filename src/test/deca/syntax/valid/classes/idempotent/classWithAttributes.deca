@@ -1,0 +1,7 @@
+class MyClass extends Object {
+	int x;
+	float y = 0x1.0p-1;
+	String z = "Bonjour !";
+	boolean b = true;
+ }
+

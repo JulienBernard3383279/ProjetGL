@@ -31,3 +31,26 @@ do
         exit 1
     fi
 done
+
+cd ../classes/homebrew/ || exit 1
+
+PATH=../../../../../../main/bin:"$PATH"
+
+for cas_de_test in * ../idempotent/*
+do
+    echo "$cas_de_test :"
+
+    result=$(decac -p $cas_de_test)
+    
+    #ATTENDU = cat '../idempotent/"$cas_de_test"'
+    attendu=$(cat ../idempotent/"$cas_de_test")
+
+    if [ "$result" == "$attendu" ]
+    then
+        echo "Test réussi"
+    else
+        echo "Echec"
+        exit 1
+    fi
+done
+

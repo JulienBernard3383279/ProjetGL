@@ -1,0 +1,8 @@
+class myClass extends Object {
+	int x = 1;
+ }
+
+{
+	myClass b = new myClass();
+	(b.x = 2);
+}

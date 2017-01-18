@@ -1,4 +1,4 @@
-class Vector() {
+class Vector {
     int x;
     int y;
     void setX(int x) {
