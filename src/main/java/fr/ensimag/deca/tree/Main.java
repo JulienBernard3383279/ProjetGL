@@ -5,6 +5,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.ERROR;
 import fr.ensimag.ima.pseudocode.instructions.HALT;
@@ -49,6 +50,8 @@ public class Main extends AbstractMain {
 
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
+        compiler.addComment("Seprate constant stack and temporary variables");
+        compiler.addInstruction(new ADDSP(compiler.getSizeOfConstantStack()));
         compiler.addComment("Beginning of main instructions:");
         declVariables.codeGenListVar(compiler);
         insts.codeGenListInst(compiler);
