@@ -10,11 +10,12 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
+import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import java.io.PrintStream;
 
 /**
@@ -71,7 +72,7 @@ public class BooleanLiteral extends AbstractExpr {
         }
         else if(reg.isRegisterOffset()) {
             compiler.addInstruction(new LOAD(data,Register.R0));
-            compiler.addInstruction(new PUSH(Register.R0));
+            compiler.addInstruction(new STORE(Register.R0,compiler.translate((RegisterOffset)reg)));
             
         }
         else {

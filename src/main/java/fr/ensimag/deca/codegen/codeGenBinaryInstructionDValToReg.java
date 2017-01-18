@@ -136,8 +136,8 @@ public class codeGenBinaryInstructionDValToReg {
             }
             else 
                 throw new UnsupportedOperationException("Not supposed to be called");
-            regRight.free(compiler);
-            return regLeft;
+            regLeft.free(compiler);
+            return regRight;
         }
         else 
             throw new UnsupportedOperationException("Not supposed to be called");

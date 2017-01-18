@@ -31,7 +31,9 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -325,10 +327,9 @@ public class DecacCompiler {
     }
     
     private int regLim = 16 ;
-    private static int stackLim = 15;
-    private static boolean [] stack=new boolean[stackLim];
+    private final ArrayList<Boolean> stack=new ArrayList<Boolean>();
     private static boolean [] reg=new boolean[16];
-    int overFlow=0;
+    int overFlow=1;
     int maxOverFlow=0;
     
     public void setRegLim(int lim) {
@@ -336,53 +337,68 @@ public class DecacCompiler {
     }
     public void initRegister () {
         Arrays.fill(reg,false);
-        Arrays.fill(stack,false);
     }
     public DVal allocRegister () {
-        int i=0;
-        for(i=2;i<regLim;i++) {
+        int i;
+        DVal regis;
+        for(i=4;i<regLim-1;i++) {
             if(reg[i]==false) {
                 reg[i]=true;
                 return Register.getR(i);
             }
         }
-        for(i=0;i<overFlow;i++) {
-            if(!stack[i]) {
-                stack[i]=true;
-                return new RegisterOffset(i,Register.SP);
+        for(i=0;i<overFlow-1;i++) {
+            if(!stack.get(i)) {
+                stack.set(i,true);
+                regis= new RegisterOffset(i+1,Register.SP);
+                return regis;
             }
         }
-        overFlow++;
         if (overFlow>maxOverFlow) {
             maxOverFlow=overFlow;
+            stack.add(true);
         }
-        return new RegisterOffset(overFlow,Register.SP);
+        else {
+            stack.set(overFlow-1,true);
+        }
+        //this.addInstruction(new LEA(new RegisterOffset(0,Register.SP),Register.R0));
+        this.addInstruction(new PUSH(Register.R0));
+        regis = new RegisterOffset(overFlow,Register.SP);
+        overFlow++;
+        return regis;
+    }
+    public int getOverFlow() {
+        return overFlow;
     }
     public void freeValue(DVal register) {
         register.free(this);
     }
     public void freeStack(int index) {
-        if(stack[index]=!false) {
-            if(index==overFlow)
+        int gap=index;
+        if(stack.get(index-1)) {
+            stack.set(index-1,false);
+            //System.out.println("Je libère l'indexe: "+(index-1));
+            while(gap==overFlow-2&&!stack.get(gap)&&overFlow-2>0) {
                 overFlow--;
-            stack[index]=false;
+                gap--;
+                this.addInstruction(new POP(Register.R0));
+            }
         }
-        
     }
     public void resetReg() {
-        for(int i=0;i<regLim;i++)  {
+        for(int i=0;i<regLim-1;i++)  {
             reg[i]=false;
         }
-        for(int i=0;i<stackLim;i++) {
-            stack[i]=false;
+        for(int i=0;i<maxOverFlow;i++) {
+            stack.set(i,false);
         }
-        while(overFlow>0) {
+        while(overFlow>1) {
             this.addInstruction(new POP(Register.R0));
             overFlow--;
         }
     }
     public void freeRegister(Register register) {
-        for(int i=0;i<regLim;i++) {
+        for(int i=0;i<regLim-1;i++) {
             if(register.equals(Register.getR(i))) {
                 if(reg[i]!=false){
                     reg[i]=false;
@@ -396,7 +412,7 @@ public class DecacCompiler {
         if(register.getRegister().equals(Register.GB)) {
             return register;
         }
-        return new RegisterOffset(register.getOffset()-overFlow,register.getRegister());
+        return new RegisterOffset(register.getOffset()-overFlow+1,register.getRegister());
     }
 
     //IfThenElse & While
@@ -483,5 +499,8 @@ public class DecacCompiler {
     }
     public boolean getPrintHex() {
         return printx;
+    }
+    public int getSizeOfConstantStack() {
+        return this.envTypes.size();
     }
 }
