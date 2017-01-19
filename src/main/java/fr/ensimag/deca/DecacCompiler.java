@@ -1,5 +1,5 @@
 package fr.ensimag.deca;
-//import fr.ensimag.deca.codegen.Method;
+
 import fr.ensimag.deca.context.BooleanType;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;

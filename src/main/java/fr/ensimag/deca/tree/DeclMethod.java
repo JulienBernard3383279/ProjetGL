@@ -14,6 +14,7 @@ import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.Label;
 import java.io.PrintStream;
 
 /**
@@ -59,6 +60,7 @@ public class DeclMethod extends AbstractDeclMethod{
             }
             EnvironmentExp methodEnv = new EnvironmentExp(classEnv);
             this.params.verifyListParam(compiler, currentClass,def,methodEnv);
+            def.setLabel(new Label("method:"+this.methodName.getName().getName()+"; class:"+t.toString()));
             this.methodName.setDefinition(def);
             classEnv.declare(methodName.getName(), def);
             currentClass.incNumberOfMethods();

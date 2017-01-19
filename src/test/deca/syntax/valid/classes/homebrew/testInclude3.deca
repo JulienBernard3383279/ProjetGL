@@ -1,0 +1,4 @@
+#include"classWithInclude.deca"
+
+{int i=5;
+}
