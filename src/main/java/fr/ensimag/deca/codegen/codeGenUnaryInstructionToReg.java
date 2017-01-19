@@ -13,6 +13,7 @@ import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
@@ -30,9 +31,8 @@ public class codeGenUnaryInstructionToReg {
             compiler.addInstruction(constructor.construct((GPRegister)reg));
         }
         else if(reg.isRegisterOffset()) {
-            compiler.addInstruction(new LOAD (compiler.translate((RegisterOffset)reg),Register.R0));
             compiler.addInstruction(constructor.construct(Register.R0));
-            compiler.addInstruction(new LEA(compiler.translate((RegisterOffset)reg),Register.R0));
+            compiler.addInstruction(new STORE(Register.R0,compiler.translate((RegisterOffset)reg)));
         }
         else {
             throw new UnsupportedOperationException("Not supposed to be called"); 

@@ -10,6 +10,7 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 
@@ -64,7 +65,7 @@ public class Assign extends AbstractBinaryExpr {
             compiler.addInstruction(new STORE((GPRegister)reg,addr));  
         }
         else if(reg.isRegisterOffset()) {
-            compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)reg),Register.R0));
+            compiler.addInstruction(new LEA(compiler.translate((RegisterOffset)reg),Register.R0));
             compiler.addInstruction(new STORE(Register.R0,addr)) ;
         }
         reg.free(compiler);

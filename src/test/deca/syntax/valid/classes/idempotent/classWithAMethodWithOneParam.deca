@@ -1,0 +1,7 @@
+class MyClass extends Object {
+	void dire(String s) {
+		print(s);
+		}
+
+ }
+

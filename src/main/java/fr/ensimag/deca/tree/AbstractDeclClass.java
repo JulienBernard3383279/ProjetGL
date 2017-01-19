@@ -14,8 +14,9 @@ public abstract class AbstractDeclClass extends Tree {
     
     protected AbstractIdentifier className;
     protected AbstractIdentifier superClass;
-
     protected ListDeclField field;
+    protected ListDeclMethod methods;
+    
     /**
      * Pass 1 of [SyntaxeContextuelle]. Verify that the class declaration is OK
      * without looking at its content.
@@ -36,5 +37,5 @@ public abstract class AbstractDeclClass extends Tree {
      */
     protected abstract void verifyClassBody(DecacCompiler compiler)
             throws ContextualError;
-
+    public abstract void buildMethodTabl(DecacCompiler compiler);
 }

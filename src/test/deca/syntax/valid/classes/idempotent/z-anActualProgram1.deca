@@ -1,0 +1,31 @@
+class Vector extends Object {
+	int x;
+	int y;
+	void setX(int x) {
+		(this.x = x);
+		}
+
+	void setY(int y) {
+		(this.y = y);
+		}
+
+	int getX() {
+		return x;
+		}
+
+	int getY() {
+		return y;
+		}
+
+ }
+
+{
+	Vector v;
+	(v = new Vector());
+	v.setX(1);
+	v.setY(2);
+	if (((v.getX() + v.getY()) == 3)) {
+		print("oh le beau test");
+	} else {
+	} 
+}

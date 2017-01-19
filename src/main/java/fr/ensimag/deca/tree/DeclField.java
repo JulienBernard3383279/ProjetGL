@@ -17,7 +17,7 @@ import java.io.PrintStream;
 
 /**
  *
- * @author pierre
+ * @author gl58
  */
 public class DeclField extends AbstractDeclField{
     
@@ -26,6 +26,12 @@ public class DeclField extends AbstractDeclField{
     public AbstractIdentifier fieldName;
     public AbstractInitialization init;
     
+    public DeclField(Visibility visib, AbstractIdentifier type, AbstractIdentifier fieldName, AbstractInitialization init) {
+        this.visib=visib;
+        this.type=type;
+        this.fieldName=fieldName;
+        this.init=init;
+    }
     /**
      * Verification d'un attribut (Passe 2)
      * @param compiler 
@@ -35,12 +41,13 @@ public class DeclField extends AbstractDeclField{
     @Override
     protected void verifyDeclField(DecacCompiler compiler, ClassDefinition currentClass,int index) throws ContextualError {
         Type t;
-        EnvironmentExp localEnv = currentClass.getMembers();
+        EnvironmentExp classEnv = currentClass.getMembers();
         try {
             t = this.type.verifyType(compiler);
             FieldDefinition def = new FieldDefinition(t,this.type.getLocation(),this.visib,currentClass,index);
             this.fieldName.setDefinition(def);
-            localEnv.declare(this.fieldName.getName(), def);
+            classEnv.declare(this.fieldName.getName(), def);
+            currentClass.incNumberOfFields();
         } catch (ContextualError e) {
             throw e;
         } catch (EnvironmentExp.DoubleDefException d) {
@@ -52,7 +59,7 @@ public class DeclField extends AbstractDeclField{
         }
         
         try {
-            this.init.verifyInitialization(compiler, t, localEnv, currentClass);
+            this.init.verifyInitialization(compiler, t, classEnv, currentClass);
         } catch (ContextualError i) {
             throw i;
         }
@@ -60,15 +67,14 @@ public class DeclField extends AbstractDeclField{
     
     @Override
     public void decompile(IndentPrintStream s) {
-        if(visib.equals("PROTECTED"))
-            s.print("protected");
-        else 
-            s.print("public");           
-        s.print(" ");
+        if (visib.equals(Visibility.PROTECTED)) {
+            s.print("protected ");
+        }
         type.decompile(s);
         s.print(" ");
         fieldName.decompile(s);
         init.decompile(s);
+        s.print(";");
     }
     
     @Override

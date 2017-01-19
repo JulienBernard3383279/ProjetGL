@@ -5,6 +5,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.ERROR;
 import fr.ensimag.ima.pseudocode.instructions.HALT;
@@ -49,6 +50,7 @@ public class Main extends AbstractMain {
 
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
+        compiler.addComment("Seprate constant stack and temporary variables");
         compiler.addComment("Beginning of main instructions:");
         declVariables.codeGenListVar(compiler);
         insts.codeGenListInst(compiler);
@@ -59,6 +61,7 @@ public class Main extends AbstractMain {
             compiler.addInstruction(new WSTR("Erreur : pile pleine"));
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
+            compiler.addInstructionAtProgramBeginning(new ADDSP(compiler.getSizeOfConstantStack()));
             compiler.addInstructionAtProgramBeginning(new BOV(pilePleineLabel));
             compiler.addInstructionAtProgramBeginning(new TSTO(compiler.argTSTO()));
             compiler.addLabel(compiler.getIOLabel());

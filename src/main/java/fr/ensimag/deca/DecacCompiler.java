@@ -1,4 +1,5 @@
 package fr.ensimag.deca;
+//import fr.ensimag.deca.codegen.Method;
 import fr.ensimag.deca.context.BooleanType;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
@@ -17,6 +18,8 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.FloatType;
 import fr.ensimag.deca.context.IntType;
+import fr.ensimag.deca.context.MethodDefinition;
+import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.context.VariableDefinition;
@@ -29,7 +32,9 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -97,18 +102,29 @@ public class DecacCompiler {
         Symbol symFloat = symbols.create("float");
         Symbol symVoid = symbols.create("void");
         Symbol symObj = symbols.create("Object");
+        Symbol symEquals = symbols.create("equals");
         // create definitions from symbols
         TypeDefinition defInt = new TypeDefinition(new IntType(symInt),Location.BUILTIN);
         TypeDefinition defBool = new TypeDefinition(new BooleanType(symBool),Location.BUILTIN);
         TypeDefinition defFloat = new TypeDefinition(new FloatType(symFloat),Location.BUILTIN);
         TypeDefinition defVoid = new TypeDefinition(new VoidType(symVoid),Location.BUILTIN);
         ClassDefinition defObj = new ClassDefinition(new ClassType(symObj,Location.BUILTIN,null),Location.BUILTIN,null);
+        Signature sigEq = new Signature();
+        sigEq.add(new ClassType(symObj,Location.BUILTIN,null));
+        MethodDefinition defEq = new MethodDefinition(new BooleanType(symBool),Location.BUILTIN,sigEq,0);
+        
         // add types to envTypes
         this.envTypes.put(symInt, defInt);
         this.envTypes.put(symBool, defBool);
         this.envTypes.put(symFloat, defFloat);
         this.envTypes.put(symVoid, defVoid);
         this.envTypes.put(symObj, defObj);
+        try {
+            defObj.getMembers().declare(symEquals, defEq);
+            defObj.incNumberOfMethods();
+        } catch (EnvironmentExp.DoubleDefException d) {
+            
+        }
     }
 
     /**
@@ -164,6 +180,9 @@ public class DecacCompiler {
      */
     public void addInstruction(Instruction instruction, String comment) {
         program.addInstruction(instruction, comment);
+    }
+    public void addASMCode(String code) {
+        program.addASMCode(code);
     }
     
     /**
@@ -312,10 +331,9 @@ public class DecacCompiler {
     }
     
     private int regLim = 16 ;
-    private static int stackLim = 15;
-    private static boolean [] stack=new boolean[stackLim];
+    private final ArrayList<Boolean> stack=new ArrayList<Boolean>();
     private static boolean [] reg=new boolean[16];
-    int overFlow=0;
+    int overFlow=1;
     int maxOverFlow=0;
     
     public void setRegLim(int lim) {
@@ -323,53 +341,67 @@ public class DecacCompiler {
     }
     public void initRegister () {
         Arrays.fill(reg,false);
-        Arrays.fill(stack,false);
     }
     public DVal allocRegister () {
-        int i=0;
-        for(i=2;i<regLim;i++) {
+        int i;
+        DVal regis;
+        for(i=4;i<regLim-1;i++) {
             if(reg[i]==false) {
                 reg[i]=true;
                 return Register.getR(i);
             }
         }
-        for(i=0;i<overFlow;i++) {
-            if(!stack[i]) {
-                stack[i]=true;
-                return new RegisterOffset(i,Register.SP);
+        for(i=0;i<overFlow-1;i++) {
+            if(!stack.get(i)) {
+                stack.set(i,true);
+                regis= new RegisterOffset(i+1,Register.SP);
+                return regis;
             }
         }
-        overFlow++;
         if (overFlow>maxOverFlow) {
             maxOverFlow=overFlow;
+            stack.add(true);
         }
-        return new RegisterOffset(overFlow,Register.SP);
+        else {
+            stack.set(overFlow-1,true);
+        }
+        this.addInstruction(new PUSH(Register.R0));
+        regis = new RegisterOffset(overFlow,Register.SP);
+        overFlow++;
+        return regis;
+    }
+    public int getOverFlow() {
+        return overFlow;
     }
     public void freeValue(DVal register) {
         register.free(this);
     }
     public void freeStack(int index) {
-        if(stack[index]=!false) {
-            if(index==overFlow)
+        int gap=index;
+        if(stack.get(index-1)) {
+            stack.set(index-1,false);
+            //System.out.println("Je libère l'indexe: "+(index-1));
+            while(gap==overFlow-2&&!stack.get(gap)&&overFlow-2>0) {
                 overFlow--;
-            stack[index]=false;
+                gap--;
+                this.addInstruction(new POP(Register.R0));
+            }
         }
-        
     }
     public void resetReg() {
-        for(int i=0;i<regLim;i++)  {
+        for(int i=0;i<regLim-1;i++)  {
             reg[i]=false;
         }
-        for(int i=0;i<stackLim;i++) {
-            stack[i]=false;
+        for(int i=0;i<maxOverFlow;i++) {
+            stack.set(i,false);
         }
-        while(overFlow>0) {
+        while(overFlow>1) {
             this.addInstruction(new POP(Register.R0));
             overFlow--;
         }
     }
     public void freeRegister(Register register) {
-        for(int i=0;i<regLim;i++) {
+        for(int i=0;i<regLim-1;i++) {
             if(register.equals(Register.getR(i))) {
                 if(reg[i]!=false){
                     reg[i]=false;
@@ -383,7 +415,7 @@ public class DecacCompiler {
         if(register.getRegister().equals(Register.GB)) {
             return register;
         }
-        return new RegisterOffset(register.getOffset()-overFlow,register.getRegister());
+        return new RegisterOffset(register.getOffset()-overFlow+1,register.getRegister());
     }
 
     //IfThenElse & While
@@ -420,7 +452,7 @@ public class DecacCompiler {
     
     public DAddr allocateVar() {
         this.varCounter++;
-        return new RegisterOffset(this.varCounter,Register.GB);
+        return new RegisterOffset(this.varCounter+this.methodCounter,Register.GB);
     }
     public void addVarToTable(String sym,VariableDefinition def) {
         this.varMap.put(sym, def);
@@ -470,5 +502,15 @@ public class DecacCompiler {
     }
     public boolean getPrintHex() {
         return printx;
+    }
+    public int getSizeOfConstantStack() {
+        return this.varCounter;
+    }
+    private int methodCounter = 0;
+    public int getCurrentMethodNumber() {
+        return methodCounter;
+    }
+    public void addMethod(int offSet) {
+        methodCounter += offSet;
     }
 }

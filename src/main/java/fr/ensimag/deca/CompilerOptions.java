@@ -69,12 +69,13 @@ public class CompilerOptions {
         for (String str : args) {
             if (waitingForNbRegisters) {
                 nbRegisters=Integer.parseInt(str);
-                if (nbRegisters<4 || nbRegisters>16) {
+                if (nbRegisters<2 || nbRegisters>16) {
                     throw new UnsupportedOperationException("The number of registers must be set between 4 and 16.");
                 }
                 waitingForNbRegisters=false;
             }
-            switch(str) {
+            else {
+                switch(str) {
                 case "-b" :
                     printBanner=true;
                     if (args.length!=1) {
@@ -102,6 +103,7 @@ public class CompilerOptions {
                 default:
                     sourceFiles.add(new File(str));
                     break;
+                }
             }
             if (verif && parse) {
                 throw new UnsupportedOperationException("Options -p and -v are incompatible.");

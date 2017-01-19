@@ -80,10 +80,21 @@ public class Deadstore {
             
             else if(var instanceof AbstractPrint){
                 AbstractPrint varPrint=(AbstractPrint) var;
-                this.arr2.add(varPrint.getArguments().getList());
+                Iterator<AbstractExpr> k=varPrint.getArguments().getList().iterator();
+                while(i.hasNext()){   //on ajoute tous arguments du print invoqué dans arr2 du deadstore
+                    AbstractExpr expr=k.next();
+                    this.arr2.add(expr);
+                }   
             }
-            else if(var instanceof AbstractExpr){
-                
+            
+            else if(var instanceof CallMethod){
+                CallMethod varMethod=(CallMethod) var;
+                Iterator<AbstractExpr> it=varMethod.getArgs().getList().iterator();
+                while(it.hasNext()){ //idem que pour abstractprint
+                    AbstractExpr expr=it.next();
+                    this.arr2.add(expr);
+                    
+                }
             }
         }
     }
