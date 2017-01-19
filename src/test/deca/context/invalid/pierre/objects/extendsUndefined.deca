@@ -1,0 +1,7 @@
+class A {
+    boolean ok;
+}
+class B extends C {
+    boolean nok;
+}
+{}

@@ -1,0 +1,7 @@
+class A {
+    boolean ok;
+}
+class A {
+    boolean nok;
+}
+{}
