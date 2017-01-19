@@ -8,7 +8,17 @@ options {
    superClass = AbstractDecaLexer;
 }
 
+
+// which packages should be imported?
+@header {
+    import java.util.*;
+}
+
+
 @members {
+    String parseString(String s) {
+        return s.substring(s.indexOf("\"")+1,s.lastIndexOf("\""));                
+    }
 }
 
 // Deca lexer rules.
@@ -90,7 +100,8 @@ MULTI_LINE_STRING: '"' (STRING_CAR | EOL | '\\"' | '\\\\')* '"';
 
 // Regles sur les includes
 fragment FILENAME: (LETTER | DIGIT | '.' | '-' | '_')+;
-INCLUDE: '#include' (' ')* '"' FILENAME '"';
 
-
-
+INCLUDE: '#include' (' ')* '"' FILENAME '"' {
+doInclude(getText());
+skip(); 
+};
