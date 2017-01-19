@@ -60,7 +60,7 @@ public class DeclMethod extends AbstractDeclMethod{
             }
             EnvironmentExp methodEnv = new EnvironmentExp(classEnv);
             this.params.verifyListParam(compiler, currentClass,def,methodEnv);
-            def.setLabel(new Label("method:"+this.methodName.getName().getName()+"; class:"+t.toString()));
+            def.setLabel(new Label("method:"+this.methodName.getName().getName()+";class:"+currentClass.getType().getName().getName()));
             this.methodName.setDefinition(def);
             classEnv.declare(methodName.getName(), def);
             currentClass.incNumberOfMethods();
