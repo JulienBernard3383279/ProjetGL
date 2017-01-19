@@ -49,10 +49,4 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod>{
             }
         }
     }
-    protected void codeGenListMethod(DecacCompiler compiler) {
-        for (AbstractDeclMethod i : getList()) {
-            //compiler.resetReg();
-            i.addMethodTabl(compiler);
-        }
-    }
 }
