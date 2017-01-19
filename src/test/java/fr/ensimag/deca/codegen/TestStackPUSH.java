@@ -6,8 +6,9 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
@@ -19,7 +20,10 @@ public class TestStackPUSH {
     @Test
     public void testStackunStack() {
         compiler.setRegLim(2);
-        RegisterOffset reg = (RegisterOffset)compiler.allocRegister();
+        DVal temp;
+        temp = compiler.allocRegister();
+        assertTrue(temp.isRegisterOffset());
+        RegisterOffset reg = (RegisterOffset) temp;
         RegisterOffset reg1 = (RegisterOffset)compiler.allocRegister();
         assertEquals(reg.getOffset(),1);
         assertEquals(reg1.getOffset(),2);
