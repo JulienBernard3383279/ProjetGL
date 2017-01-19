@@ -1,0 +1,7 @@
+class A extends Object {
+    boolean ok;
+}
+class B extends float {
+    boolean nok;
+}
+{}

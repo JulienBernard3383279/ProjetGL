@@ -80,7 +80,7 @@ public class ClassDefinition extends TypeDefinition {
         } else {
             parent = null;
         }
-       
+               
         members = new EnvironmentExp(parent);
 
         this.superClass = superClass;
@@ -117,4 +117,23 @@ public class ClassDefinition extends TypeDefinition {
         }
         return MethodsSet;
     }
+    
+    public boolean isCastCompatible(ClassDefinition otherClass) {
+        ClassDefinition curr = this;
+        while (curr != null) {
+            if (otherClass.getType().sameType(curr.getType())) {
+                return true;
+            }
+            curr = curr.getSuperClass();
+        }
+        curr = otherClass;
+        while (curr != null) {
+            if (curr.getType().sameType(this.getType())) {
+                return true;
+            }
+            curr = curr.getSuperClass();
+        }
+        return false;
+    }
+    
 }

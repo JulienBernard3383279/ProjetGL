@@ -7,6 +7,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
@@ -30,7 +31,30 @@ public class CastExpr extends AbstractExpr{
     
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Type t1, t2;
+        try {
+            t1 = type.verifyType(compiler);
+            t2 = expr.verifyExpr(compiler, localEnv, currentClass);
+        } catch (ContextualError e) {
+            throw e;
+        }
+        
+        if (!t1.isClass() && !t2.isClass() && !t1.isFloat() && !t2.isInt()) {
+            throw new ContextualError("incompatible types for cast",this.getLocation());
+        } 
+        if (t1.isClass() && !t2.isClass()) {
+            throw new ContextualError("type cast to class",this.getLocation());
+        }
+        if (!t1.isClass() && t2.isClass()) {
+            throw new ContextualError("class cast to type",this.getLocation());
+        }
+        ClassType ct1 = (ClassType)t1;
+        ClassType ct2 = (ClassType)t2;
+        if (! ct1.getDefinition().isCastCompatible(ct2.getDefinition())) {
+            throw new ContextualError("classes incompatible for cast",this.getLocation());
+        }
+        this.setType(t1);
+        return t1;
     }
 
     @Override

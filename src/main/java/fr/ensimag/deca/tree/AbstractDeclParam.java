@@ -17,5 +17,5 @@ import fr.ensimag.deca.context.MethodDefinition;
  */
 public abstract class AbstractDeclParam extends Tree{
     
-    protected abstract void verifyDeclParam(DecacCompiler compiler, ClassDefinition currentClass, MethodDefinition currentMethod, EnvironmentExp localEnv) throws ContextualError;
+    protected abstract void verifyDeclParam(DecacCompiler compiler, ClassDefinition currentClass, MethodDefinition currentMethod, EnvironmentExp localEnv) throws ContextualError; 
 }
