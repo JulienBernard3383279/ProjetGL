@@ -35,15 +35,16 @@ public class CallMethod extends AbstractExpr {
     
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        /*try {
-            name.verifyExpr(compiler,ct.getDefinition().getMembers(),currentClass);
-            if (ct.getDefinition().getMembers().get(name.getName())==null) {
+        Type t;
+        try {
+            t = name.verifyExpr(compiler,currentClass.getMembers(),currentClass);
+            if (currentClass.getMembers().get(name.getName())==null) {
                 throw new ContextualError("no such method in class",this.name.getLocation());
             }
-            if (! ct.getDefinition().getMembers().get(name.getName()).isMethod()) {
+            if (! currentClass.getMembers().get(name.getName()).isMethod()) {
                 throw new ContextualError("identifier is not a method",this.name.getLocation());
             }
-            def = ct.getDefinition().getMembers().get(name.getName()).asMethodDefinition("",this.getLocation());
+            MethodDefinition def = currentClass.getMembers().get(name.getName()).asMethodDefinition("",this.getLocation());
             Signature sig = def.getSignature();
             if (sig.size()!=args.size()) {
                 throw new ContextualError("number of parameters does not match signature",this.getLocation());
@@ -60,8 +61,9 @@ public class CallMethod extends AbstractExpr {
             }
         } catch (ContextualError e) {
             throw e;
-        }*/
-        return null;
+        }
+        this.setType(t);
+        return t;
     }
 
     @Override
