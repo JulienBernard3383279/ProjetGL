@@ -345,20 +345,20 @@ public class DecacCompiler {
     public DVal allocRegister () {
         int i;
         DVal regis;
-        for(i=4;i<regLim-1;i++) {
+        for(i=2;i<regLim;i++) {
             if(reg[i]==false) {
                 reg[i]=true;
                 return Register.getR(i);
             }
         }
-        for(i=0;i<overFlow-1;i++) {
+        for(i=0;i<overFlow-2;i++) {
             if(!stack.get(i)) {
                 stack.set(i,true);
                 regis= new RegisterOffset(i+1,Register.SP);
                 return regis;
             }
         }
-        if (overFlow>maxOverFlow) {
+        if (overFlow>maxOverFlow ) {
             maxOverFlow=overFlow;
             stack.add(true);
         }
@@ -392,7 +392,7 @@ public class DecacCompiler {
         for(int i=0;i<regLim-1;i++)  {
             reg[i]=false;
         }
-        for(int i=0;i<maxOverFlow;i++) {
+        for(int i=0;i<maxOverFlow-1;i++) {
             stack.set(i,false);
         }
         while(overFlow>1) {
@@ -401,7 +401,7 @@ public class DecacCompiler {
         }
     }
     public void freeRegister(Register register) {
-        for(int i=0;i<regLim-1;i++) {
+        for(int i=0;i<regLim;i++) {
             if(register.equals(Register.getR(i))) {
                 if(reg[i]!=false){
                     reg[i]=false;
@@ -470,8 +470,8 @@ public class DecacCompiler {
     }
     
     public int argTSTO() {
-        if (maxOverFlow + tstoVariableCounter - this.compilerOptions.getNbRegisters() > 0) {
-            return maxOverFlow + tstoVariableCounter - this.compilerOptions.getNbRegisters();
+        if (maxOverFlow-1 + tstoVariableCounter /*- this.compilerOptions.getNbRegisters()*/ > 0) {
+            return maxOverFlow -1+ tstoVariableCounter /*- this.compilerOptions.getNbRegisters()*/;
         }
         else {
             return 0;
