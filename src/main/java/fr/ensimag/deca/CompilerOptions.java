@@ -56,7 +56,7 @@ public class CompilerOptions {
     private boolean parallel = false;
     private boolean printBanner = false;
     private List<File> sourceFiles = new ArrayList<File>();
-    private int nbRegisters = 15;
+    private int nbRegisters = 16;
     private boolean waitingForNbRegisters=false;
     private boolean checks=true;
     private boolean parse=false;

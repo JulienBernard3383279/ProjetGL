@@ -24,17 +24,15 @@ import java.util.Iterator;
  */
 public class DotMethod extends AbstractExpr {
     private AbstractExpr instance;
-    private AbstractIdentifier name;
-    private ListExpr params;
+    private CallMethod method;
     
     public DotMethod(AbstractExpr expr, AbstractIdentifier name, ListExpr list) {
         this.instance=expr;
-        this.name=name;
-        this.params=list;
+        this.method=new CallMethod(name,list);
     }
 
     @Override
-    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
+    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError { 
         Type t;
         ClassType ct;
         MethodDefinition def;
@@ -44,34 +42,12 @@ public class DotMethod extends AbstractExpr {
                 throw new ContextualError("expression is not instance of a class",this.instance.getLocation());
             }
             ct = (ClassType) t;
-            name.verifyExpr(compiler,ct.getDefinition().getMembers(),currentClass);
-            if (ct.getDefinition().getMembers().get(name.getName())==null) {
-                throw new ContextualError("no such method in class",this.name.getLocation());
-            }
-            if (! ct.getDefinition().getMembers().get(name.getName()).isMethod()) {
-                throw new ContextualError("identifier is not a method",this.name.getLocation());
-            }
-            def = ct.getDefinition().getMembers().get(name.getName()).asMethodDefinition("",this.getLocation());
-            Signature sig = def.getSignature();
-            if (sig.size()!=params.size()) {
-                throw new ContextualError("number of parameters does not match signature",this.getLocation());
-            }
-            Iterator<AbstractExpr> it = this.params.iterator();
-            int index = 0;
-            while (it.hasNext()) {
-                AbstractExpr e = it.next();
-                t = e.verifyExpr(compiler,localEnv,currentClass);
-                if (! t.sameType(sig.paramNumber(index))) {
-                    throw new ContextualError("parameter type does not match signature",e.getLocation());
-                }
-                index = index + 1;
-            }
+            t = method.verifyExpr(compiler, localEnv, currentClass);
         } catch (ContextualError e) {
             throw e;
-        }
-        t = def.getType();
+        }    
         this.setType(t);
-        return t;
+        return t; 
     }
 
     @Override
@@ -83,17 +59,13 @@ public class DotMethod extends AbstractExpr {
     public void decompile(IndentPrintStream s) {
         instance.decompile(s);
         s.print(".");
-        name.decompile(s);
-        s.print("(");
-        params.decompile(s);
-        s.print(")");
+        method.decompile(s);
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         instance.prettyPrint(s,prefix,false);
-        name.prettyPrint(s,prefix,false);
-        params.prettyPrint(s,prefix,true);
+        method.prettyPrint(s,prefix,true);
     }
 
     @Override

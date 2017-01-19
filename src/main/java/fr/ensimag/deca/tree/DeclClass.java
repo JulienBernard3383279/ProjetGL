@@ -86,5 +86,9 @@ public class DeclClass extends AbstractDeclClass {
     protected void iterChildren(TreeFunction f) {
         throw new UnsupportedOperationException("Not yet supported");
     }
+    @Override 
+    public void buildMethodTabl(DecacCompiler compiler) {
+        
+    }
 
 }

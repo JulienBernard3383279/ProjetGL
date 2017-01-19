@@ -1,0 +1,15 @@
+class MyClass extends Object {
+	void dire(String s) {
+		print(s);
+		}
+
+	void direEtRespirer(String s) {
+		println(s);
+		}
+
+	void neRienDire() {
+		print("");
+		}
+
+ }
+

@@ -1,0 +1,6 @@
+class MyClass extends Object {
+	protected int x;
+	int y;
+	protected float z;
+ }
+

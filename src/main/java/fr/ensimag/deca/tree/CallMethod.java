@@ -9,10 +9,15 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.MethodDefinition;
+import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BSR;
 import java.io.PrintStream;
+import java.util.Iterator;
 
 /**
  *
@@ -27,19 +32,56 @@ public class CallMethod extends AbstractExpr {
         this.name=name;
         this.args=args;
     }
+    
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        /*try {
+            name.verifyExpr(compiler,ct.getDefinition().getMembers(),currentClass);
+            if (ct.getDefinition().getMembers().get(name.getName())==null) {
+                throw new ContextualError("no such method in class",this.name.getLocation());
+            }
+            if (! ct.getDefinition().getMembers().get(name.getName()).isMethod()) {
+                throw new ContextualError("identifier is not a method",this.name.getLocation());
+            }
+            def = ct.getDefinition().getMembers().get(name.getName()).asMethodDefinition("",this.getLocation());
+            Signature sig = def.getSignature();
+            if (sig.size()!=args.size()) {
+                throw new ContextualError("number of parameters does not match signature",this.getLocation());
+            }
+            Iterator<AbstractExpr> it = this.args.iterator();
+            int index = 0;
+            while (it.hasNext()) {
+                AbstractExpr e = it.next();
+                t = e.verifyExpr(compiler,localEnv,currentClass);
+                if (! t.sameType(sig.paramNumber(index))) {
+                    throw new ContextualError("parameter type does not match signature",e.getLocation());
+                }
+                index = index + 1; 
+            }
+        } catch (ContextualError e) {
+            throw e;
+        }*/
+        return null;
     }
 
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(compiler!=null)
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        else {
+            compiler =new DecacCompiler(null,null);
+            Label l = ((MethodDefinition)(compiler.getEnvTypes().get(name))).getLabel();
+            compiler.addInstruction(new BSR(l));
+            return null;
+        }
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        name.decompile(s);
+        s.print("(");
+        args.decompile(s);
+        s.print(")");
     }
 
     @Override
@@ -52,5 +94,4 @@ public class CallMethod extends AbstractExpr {
     protected void iterChildren(TreeFunction f) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }

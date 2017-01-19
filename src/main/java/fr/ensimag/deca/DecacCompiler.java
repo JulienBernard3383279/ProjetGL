@@ -1,4 +1,5 @@
 package fr.ensimag.deca;
+//import fr.ensimag.deca.codegen.Method;
 import fr.ensimag.deca.context.BooleanType;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
@@ -180,6 +181,9 @@ public class DecacCompiler {
     public void addInstruction(Instruction instruction, String comment) {
         program.addInstruction(instruction, comment);
     }
+    public void addASMCode(String code) {
+        program.addASMCode(code);
+    }
     
     /**
      * @see 
@@ -341,27 +345,26 @@ public class DecacCompiler {
     public DVal allocRegister () {
         int i;
         DVal regis;
-        for(i=4;i<regLim-1;i++) {
+        for(i=2;i<regLim;i++) {
             if(reg[i]==false) {
                 reg[i]=true;
                 return Register.getR(i);
             }
         }
-        for(i=0;i<overFlow-1;i++) {
+        for(i=0;i<overFlow-2;i++) {
             if(!stack.get(i)) {
                 stack.set(i,true);
                 regis= new RegisterOffset(i+1,Register.SP);
                 return regis;
             }
         }
-        if (overFlow>maxOverFlow) {
+        if (overFlow>maxOverFlow ) {
             maxOverFlow=overFlow;
             stack.add(true);
         }
         else {
             stack.set(overFlow-1,true);
         }
-        //this.addInstruction(new LEA(new RegisterOffset(0,Register.SP),Register.R0));
         this.addInstruction(new PUSH(Register.R0));
         regis = new RegisterOffset(overFlow,Register.SP);
         overFlow++;
@@ -389,7 +392,7 @@ public class DecacCompiler {
         for(int i=0;i<regLim-1;i++)  {
             reg[i]=false;
         }
-        for(int i=0;i<maxOverFlow;i++) {
+        for(int i=0;i<maxOverFlow-1;i++) {
             stack.set(i,false);
         }
         while(overFlow>1) {
@@ -398,7 +401,7 @@ public class DecacCompiler {
         }
     }
     public void freeRegister(Register register) {
-        for(int i=0;i<regLim-1;i++) {
+        for(int i=0;i<regLim;i++) {
             if(register.equals(Register.getR(i))) {
                 if(reg[i]!=false){
                     reg[i]=false;
@@ -449,7 +452,7 @@ public class DecacCompiler {
     
     public DAddr allocateVar() {
         this.varCounter++;
-        return new RegisterOffset(this.varCounter,Register.GB);
+        return new RegisterOffset(this.varCounter+this.methodCounter,Register.GB);
     }
     public void addVarToTable(String sym,VariableDefinition def) {
         this.varMap.put(sym, def);
@@ -467,8 +470,8 @@ public class DecacCompiler {
     }
     
     public int argTSTO() {
-        if (maxOverFlow + tstoVariableCounter - this.compilerOptions.getNbRegisters() > 0) {
-            return maxOverFlow + tstoVariableCounter - this.compilerOptions.getNbRegisters();
+        if (maxOverFlow-1 + tstoVariableCounter /*- this.compilerOptions.getNbRegisters()*/ > 0) {
+            return maxOverFlow -1+ tstoVariableCounter /*- this.compilerOptions.getNbRegisters()*/;
         }
         else {
             return 0;
@@ -502,5 +505,12 @@ public class DecacCompiler {
     }
     public int getSizeOfConstantStack() {
         return this.varCounter;
+    }
+    private int methodCounter = 0;
+    public int getCurrentMethodNumber() {
+        return methodCounter;
+    }
+    public void addMethod(int offSet) {
+        methodCounter += offSet;
     }
 }

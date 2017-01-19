@@ -32,12 +32,12 @@ public class MethodAsmBody extends AbstractMethodBody {
     
     @Override
     protected void codeGenMethodBody(DecacCompiler compiler) {
-        
+        compiler.addASMCode(this.text);
     }
     
     @Override
     public void decompile(IndentPrintStream s) {
-        s.print("(\""+text+"\");");
+        s.print("asm (");s.println(text+");");
     }
     
     @Override
