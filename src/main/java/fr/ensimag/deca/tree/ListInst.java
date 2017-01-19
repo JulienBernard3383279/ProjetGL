@@ -24,9 +24,10 @@ public class ListInst extends TreeList<AbstractInst> {
      * @param returnType
      *          corresponds to "return" attribute (void in the main bloc).
      */    
-    public void verifyListInst(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass, Type returnType)
-            throws ContextualError {
+    
+    
+    
+    public void verifyListInst(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass, Type returnType) throws ContextualError {
         Iterator<AbstractInst> it = this.iterator();
         while (it.hasNext()) {
             try {
@@ -35,7 +36,6 @@ public class ListInst extends TreeList<AbstractInst> {
                 throw e;
             }
         }
-        
     }
 
     public void codeGenListInst(DecacCompiler compiler) {
