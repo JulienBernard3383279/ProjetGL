@@ -9,9 +9,12 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BSR;
 import java.io.PrintStream;
 
 /**
@@ -34,7 +37,14 @@ public class CallMethod extends AbstractExpr {
 
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(compiler!=null)
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        else {
+            compiler =new DecacCompiler(null,null);
+            Label l = ((MethodDefinition)(compiler.getEnvTypes().get(name))).getLabel();
+            compiler.addInstruction(new BSR(l));
+            return null;
+        }
     }
 
     @Override
@@ -55,5 +65,4 @@ public class CallMethod extends AbstractExpr {
     protected void iterChildren(TreeFunction f) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }
