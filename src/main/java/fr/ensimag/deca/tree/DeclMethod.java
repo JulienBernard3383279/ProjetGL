@@ -113,4 +113,8 @@ public class DeclMethod extends AbstractDeclMethod{
         body.prettyPrint(s,prefix,true);
         
     }
+    @Override 
+    public void codeGenBody(DecacCompiler compiler){
+        this.body.codeGenMethodBody(compiler);
+    }
 }

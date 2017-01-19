@@ -12,6 +12,7 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import java.io.PrintStream;
 
 /**
@@ -39,7 +40,11 @@ public class MethodBody extends AbstractMethodBody{
     
     @Override
     protected void codeGenMethodBody(DecacCompiler compiler) {
+        TSTO tsto_inst=new TSTO(0);
+        compiler.addInstruction(tsto_inst);
         
+        //TODO
+        //tsto_inst.setValue(valeur_a_set);
     }
     
     @Override

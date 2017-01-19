@@ -490,6 +490,10 @@ public class DecacCompiler {
     public Label getOVLabel() {
         return OVArith;
     }
+    private Label HeapOV = new Label("heap_overflow_error");
+    public Label getHeapOV() {
+        return OVArith;
+    }
     private boolean printx=false;
     public void setPrintHex(boolean value) {
         printx=value;

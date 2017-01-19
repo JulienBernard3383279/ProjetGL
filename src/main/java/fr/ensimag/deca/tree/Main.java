@@ -72,6 +72,10 @@ public class Main extends AbstractMain {
             compiler.addInstruction(new WSTR("Error: Arithmetic Overflow"));
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
+            compiler.addLabel(compiler.getHeapOV());
+            compiler.addInstruction(new WSTR("Error: Heap OverFlow"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
         }
     }
     

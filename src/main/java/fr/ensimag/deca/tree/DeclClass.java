@@ -8,6 +8,7 @@ import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -93,4 +94,11 @@ public class DeclClass extends AbstractDeclClass {
         ((ClassDefinition)compiler.getEnvTypes().get(this.className.getName())).write(compiler);
     }
 
+    @Override
+    public void generateMethodBody(DecacCompiler compiler) {
+        for(AbstractDeclMethod a : super.methods.getList()) {
+            a.codeGenBody(compiler);
+        }
+    }
+    
 }

@@ -17,4 +17,5 @@ public abstract class AbstractDeclMethod extends Tree{
     
     protected abstract void verifyDeclMethod(DecacCompiler compiler, ClassDefinition currentClass,int index) throws ContextualError;
     protected abstract void verifyMethodBody(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError;
+    public abstract void codeGenBody(DecacCompiler compiler);
 }

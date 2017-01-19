@@ -90,7 +90,6 @@ public class ClassDefinition extends TypeDefinition {
     public ClassMethodSet write(DecacCompiler compiler) {
         if(!writen) {
             writen = true;
-            //TODO écrire la table de la classe 
             if(superClass!=null) 
                 MethodsSet= new ClassMethodSet(this.superClass.write(compiler));
             else 

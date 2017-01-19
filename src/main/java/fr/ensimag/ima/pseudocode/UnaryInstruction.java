@@ -10,7 +10,7 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2017
  */
 public abstract class UnaryInstruction extends Instruction {
-    private Operand operand;
+    protected Operand operand;
 
     @Override
     void displayOperands(PrintStream s) {
