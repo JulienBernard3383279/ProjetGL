@@ -23,5 +23,7 @@ public abstract class ExpDefinition extends Definition {
     public ExpDefinition(Type type, Location location) {
         super(type, location);
     }
-
+    public boolean isMethod() {
+        return false;
+    }
 }

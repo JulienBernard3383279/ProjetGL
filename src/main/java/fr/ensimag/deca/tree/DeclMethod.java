@@ -86,4 +86,9 @@ public class DeclMethod extends AbstractDeclMethod{
         body.prettyPrint(s,prefix,true);
         
     }
+    @Override
+    public void addMethodTabl(DecacCompiler compiler) {
+        MethodDefinition def = (MethodDefinition)compiler.getEnvTypes().get(this.methodName.getName());
+        //int stackPos = def.getIndex()+compiler.
+    }
 }

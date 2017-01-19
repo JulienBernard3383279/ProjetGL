@@ -448,7 +448,7 @@ public class DecacCompiler {
     //DeclVar
     
     private Map<String, VariableDefinition> varMap = new HashMap();
-    int varCounter = 0;
+    private int varCounter = 0;
     
     public DAddr allocateVar() {
         this.varCounter++;
@@ -463,15 +463,9 @@ public class DecacCompiler {
     
     //TSTO
     
-    private int tstoVariableCounter=0;
-    
-    public void countVariable() {
-        tstoVariableCounter++;
-    }
-    
     public int argTSTO() {
-        if (maxOverFlow-1 + tstoVariableCounter /*- this.compilerOptions.getNbRegisters()*/ > 0) {
-            return maxOverFlow -1+ tstoVariableCounter /*- this.compilerOptions.getNbRegisters()*/;
+        if (maxOverFlow-1 + varCounter + this.methodCounter/*- this.compilerOptions.getNbRegisters()*/ > 0) {
+            return maxOverFlow -1+ varCounter+this.methodCounter /*- this.compilerOptions.getNbRegisters()*/;
         }
         else {
             return 0;
