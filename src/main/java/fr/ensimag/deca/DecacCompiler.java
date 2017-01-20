@@ -513,7 +513,7 @@ public class DecacCompiler {
     }
     private Label HeapOV = new Label("heap_overflow_error");
     public Label getHeapOV() {
-        return OVArith;
+        return HeapOV;
     }
     private boolean printx=false;
     public void setPrintHex(boolean value) {
