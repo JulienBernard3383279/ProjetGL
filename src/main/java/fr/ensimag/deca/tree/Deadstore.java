@@ -115,9 +115,10 @@ public class Deadstore {
         Iterator<AbstractDeclVar> i=this.arr1.iterator();
         while(i.hasNext()){
             AbstractDeclVar dec=i.next();
-            if(! this.arr2.contains(dec))
+            if(! this.arr2.contains(dec) )
                 j=list_var.getList().indexOf(dec);
-                list_var.getModifiableList().remove(j);
+               // if(list_var.getList().get(j).)
+                    list_var.getModifiableList().remove(j);
         }
     }
         
