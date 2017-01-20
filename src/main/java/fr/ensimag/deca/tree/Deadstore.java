@@ -10,7 +10,7 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.CallMethod;
-
+import fr.ensimag.deca.Extension;
 /**
  *cette classe sert pour l'extension deadstore
  * @author marchaem

@@ -81,10 +81,11 @@ public class Main extends AbstractMain {
     }
     
     protected void execute_dead(DecacCompiler compiler){
-        if(compiler.getCompilerOptions().getOptim()){  //si on a bien ajouté l'option -o dans la ligne de commande
-            compiler.getDead().store_dec(declVariables);
-            compiler.getDead().store_var_inst(insts);
-            compiler.getDead().remove_var(declVariables);
+        if(compiler.getCompilerOptions().getDead()){  //si on a bien ajouté l'option -o1 dans la ligne de commande
+            Deadstore dead=(Deadstore) compiler.getExtension();
+            dead.store_dec(declVariables);
+            dead.store_var_inst(insts);
+            dead.remove_var(declVariables);
         }    
     }
     
