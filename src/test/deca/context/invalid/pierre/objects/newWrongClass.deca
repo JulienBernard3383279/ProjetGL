@@ -1,0 +1,7 @@
+class A {}
+class B {
+    void test() {
+        B b = new A();
+    }
+}
+{}

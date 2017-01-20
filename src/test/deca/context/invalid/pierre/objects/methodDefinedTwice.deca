@@ -1,0 +1,5 @@
+class A {
+    int method(int i) {}
+    int method(int i) {}
+}
+{}

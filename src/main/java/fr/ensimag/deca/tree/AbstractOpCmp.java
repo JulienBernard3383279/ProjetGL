@@ -37,7 +37,7 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         } else if(!t1.sameType(t2)) {
             throw new ContextualError("Operands must have same type",this.getLocation());
         }
-        Type t = new BooleanType(null);
+        Type t = new BooleanType(compiler.getSymbols().create("boolean"));
         this.setType(t);
         return t;
     }

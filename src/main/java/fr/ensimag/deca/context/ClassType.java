@@ -53,12 +53,19 @@ public class ClassType extends Type {
 
     @Override
     public boolean sameType(Type otherType) {
-        return (this.getName().getName()==otherType.getName().getName());
+        ClassDefinition curr = this.getDefinition();
+        while (curr != null) {
+            if (curr.getType().getName().getName().equals(otherType.getName().getName())) {
+                return true;
+            }
+            curr = curr.getSuperClass();
+        }
+        return false;
+    }
             
         
         
        
-    }
 
     /**
      * Return true if potentialSuperClass is a superclass of this class.

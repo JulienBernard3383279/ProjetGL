@@ -1,0 +1,7 @@
+class A {
+
+    float letsgo(int i) {
+        return i;
+    }
+}
+{}

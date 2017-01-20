@@ -32,6 +32,8 @@ import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 import java.io.PrintStream;
+import java.util.Iterator;
+import java.util.Map;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 

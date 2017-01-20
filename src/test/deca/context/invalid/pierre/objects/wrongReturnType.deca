@@ -1,0 +1,7 @@
+class test {
+
+    boolean a(int i) {
+        return i;
+    }
+}
+{}

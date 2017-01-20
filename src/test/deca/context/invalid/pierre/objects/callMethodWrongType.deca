@@ -1,0 +1,7 @@
+class A {
+    int method(){}
+}
+{
+    A a = new A();
+    boolean b = a.method();
+}
