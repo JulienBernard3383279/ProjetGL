@@ -13,6 +13,6 @@ import fr.ensimag.ima.pseudocode.DAddr;
  * @author gl58
  * @date 01/01/2017
  */
-public abstract class AbstractLValue extends AbstractExpr {
+    public abstract class AbstractLValue extends AbstractExpr {
     public abstract DAddr getAddr(DecacCompiler compiler);
 }

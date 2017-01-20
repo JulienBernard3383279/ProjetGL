@@ -480,7 +480,7 @@ public class DecacCompiler {
 
     public void setExtension(Extension ext) {
         this.ext = ext;
-    }
+    }   
     public DAddr allocateVar() {
         this.varCounter++;
         if(isInMethod) 
