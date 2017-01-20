@@ -125,7 +125,14 @@ public class DeclMethod extends AbstractDeclMethod{
         
     }
     @Override 
-    public void codeGenBody(DecacCompiler compiler){
+    public void codeGenBody(DecacCompiler compiler,ListDeclField fields){
+        MethodDefinition def = (MethodDefinition)(compiler.getEnvTypes().get(this.methodName.getName()));
+        compiler.setMethodName(this.methodName.getName().getName());
+        compiler.addLabel(def.getLabel());
+        compiler.resetCompiler(this.params.size(),fields);
+        if(!type.getType().isVoid())
+            compiler.isNotVoid();
+        params.fillVarTabl(compiler);
         this.body.codeGenMethodBody(compiler);
     }
 }

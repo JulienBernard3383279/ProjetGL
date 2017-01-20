@@ -1,6 +1,7 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.tree.Location;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 
 /**
  * Definition of a variable.
@@ -12,7 +13,7 @@ public class VariableDefinition extends ExpDefinition {
     public VariableDefinition(Type type, Location location) {
         super(type, location);
     }
-
+    
     @Override
     public String getNature() {
         return "variable";

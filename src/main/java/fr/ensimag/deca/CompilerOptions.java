@@ -68,8 +68,12 @@ public class CompilerOptions {
         return TRACE;
     }
     
-    public boolean getOptim() {
-        return optim;
+    public boolean getDead() {
+        return dead;
+    }
+    
+    public boolean getFolding(){
+        return folding;
     }
     
     private int debug = 0;
@@ -81,7 +85,8 @@ public class CompilerOptions {
     private boolean checks=true;
     private boolean parse=false;
     private boolean verif=false;
-    private boolean optim=false;
+    private boolean dead=false;
+    private boolean folding=false;
     
     public void parseArgs(String[] args) throws CLIException {        
         // Le comportement dans le cas d'une utilisation non conforme à la syntaxe est non spécifié.
@@ -121,8 +126,11 @@ public class CompilerOptions {
                 case "-r" :
                     waitingForNbRegisters=true;
                     break;
-                case "-o":
-                    optim=true;
+                case "-o1":
+                    dead=true;
+                    break;
+                case "-o2":
+                    folding=true;
                     break;
                 default:
                     sourceFiles.add(new File(str));

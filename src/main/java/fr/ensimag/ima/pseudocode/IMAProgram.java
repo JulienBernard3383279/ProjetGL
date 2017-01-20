@@ -2,7 +2,9 @@ package fr.ensimag.ima.pseudocode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Abstract representation of an IMA program, i.e. set of Lines.
@@ -12,7 +14,7 @@ import java.util.LinkedList;
  */
 public class IMAProgram {
     private final LinkedList<AbstractLine> lines = new LinkedList<AbstractLine>();
-
+    private Map<Integer,LinkedList<AbstractLine>> flagsContent  = new HashMap<Integer,LinkedList<AbstractLine>>();
     public void add(AbstractLine line) {
         lines.add(line);
     }
@@ -77,5 +79,15 @@ public class IMAProgram {
     
     public void addFirst(Instruction i, String comment) {
         addFirst(new Line(null, i, comment));
+    }
+    public int addFlag() {
+        flagsContent.put(lines.size(),new LinkedList<AbstractLine>());
+        return lines.size();
+    }
+    public void addToFlag(int flag, Instruction i) {
+        flagsContent.get(flag).add(new Line(i));
+    }
+    public void writeFlagToProgram(int flag) {
+        lines.addAll(flag, flagsContent.get(flag));
     }
 }

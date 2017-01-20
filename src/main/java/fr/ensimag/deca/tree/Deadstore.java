@@ -10,7 +10,7 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.CallMethod;
-
+import fr.ensimag.deca.Extension;
 /**
  *cette classe sert pour l'extension deadstore
  * @author marchaem
@@ -18,7 +18,7 @@ import fr.ensimag.deca.tree.CallMethod;
  * déclarée, ainsi que celles dans les instructions. les variables déclarées mais non utilisées sont 
  * supprimées
  */
-public class Deadstore {
+public class Deadstore extends Extension{
     private ArrayList arr1;
     private ArrayList arr2;
         
@@ -115,10 +115,21 @@ public class Deadstore {
         Iterator<AbstractDeclVar> i=this.arr1.iterator();
         while(i.hasNext()){
             AbstractDeclVar dec=i.next();
-            if(! this.arr2.contains(dec) )
+            if(! this.arr2.contains(dec)){
                 j=list_var.getList().indexOf(dec);
-               // if(list_var.getList().get(j).)
-                    list_var.getModifiableList().remove(j);
+                if(list_var.getList().get(j) instanceof DeclVar){
+                    DeclVar var=(DeclVar) list_var.getList().get(j);
+                    if(var.getInitialization() instanceof Initialization){
+                        Initialization ini=(Initialization) var.getInitialization();
+                        if(ini.getExpression() instanceof AbstractBinaryExpr){
+                            
+                        }
+                    }
+                        
+                        
+                }
+                list_var.getModifiableList().remove(j);  //on enlève la variable inutile
+            }        
         }
     }
         

@@ -11,6 +11,11 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.BRA;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import java.io.PrintStream;
 
 /**
@@ -50,7 +55,12 @@ public class Return extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DVal value = this.expr.codeGen(compiler);
+        if(value.isGPRegister())
+            compiler.addInstruction(new LOAD(value,Register.R0));
+        else if(value.isRegisterOffset()) 
+            compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)value),Register.R0));
+        compiler.addInstruction(new BRA(compiler.getEndMethodLabel()));
     }
 
     @Override

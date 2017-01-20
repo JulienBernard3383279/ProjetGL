@@ -5,13 +5,15 @@
  */
 package fr.ensimag.deca.tree;
 import java.util.*;
+import fr.ensimag.deca.Extension;
 
 
 /**
  *
  * @author carret
  */
-public class ConstantFolding {
+
+public class ConstantFolding extends Extension{
     
     private AbstractExpr resultat;
 
