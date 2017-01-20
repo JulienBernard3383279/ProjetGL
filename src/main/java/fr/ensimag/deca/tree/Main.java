@@ -56,13 +56,13 @@ public class Main extends AbstractMain {
         insts.codeGenListInst(compiler);
         compiler.addInstruction(new HALT());
         if(compiler.getCompilerOptions().getChecks()) {
-            Label pilePleineLabel = new Label("pile_pleine");
-            compiler.addLabel(pilePleineLabel);
+            
+            compiler.addLabel(compiler.getStackOV());
             compiler.addInstruction(new WSTR("Erreur : pile pleine"));
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
             compiler.addInstructionAtProgramBeginning(new ADDSP(compiler.getSizeOfConstantStack()));
-            compiler.addInstructionAtProgramBeginning(new BOV(pilePleineLabel));
+            compiler.addInstructionAtProgramBeginning(new BOV(compiler.getStackOV()));
             compiler.addInstructionAtProgramBeginning(new TSTO(compiler.argTSTO()));
             compiler.addLabel(compiler.getIOLabel());
             compiler.addInstruction(new WSTR("Error: Input/Output error"));

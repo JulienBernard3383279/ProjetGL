@@ -26,6 +26,7 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.context.VoidType;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.deca.tree.ListDeclField;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
@@ -333,6 +334,7 @@ public class DecacCompiler {
     private int regLim = 16 ;
     private final ArrayList<Boolean> stack=new ArrayList<Boolean>();
     private static boolean [] reg=new boolean[16];
+    private static boolean [] regUsed=new boolean[16];
     int overFlow=1;
     int maxOverFlow=0;
     
@@ -341,6 +343,17 @@ public class DecacCompiler {
     }
     public void initRegister () {
         Arrays.fill(reg,false);
+        Arrays.fill(regUsed,false);
+    }/**
+     * Fonction critique ne doit jamais être appellé sauf si l'on sait que R2 est libre 
+     */
+    public void allocR2() {
+        if(reg[2]==false) {
+            reg[2]=true;
+            regUsed[2]=true;
+        }
+        else 
+            throw new UnsupportedOperationException("Shouldn't be called");
     }
     public DVal allocRegister () {
         int i;
@@ -348,6 +361,7 @@ public class DecacCompiler {
         for(i=2;i<regLim;i++) {
             if(reg[i]==false) {
                 reg[i]=true;
+                regUsed[i]=true;
                 return Register.getR(i);
             }
         }
@@ -412,7 +426,7 @@ public class DecacCompiler {
         throw new UnsupportedOperationException("ERROR : free register error");
     }
     public RegisterOffset translate (RegisterOffset register) {
-        if(register.getRegister().equals(Register.GB)) {
+        if(!register.getRegister().equals(Register.SP)) {
             return register;
         }
         return new RegisterOffset(register.getOffset()-overFlow+1,register.getRegister());
@@ -449,16 +463,25 @@ public class DecacCompiler {
     
     private Map<String, VariableDefinition> varMap = new HashMap();
     private int varCounter = 0;
-    
+    private boolean isInMethod = false;
+    public boolean isInMethod() {
+        return isInMethod;
+    }
     public DAddr allocateVar() {
         this.varCounter++;
-        return new RegisterOffset(this.varCounter+this.methodCounter,Register.GB);
+        if(isInMethod) 
+            return new RegisterOffset(this.varCounter+this.methodCounter,Register.LB);
+        else 
+            return new RegisterOffset(this.varCounter+this.methodCounter,Register.GB);
     }
     public void addVarToTable(String sym,VariableDefinition def) {
         this.varMap.put(sym, def);
     }
     public VariableDefinition getVarData(String sym) {
         return this.varMap.get(sym);
+    }
+    public boolean varExist(String sym) {
+        return this.varMap.containsKey(sym);
     }
     
     //TSTO
@@ -475,7 +498,15 @@ public class DecacCompiler {
     public void addInstructionAtProgramBeginning(Instruction instruction) {
         program.addFirst(instruction);
     }
-
+    public int createFlag() {
+        return program.addFlag();
+    }
+    public void addToFlag(int flag,Instruction instruction) {
+        program.addToFlag(flag,instruction);
+    }
+    public void writeFlag(int flag) {
+        program.writeFlagToProgram(flag);
+    }
     private int countAndOr = -1;
     
     public int newAndOr() {
@@ -494,6 +525,10 @@ public class DecacCompiler {
     public Label getHeapOV() {
         return HeapOV;
     }
+    private Label pilePleineLabel = new Label("pile_pleine");
+    public Label getStackOV() {
+        return pilePleineLabel;
+    }
     private boolean printx=false;
     public void setPrintHex(boolean value) {
         printx=value;
@@ -511,4 +546,78 @@ public class DecacCompiler {
     public void addMethod(int offSet) {
         methodCounter += offSet;
     }
+    /** Code For Methods Only **/
+    private int paramNumber = 0;
+    private ListDeclField fields;
+    public void resetCompiler(int paramNb,ListDeclField fields) {
+        this.isInMethod = true;
+        this.varCounter = 0;
+        this.overFlow = 1;
+        this.maxOverFlow = 1;
+        Arrays.fill(reg,false);
+        Arrays.fill(regUsed,false);
+        stack.clear();
+        paramNumber = paramNb;
+        varMap.clear();
+        this.fields=fields;
+        returns=false;
+    }
+    public boolean hgsdgs(int x) {
+        return false;
+        
+    }
+    private int saveRegisterFlag=-1;//use less to create a flag to 0
+    public void setSaveRegisterFlag(int i) {
+        if(i<0){
+            throw new UnsupportedOperationException("Can't Intialize Flag to Negative Number!");   
+        }
+        saveRegisterFlag=i;
+    }
+    public int getSaveRegisterFlag() {
+        if(saveRegisterFlag<0){
+            throw new UnsupportedOperationException("Forget to intialize flag");   
+        }
+        return saveRegisterFlag;
+    }
+    public int[] getUsedRegister() {
+        int [] returns=new int[16];
+        Arrays.fill(returns,-1);
+        int j=0;
+        for(int i=0;i<regLim;i++) {
+            if(regUsed[i]) {
+                returns[j]=i;
+                j++;
+            }
+        }
+        return returns;
+    }
+    ClassDefinition currentClass=null;
+    public void currentClass(ClassDefinition definition) {
+        currentClass=definition;
+    }
+    public ClassDefinition getClassDefinition() {
+        return currentClass;
+    }
+    private boolean returns=false;
+    public boolean hasReturn() {
+        return returns;
+    }
+    public void isNotVoid() {
+        returns =true;
+    }
+    private String methodName;
+    public void setMethodName (String name) {
+        methodName=name;
+    }
+    public String getMethodName() {
+        return methodName;
+    }
+    private Label endMethod;//Label vers la fin de la méthode pour les returns 
+    public void setEndMethodLabel(Label l) {
+        endMethod=l;
+    }
+    public Label getEndMethodLabel() {
+        return endMethod;
+    }
+    /** End of Code for Methods Only**/
 }

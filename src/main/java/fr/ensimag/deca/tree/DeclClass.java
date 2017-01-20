@@ -29,8 +29,7 @@ public class DeclClass extends AbstractDeclClass {
         this.className = className;
         this.superClass = superClass;
         this.field = field;
-        this.methods = methods;
-        
+        this.methods = methods;  
     }
     //fin modif
     
@@ -96,8 +95,9 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     public void generateMethodBody(DecacCompiler compiler) {
+        compiler.currentClass(this.className.getClassDefinition());
         for(AbstractDeclMethod a : super.methods.getList()) {
-            a.codeGenBody(compiler);
+            a.codeGenBody(compiler,field);
         }
     }
     

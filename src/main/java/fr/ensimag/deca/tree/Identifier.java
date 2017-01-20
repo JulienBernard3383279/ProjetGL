@@ -250,7 +250,14 @@ public class Identifier extends AbstractIdentifier {
      */
     @Override
     public DAddr getAddr(DecacCompiler compiler) {
-        return compiler.getVarData(this.name.getName()).getOperand();
+        if(compiler.varExist(this.name.getName()))
+            return compiler.getVarData(this.name.getName()).getOperand();
+        else {
+            if(!compiler.isInMethod())
+                throw new UnsupportedOperationException("Shouldn't be called");
+            else 
+                return new RegisterOffset(((FieldDefinition)compiler.getClassDefinition().getMembers().get(this.name)).getIndex(),Register.getR(2)); 
+        }
     }
     @Override
     protected DVal codeGenPrint(DecacCompiler compiler) {
