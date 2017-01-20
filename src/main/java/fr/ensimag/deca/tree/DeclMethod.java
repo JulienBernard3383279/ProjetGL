@@ -60,7 +60,7 @@ public class DeclMethod extends AbstractDeclMethod{
             }
             EnvironmentExp methodEnv = new EnvironmentExp(classEnv);
             this.params.verifyListParam(compiler, currentClass,def,methodEnv);
-            def.setLabel(new Label("method:"+this.methodName.getName().getName()+";class:"+currentClass.getType().getName().getName()));
+            def.setLabel(new Label(this.methodName.getName().getName()+"_"+currentClass.getType().getName().getName()));
             this.methodName.setDefinition(def);
             classEnv.declare(methodName.getName(), def);
             currentClass.incNumberOfMethods();
@@ -73,8 +73,14 @@ public class DeclMethod extends AbstractDeclMethod{
         if (superEnv.get(methodName.getName())!=null) {
             if (superEnv.get(methodName.getName()).isMethod()) {
                 MethodDefinition superDef = (MethodDefinition) superEnv.get(methodName.getName());
-                if (superDef.getSignature().size() != def.getSignature().size()) {
+                if ((!def.getType().sameType(superDef.getType()))|| (superDef.getSignature().size() != def.getSignature().size())) {
                     throw new ContextualError("method overrides method with different signature",this.getLocation());
+                } else {
+                    for (int i = 0; i < def.getSignature().size();i++) {
+                        if (!def.getSignature().paramNumber(i).sameType(superDef.getSignature().paramNumber(i))) {
+                            throw new ContextualError("method overrides method with different signature",this.getLocation());
+                        }
+                    }
                 }
             }
         }

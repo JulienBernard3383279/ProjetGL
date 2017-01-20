@@ -1,0 +1,8 @@
+class A {}
+class B extends A {
+    int a;
+}
+{
+    A test = new A();
+    test.a = 1;
+}

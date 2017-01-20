@@ -1,0 +1,6 @@
+class A {
+    int a;
+    void go(int b) {
+        boolean b;
+    }
+}

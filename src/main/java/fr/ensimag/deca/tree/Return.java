@@ -27,8 +27,12 @@ public class Return extends AbstractInst {
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass, Type returnType) throws ContextualError {
         Type t;
+        if (returnType.isVoid()) {
+            throw new ContextualError("return called in void method",this.getLocation());
+        }
         try {
-            t = this.expr.verifyExpr(compiler, localEnv, currentClass);
+            this.expr = this.expr.verifyRValue(compiler, localEnv, currentClass, returnType);
+            t = this.expr.getType();
         } catch (ContextualError e) {
             throw e;
         }

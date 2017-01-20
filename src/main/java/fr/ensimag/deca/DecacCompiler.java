@@ -108,9 +108,10 @@ public class DecacCompiler {
         TypeDefinition defBool = new TypeDefinition(new BooleanType(symBool),Location.BUILTIN);
         TypeDefinition defFloat = new TypeDefinition(new FloatType(symFloat),Location.BUILTIN);
         TypeDefinition defVoid = new TypeDefinition(new VoidType(symVoid),Location.BUILTIN);
-        ClassDefinition defObj = (new ClassType(symObj,Location.BUILTIN,null)).getDefinition();
+        ClassType ctObj = new ClassType(symObj,Location.BUILTIN,null);
+        ClassDefinition defObj = ctObj.getDefinition();
         Signature sigEq = new Signature();
-        sigEq.add(new ClassType(symObj,Location.BUILTIN,null));
+        sigEq.add(ctObj);
         MethodDefinition defEq = new MethodDefinition(new BooleanType(symBool),Location.BUILTIN,sigEq,0);
         
         // add types to envTypes
@@ -122,6 +123,7 @@ public class DecacCompiler {
             defObj.getMembers().declare(symEquals, defEq);
             defObj.incNumberOfMethods();
         } catch (EnvironmentExp.DoubleDefException d) {
+            
         }
         this.envTypes.put(symObj, defObj);
         

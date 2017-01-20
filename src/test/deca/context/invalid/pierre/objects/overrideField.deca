@@ -1,0 +1,7 @@
+class A {
+    int a;
+}
+class B extends A {
+    void a; //devra etre remis en float plus tard
+}
+{}

@@ -1,0 +1,7 @@
+class A {
+    void method(int i) {}
+}
+class B extends A {
+    void method() {}
+}
+{}
