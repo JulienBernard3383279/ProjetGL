@@ -1,5 +1,4 @@
 package fr.ensimag.deca;
-
 import fr.ensimag.deca.context.BooleanType;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
@@ -27,6 +26,10 @@ import fr.ensimag.deca.context.VoidType;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.ListDeclField;
+import fr.ensimag.deca.tree.Deadstore;
+import fr.ensimag.deca.tree.ConstantFolding;
+import fr.ensimag.deca.tree.ListDeclVar;
+import fr.ensimag.deca.tree.ListInst;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
@@ -109,9 +112,10 @@ public class DecacCompiler {
         TypeDefinition defBool = new TypeDefinition(new BooleanType(symBool),Location.BUILTIN);
         TypeDefinition defFloat = new TypeDefinition(new FloatType(symFloat),Location.BUILTIN);
         TypeDefinition defVoid = new TypeDefinition(new VoidType(symVoid),Location.BUILTIN);
-        ClassDefinition defObj = (new ClassType(symObj,Location.BUILTIN,null)).getDefinition();
+        ClassType ctObj = new ClassType(symObj,Location.BUILTIN,null);
+        ClassDefinition defObj = ctObj.getDefinition();
         Signature sigEq = new Signature();
-        sigEq.add(new ClassType(symObj,Location.BUILTIN,null));
+        sigEq.add(ctObj);
         MethodDefinition defEq = new MethodDefinition(new BooleanType(symBool),Location.BUILTIN,sigEq,0);
         
         // add types to envTypes
@@ -123,6 +127,7 @@ public class DecacCompiler {
             defObj.getMembers().declare(symEquals, defEq);
             defObj.incNumberOfMethods();
         } catch (EnvironmentExp.DoubleDefException d) {
+            
         }
         this.envTypes.put(symObj, defObj);
         
@@ -461,11 +466,20 @@ public class DecacCompiler {
     
     //DeclVar
     
-    private Map<String, VariableDefinition> varMap = new HashMap();
+    private Map<String, VariableDefinition> varMap = new HashMap<>();
     private int varCounter = 0;
     private boolean isInMethod = false;
     public boolean isInMethod() {
         return isInMethod;
+    }
+    private Extension ext=new Extension();
+
+    public Extension getExtension() {
+        return ext;
+    }
+
+    public void setExtension(Extension ext) {
+        this.ext = ext;
     }
     public DAddr allocateVar() {
         this.varCounter++;
@@ -482,6 +496,22 @@ public class DecacCompiler {
     }
     public boolean varExist(String sym) {
         return this.varMap.containsKey(sym);
+    }
+    
+    public void execute_dead_store(ListDeclVar list_var, ListInst list_inst){
+        if(this.compilerOptions.getDead()){
+            setExtension(new Deadstore());
+            Deadstore dead=(Deadstore) ext;
+            dead.store_dec(list_var);
+            dead.store_var_inst(list_inst);
+            dead.remove_var(list_var);
+        }
+    }
+    
+    public void execute_constant_folding(ListDeclVar list_var,ListInst list_inst){
+       if(this.compilerOptions.getFolding()){
+           setExtension(new ConstantFolding());
+       } 
     }
     
     //TSTO

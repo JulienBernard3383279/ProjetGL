@@ -1,0 +1,13 @@
+class A {
+    int a;
+}
+{
+    Object o = new Object();
+    A a = new A();
+    A b = new A();
+    boolean c ;
+    c = o.equals(o);
+    if (a.equals(b)) {
+        println("ok");
+    }
+}

@@ -1,0 +1,10 @@
+class A {
+    protected int no;
+}
+class C {
+    int test() {
+        A a = new A();
+        return a.no;
+    }
+}
+{}

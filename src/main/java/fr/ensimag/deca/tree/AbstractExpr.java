@@ -96,7 +96,7 @@ public abstract class AbstractExpr extends AbstractInst {
                 conv.verifyExpr(compiler,localEnv,currentClass);
                 return conv;
             } else {
-                throw new ContextualError("variable initialized with wrong type",this.getLocation());
+                throw new ContextualError("expected different type",this.getLocation());
             }
         }
         return this;

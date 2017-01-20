@@ -7,7 +7,19 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
-
+import fr.ensimag.deca.tree.ListDeclVar;
+import fr.ensimag.deca.tree.Deadstore;
+import fr.ensimag.deca.tree.Identifier;
+import fr.ensimag.deca.tree.AbstractIdentifier;
+import fr.ensimag.deca.tree.AbstractInitialization;
+import java.util.*;
+import fr.ensimag.deca.tree.AbstractDeclVar;
+import fr.ensimag.deca.tree.ListInst;
+import fr.ensimag.deca.tree.Tree;
+import fr.ensimag.deca.tree.AbstractInst;
+import fr.ensimag.deca.tools.SymbolTable;
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.deca.tree.DeclVar;
 /**
  * Test for the Plus node using mockito, without using advanced features.
  * @see TestPlusAdvanced for more advanced examples.
@@ -35,4 +47,6 @@ public class TestPlusPlain {
         verify(left).verifyExpr(compiler, null, null);
         verify(right).verifyExpr(compiler, null, null);
     }
+    
+   
 }

@@ -42,7 +42,7 @@ public class DotMethod extends AbstractExpr {
                 throw new ContextualError("expression is not instance of a class",this.instance.getLocation());
             }
             ct = (ClassType) t;
-            t = method.verifyExpr(compiler, localEnv, currentClass);
+            t = method.verifyExpr(compiler, localEnv, ct.getDefinition());
         } catch (ContextualError e) {
             throw e;
         }    

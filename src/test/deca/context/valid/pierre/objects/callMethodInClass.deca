@@ -1,0 +1,24 @@
+class A{
+    void test1(){}
+}
+class C {
+    int test2(int k){
+        A a = new A();
+        a.test1();
+        return k;
+    }
+}
+class B extends A {
+    int test3() {
+        C c = new C();
+        int b = c.test2(1);
+        return b;
+    }
+    
+    void test4() {
+        int ok = this.test3();
+        ok = ok + test3();
+        test1();
+    }
+}
+{}

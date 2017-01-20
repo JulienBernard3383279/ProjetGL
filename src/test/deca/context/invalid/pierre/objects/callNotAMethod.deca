@@ -1,0 +1,8 @@
+class A {
+    int a;
+    void b() {}
+}
+{
+    A a = new A();
+    a.a();
+}

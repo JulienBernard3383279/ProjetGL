@@ -28,6 +28,8 @@ public class Assign extends AbstractBinaryExpr {
         // as an AbstractLValue by the constructor.
         return (AbstractLValue)super.getLeftOperand();
     }
+    
+    
 
     public Assign(AbstractLValue leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
