@@ -59,6 +59,8 @@ public class DeclClass extends AbstractDeclClass {
         ClassType t = new ClassType(this.className.getName(),this.getLocation(),superDef);
         ClassDefinition def = t.getDefinition();
         compiler.getEnvTypes().put(this.className.getName(), def);
+        this.className.setDefinition(def);
+        this.className.setType(t);
     }
 
     @Override
