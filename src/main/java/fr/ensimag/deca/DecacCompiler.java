@@ -451,7 +451,7 @@ public class DecacCompiler {
     
     private Map<String, VariableDefinition> varMap = new HashMap<>();
     private int varCounter = 0;
-    private Deadstore dead=new Deadstore();
+    private AbstractExtension ext=new Extension();
 
     public Deadstore getDead() {
         return dead;

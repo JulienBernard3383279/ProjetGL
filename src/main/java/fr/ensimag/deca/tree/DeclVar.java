@@ -35,6 +35,25 @@ public class DeclVar extends AbstractDeclVar {
     final private AbstractIdentifier varName;
     final private AbstractInitialization initialization;
 
+    public AbstractInitialization getInitialization() {
+        return initialization;
+    }
+
+    @Override
+    public Location getLocation() {
+        return super.getLocation(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public AbstractIdentifier getType() {
+        return type;
+    }
+
+    public AbstractIdentifier getVarName() {
+        return varName;
+    }
+    
+    
+
     public DeclVar(AbstractIdentifier type, AbstractIdentifier varName, AbstractInitialization initialization) {
         Validate.notNull(type);
         Validate.notNull(varName);
