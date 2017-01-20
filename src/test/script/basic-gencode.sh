@@ -10,8 +10,7 @@
 cd "$(dirname "$0")"/../../.. || exit 1
 
 export PATH=./src/test/script/launchers:./src/main/bin:"$PATH"
-
-echo $PATH
+echo "path done"
 
 # On ne teste qu'un fichier. Avec une boucle for appropriée, on
 # pourrait faire bien mieux ...
@@ -21,6 +20,7 @@ if [ ! -f ./src/test/deca/codegen/valid/provided/cond0.ass ]; then
     echo "Fichier cond0.ass non généré."
     exit 1
 fi
+echo "fichier compilé"
 
 resultat=$(ima ./src/test/deca/codegen/valid/provided/cond0.ass) || exit 1
 rm -f ./src/test/deca/codegen/valid/provided/cond0.ass
@@ -35,3 +35,4 @@ else
     echo "$resultat"
     exit 1
 fi
+echo "sucess"
