@@ -51,6 +51,26 @@ public class CompilerOptions {
     public int getNbRegisters() {
         return nbRegisters;
     }
+
+    public static int getDEBUG() {
+        return DEBUG;
+    }
+
+    public static int getINFO() {
+        return INFO;
+    }
+
+    public static int getQUIET() {
+        return QUIET;
+    }
+
+    public static int getTRACE() {
+        return TRACE;
+    }
+    
+    public boolean getOptim() {
+        return optim;
+    }
     
     private int debug = 0;
     private boolean parallel = false;
@@ -61,6 +81,7 @@ public class CompilerOptions {
     private boolean checks=true;
     private boolean parse=false;
     private boolean verif=false;
+    private boolean optim=false;
     
     public void parseArgs(String[] args) throws CLIException {        
         // Le comportement dans le cas d'une utilisation non conforme à la syntaxe est non spécifié.
@@ -99,6 +120,9 @@ public class CompilerOptions {
                     break;
                 case "-r" :
                     waitingForNbRegisters=true;
+                    break;
+                case "-o":
+                    optim=true;
                     break;
                 default:
                     sourceFiles.add(new File(str));

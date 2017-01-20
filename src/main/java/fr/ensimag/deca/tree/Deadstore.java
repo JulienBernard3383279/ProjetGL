@@ -9,7 +9,8 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.deca.tree.Assign;
+import fr.ensimag.deca.tree.CallMethod;
+
 /**
  *cette classe sert pour l'extension deadstore
  * @author marchaem
@@ -112,7 +113,7 @@ public class Deadstore {
             AbstractDeclVar dec=i.next();
             if(! this.arr2.contains(dec))
                 j=list_var.getList().indexOf(dec);
-                list_var.getList().remove(j);
+                list_var.getModifiableList().remove(j);
         }
     }
         

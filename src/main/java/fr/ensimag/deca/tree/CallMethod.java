@@ -30,6 +30,25 @@ public class CallMethod extends AbstractExpr {
         this.name=name;
         this.args=args;
     }
+
+    public AbstractIdentifier getName() {
+        return name;
+    }
+
+    public ListExpr getArgs() {
+        return args;
+    }
+
+    public void setName(AbstractIdentifier name) {
+        this.name = name;
+    }
+
+    public void setArgs(ListExpr args) {
+        this.args = args;
+    }
+    
+    
+    
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
