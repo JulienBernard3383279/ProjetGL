@@ -91,11 +91,15 @@ public class Deadstore {
             else if(var instanceof CallMethod){
                 CallMethod varMethod=(CallMethod) var;
                 Iterator<AbstractExpr> it=varMethod.getArgs().getList().iterator();
-                while(it.hasNext()){ //idem que pour abstractprint
+                while(it.hasNext()){ //idem que pour abstractprint, avec les arguments de la méthode appelée
                     AbstractExpr expr=it.next();
                     this.arr2.add(expr);
                     
                 }
+            }
+            else if(var instanceof Return){
+                Return varReturn=(Return) var;
+                this.arr2.add(varReturn.getExpr());
             }
         }
     }

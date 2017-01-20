@@ -19,6 +19,12 @@ import java.io.PrintStream;
  */
 public class Return extends AbstractInst {
     private AbstractExpr expr;
+
+    public AbstractExpr getExpr() {
+        return expr;
+    }
+    
+    
     
     public Return(AbstractExpr expr) {
         this.expr=expr;

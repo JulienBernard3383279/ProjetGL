@@ -36,6 +36,11 @@ public class DecacMain {
         }
         
         
+        if(options.getOptim()){
+            for (File source : options.getSourceFiles()) {
+            DecacCompiler deczc=new DecacCompiler(options, source);
+        }
+        
         if (options.getSourceFiles().isEmpty()) {
             throw new UnsupportedOperationException("decac without argument not yet implemented");
         }
