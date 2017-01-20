@@ -15,4 +15,7 @@ public class TSTO extends UnaryInstructionImmInt {
     public TSTO(int i) {
         super(i);
     }
+    public void setValue(int i) {
+        super.operand = new ImmediateInteger(i);
+    }
 }

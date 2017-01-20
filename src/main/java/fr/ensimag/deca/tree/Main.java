@@ -50,6 +50,7 @@ public class Main extends AbstractMain {
 
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
+        execute_dead(compiler); //on nettoie l'arbre avant
         compiler.addComment("Seprate constant stack and temporary variables");
         compiler.addComment("Beginning of main instructions:");
         declVariables.codeGenListVar(compiler);
@@ -72,7 +73,19 @@ public class Main extends AbstractMain {
             compiler.addInstruction(new WSTR("Error: Arithmetic Overflow"));
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
+            compiler.addLabel(compiler.getHeapOV());
+            compiler.addInstruction(new WSTR("Error: Heap OverFlow"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
         }
+    }
+    
+    protected void execute_dead(DecacCompiler compiler){
+        if(compiler.getCompilerOptions().getOptim()){  //si on a bien ajouté l'option -o dans la ligne de commande
+            compiler.getDead().store_dec(declVariables);
+            compiler.getDead().store_var_inst(insts);
+            compiler.getDead().remove_var(declVariables);
+        }    
     }
     
     @Override

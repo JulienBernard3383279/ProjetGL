@@ -14,6 +14,7 @@ import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Label;
 import java.io.PrintStream;
 
@@ -85,6 +86,10 @@ public class DeclMethod extends AbstractDeclMethod{
             }
         }
     }
+
+   
+    
+    
     
     @Override
     protected void verifyMethodBody(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError{
@@ -118,5 +123,9 @@ public class DeclMethod extends AbstractDeclMethod{
         params.prettyPrint(s,prefix,false);
         body.prettyPrint(s,prefix,true);
         
+    }
+    @Override 
+    public void codeGenBody(DecacCompiler compiler){
+        this.body.codeGenMethodBody(compiler);
     }
 }

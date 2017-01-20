@@ -5,6 +5,13 @@ import fr.ensimag.deca.tree.Location;
 import fr.ensimag.ima.pseudocode.Label;
 import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.ima.pseudocode.LabelOperand;
+import fr.ensimag.ima.pseudocode.NullAddr;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LEA;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 /**
  * Definition of a class.
  *
@@ -12,7 +19,6 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
  * @date 01/01/2017
  */
 public class ClassDefinition extends TypeDefinition {
-
 
     public void setNumberOfFields(int numberOfFields) {
         this.numberOfFields = numberOfFields;
@@ -78,6 +84,37 @@ public class ClassDefinition extends TypeDefinition {
         members = new EnvironmentExp(parent);
 
         this.superClass = superClass;
+    }
+    private boolean writen=false;
+    private ClassMethodSet MethodsSet;
+    public ClassMethodSet write(DecacCompiler compiler) {
+        if(!writen) {
+            writen = true;
+            if(superClass!=null) 
+                MethodsSet= new ClassMethodSet(this.superClass.write(compiler));
+            else 
+                MethodsSet = new ClassMethodSet(new NullAddr());
+            for(ExpDefinition a : members.getDico().values()) {
+                if(a.isMethod()) {
+                    MethodDefinition method = (MethodDefinition)a;
+                    MethodsSet.addMethod(new MethodInformation(method.getLabel(),
+                            method.getIndex()));
+                }
+            }
+            compiler.addComment("Construction de la table des méthodes de "
+                    +this.getType().getName().getName());
+            compiler.addInstruction(new LEA(MethodsSet.getAddr(),Register.R0));
+            MethodsSet.setAddr(new RegisterOffset(compiler.getCurrentMethodNumber()+1,Register.GB));
+            compiler.addInstruction(new STORE(Register.R0,MethodsSet.getAddr()));
+            int i=1;
+            for(MethodInformation a : MethodsSet.getMethods()) {
+                i++;
+                compiler.addInstruction(new LOAD(new LabelOperand(a.getLabel()),Register.R0));
+                compiler.addInstruction(new STORE(Register.R0,new RegisterOffset(compiler.getCurrentMethodNumber()+i,Register.GB)));
+            }
+            compiler.addMethod(i);
+        }
+        return MethodsSet;
     }
     
     public boolean isCastCompatible(ClassDefinition otherClass) {

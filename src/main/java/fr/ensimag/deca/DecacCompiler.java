@@ -1,5 +1,4 @@
 package fr.ensimag.deca;
-
 import fr.ensimag.deca.context.BooleanType;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
@@ -26,6 +25,9 @@ import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.context.VoidType;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.deca.tree.Deadstore;
+import fr.ensimag.deca.tree.ListDeclVar;
+import fr.ensimag.deca.tree.ListInst;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
@@ -449,8 +451,19 @@ public class DecacCompiler {
     
     //DeclVar
     
-    private Map<String, VariableDefinition> varMap = new HashMap();
-    int varCounter = 0;
+    private Map<String, VariableDefinition> varMap = new HashMap<>();
+    private int varCounter = 0;
+    private Deadstore dead=new Deadstore();
+
+    public Deadstore getDead() {
+        return dead;
+    }
+
+    public void setDead(Deadstore dead) {
+        this.dead = dead;
+    }
+    
+    
     
     public DAddr allocateVar() {
         this.varCounter++;
@@ -463,17 +476,19 @@ public class DecacCompiler {
         return this.varMap.get(sym);
     }
     
-    //TSTO
-    
-    private int tstoVariableCounter=0;
-    
-    public void countVariable() {
-        tstoVariableCounter++;
+    public void execute_dead_store(ListDeclVar list_var, ListInst list_inst){
+        if(this.compilerOptions.getOptim()){
+            dead.store_dec(list_var);
+            dead.store_var_inst(list_inst);
+            dead.remove_var(list_var);
+        }
     }
     
+    //TSTO
+    
     public int argTSTO() {
-        if (maxOverFlow-1 + tstoVariableCounter /*- this.compilerOptions.getNbRegisters()*/ > 0) {
-            return maxOverFlow -1+ tstoVariableCounter /*- this.compilerOptions.getNbRegisters()*/;
+        if (maxOverFlow-1 + varCounter + this.methodCounter/*- this.compilerOptions.getNbRegisters()*/ > 0) {
+            return maxOverFlow -1+ varCounter+this.methodCounter /*- this.compilerOptions.getNbRegisters()*/;
         }
         else {
             return 0;
@@ -497,6 +512,10 @@ public class DecacCompiler {
     private Label OVArith = new Label("overflow_error");
     public Label getOVLabel() {
         return OVArith;
+    }
+    private Label HeapOV = new Label("heap_overflow_error");
+    public Label getHeapOV() {
+        return HeapOV;
     }
     private boolean printx=false;
     public void setPrintHex(boolean value) {

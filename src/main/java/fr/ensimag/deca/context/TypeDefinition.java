@@ -23,5 +23,8 @@ public class TypeDefinition extends Definition {
     public boolean isExpression() {
         return false;
     }
-
+    @Override
+    public boolean isType() {
+        return true;
+    }
 }
