@@ -1,5 +1,4 @@
 package fr.ensimag.deca;
-//import fr.ensimag.deca.codegen.Method;
 import fr.ensimag.deca.context.BooleanType;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
@@ -108,7 +107,7 @@ public class DecacCompiler {
         TypeDefinition defBool = new TypeDefinition(new BooleanType(symBool),Location.BUILTIN);
         TypeDefinition defFloat = new TypeDefinition(new FloatType(symFloat),Location.BUILTIN);
         TypeDefinition defVoid = new TypeDefinition(new VoidType(symVoid),Location.BUILTIN);
-        ClassDefinition defObj = new ClassDefinition(new ClassType(symObj,Location.BUILTIN,null),Location.BUILTIN,null);
+        ClassDefinition defObj = (new ClassType(symObj,Location.BUILTIN,null)).getDefinition();
         Signature sigEq = new Signature();
         sigEq.add(new ClassType(symObj,Location.BUILTIN,null));
         MethodDefinition defEq = new MethodDefinition(new BooleanType(symBool),Location.BUILTIN,sigEq,0);
@@ -118,13 +117,13 @@ public class DecacCompiler {
         this.envTypes.put(symBool, defBool);
         this.envTypes.put(symFloat, defFloat);
         this.envTypes.put(symVoid, defVoid);
-        this.envTypes.put(symObj, defObj);
         try {
             defObj.getMembers().declare(symEquals, defEq);
             defObj.incNumberOfMethods();
         } catch (EnvironmentExp.DoubleDefException d) {
-            
         }
+        this.envTypes.put(symObj, defObj);
+        
     }
 
     /**
@@ -448,7 +447,7 @@ public class DecacCompiler {
     //DeclVar
     
     private Map<String, VariableDefinition> varMap = new HashMap();
-    int varCounter = 0;
+    private int varCounter = 0;
     
     public DAddr allocateVar() {
         this.varCounter++;
@@ -463,15 +462,9 @@ public class DecacCompiler {
     
     //TSTO
     
-    private int tstoVariableCounter=0;
-    
-    public void countVariable() {
-        tstoVariableCounter++;
-    }
-    
     public int argTSTO() {
-        if (maxOverFlow-1 + tstoVariableCounter /*- this.compilerOptions.getNbRegisters()*/ > 0) {
-            return maxOverFlow -1+ tstoVariableCounter /*- this.compilerOptions.getNbRegisters()*/;
+        if (maxOverFlow-1 + varCounter + this.methodCounter/*- this.compilerOptions.getNbRegisters()*/ > 0) {
+            return maxOverFlow -1+ varCounter+this.methodCounter /*- this.compilerOptions.getNbRegisters()*/;
         }
         else {
             return 0;
@@ -494,6 +487,10 @@ public class DecacCompiler {
     }
     private Label OVArith = new Label("overflow_error");
     public Label getOVLabel() {
+        return OVArith;
+    }
+    private Label HeapOV = new Label("heap_overflow_error");
+    public Label getHeapOV() {
         return OVArith;
     }
     private boolean printx=false;

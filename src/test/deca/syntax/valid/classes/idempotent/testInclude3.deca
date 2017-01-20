@@ -1,0 +1,30 @@
+class MyClass extends Object {
+	void direBonjour() {
+		print("Bonjour !");
+		}
+
+	void direBonjourDeuxFois() {
+		this.direBonjour();
+		this.direBonjour();
+		}
+
+ }
+
+class MyClass extends Object {
+	void dire(String s) {
+		print(s);
+		}
+
+	void direEtRespirer(String s) {
+		println(s);
+		}
+
+	void neRienDire() {
+		print("");
+		}
+
+ }
+
+{
+	int i = 5;
+}

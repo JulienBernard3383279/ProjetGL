@@ -34,8 +34,12 @@ public class DeclParam extends AbstractDeclParam{
         try {
             t = this.type.verifyType(compiler);
             ParamDefinition def = new ParamDefinition(t,this.getLocation());
-            currentMethod.getSignature().add(t);
+            if (currentMethod != null) {
+                currentMethod.getSignature().add(t);
+            }
             localEnv.declare(this.paramName.getName(),def);
+            this.paramName.setType(t);
+            this.paramName.setDefinition(def);
         } catch (EnvironmentExp.DoubleDefException d) {
             throw new ContextualError("parameter already defined",this.paramName.getLocation());
         }

@@ -8,7 +8,10 @@ import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Declaration of a class (<code>class name extends superClass {members}<code>).
@@ -54,7 +57,7 @@ public class DeclClass extends AbstractDeclClass {
         }
         ClassDefinition superDef = (ClassDefinition)compiler.getEnvTypes().get(this.superClass.getName());
         ClassType t = new ClassType(this.className.getName(),this.getLocation(),superDef);
-        ClassDefinition def = new ClassDefinition(t,this.getLocation(),superDef);
+        ClassDefinition def = t.getDefinition();
         compiler.getEnvTypes().put(this.className.getName(), def);
     }
 
@@ -63,12 +66,14 @@ public class DeclClass extends AbstractDeclClass {
             throws ContextualError {
         ClassDefinition def = (ClassDefinition)compiler.getEnvTypes().get(this.className.getName());
         this.field.verifyListField(compiler,def);
+        this.methods.verifyListMethod(compiler, def);
     }
     
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
         
-        throw new UnsupportedOperationException("not yet implemented");
+        ClassDefinition def = (ClassDefinition)compiler.getEnvTypes().get(this.className.getName());
+        this.methods.verifyListBody(compiler,def);
     }
 
 
@@ -86,7 +91,14 @@ public class DeclClass extends AbstractDeclClass {
     }
     @Override 
     public void buildMethodTabl(DecacCompiler compiler) {
-        
+        ((ClassDefinition)compiler.getEnvTypes().get(this.className.getName())).write(compiler);
     }
 
+    @Override
+    public void generateMethodBody(DecacCompiler compiler) {
+        for(AbstractDeclMethod a : super.methods.getList()) {
+            a.codeGenBody(compiler);
+        }
+    }
+    
 }

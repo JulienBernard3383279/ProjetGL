@@ -38,4 +38,5 @@ public abstract class AbstractDeclClass extends Tree {
     protected abstract void verifyClassBody(DecacCompiler compiler)
             throws ContextualError;
     public abstract void buildMethodTabl(DecacCompiler compiler);
+    public abstract void generateMethodBody(DecacCompiler compiler);
 }
