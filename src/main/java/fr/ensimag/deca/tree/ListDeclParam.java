@@ -49,7 +49,7 @@ public class ListDeclParam extends TreeList<AbstractDeclParam>{
             DeclParam b = (DeclParam)a;
             
             VariableDefinition customDefinition=new VariableDefinition( b.type.getDefinition().getType(), b.getLocation());
-            customDefinition.setOperand(new RegisterOffset(i-this.size()-2,Register.LB));
+            customDefinition.setOperand(new RegisterOffset(i-/*this.size()*/-2-1,Register.LB));//decomenter si changement 1er paramètre est adresse classe
             compiler.addVarToTable(b.paramName.getName().getName(),customDefinition);
             i++;
         }

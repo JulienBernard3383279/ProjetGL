@@ -14,8 +14,16 @@ import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.NullOperand;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.BSR;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import java.io.PrintStream;
 import java.util.Iterator;
 
@@ -91,19 +99,80 @@ public class CallMethod extends AbstractExpr {
         this.setType(t);
         return t;
     }
-
+    protected DVal codeGenDotted(DecacCompiler compiler) {
+        for(AbstractExpr a : this.args.getList()) {
+            DVal reg = a.codeGen(compiler);
+            if(reg.isGPRegister()) {
+                compiler.addInstruction(new PUSH((GPRegister)reg));
+            }
+            else if(reg.isRegisterOffset()) {
+                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)reg),Register.R0));
+                compiler.addInstruction(new PUSH(Register.R0));
+            }
+            else {
+                compiler.addInstruction(new LOAD(reg,Register.R0));
+                compiler.addInstruction(new PUSH(Register.R0));
+            }
+        }
+        compiler.addInstruction(new BSR(this.name.getMethodDefinition().getLabel()));
+        DVal reg =null;
+        if(!this.getType().isVoid()){
+            reg = compiler.allocRegister();
+            if(reg.isGPRegister()) {
+                compiler.addInstruction(new LOAD(Register.R0,(GPRegister)reg));
+            }
+            else if(reg.isRegisterOffset()) {
+                compiler.addInstruction(new STORE(Register.R0,compiler.translate((RegisterOffset)reg)));
+            }
+            else 
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        }
+        for(AbstractExpr a : this.args.getList()) {
+            compiler.addInstruction(new POP(Register.R0));
+        }
+        return reg;
+    }
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
-        if(compiler!=null)
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        else {
-            compiler =new DecacCompiler(null,null);
-            Label l = ((MethodDefinition)(compiler.getEnvTypes().get(name))).getLabel();
-            compiler.addInstruction(new BSR(l));
-            return null;
+        compiler.addInstruction(new LOAD(new NullOperand(),Register.R0));
+        compiler.addInstruction(new PUSH(Register.R0));
+        for(AbstractExpr a : this.args.getList()) {
+            DVal reg = a.codeGen(compiler);
+            if(reg.isGPRegister()) {
+                compiler.addInstruction(new PUSH((GPRegister)reg));
+            }
+            else if(reg.isRegisterOffset()) {
+                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)reg),Register.R0));
+                compiler.addInstruction(new PUSH(Register.R0));
+            }
+            else {
+                compiler.addInstruction(new LOAD(reg,Register.R0));
+                compiler.addInstruction(new PUSH(Register.R0));
+            }
         }
+        compiler.addInstruction(new BSR(this.name.getMethodDefinition().getLabel()));
+        DVal reg =null;
+        if(!this.getType().isVoid()){
+            reg = compiler.allocRegister();
+            if(reg.isGPRegister()) {
+                compiler.addInstruction(new LOAD(Register.R0,(GPRegister)reg));
+            }
+            else if(reg.isRegisterOffset()) {
+                compiler.addInstruction(new STORE(Register.R0,compiler.translate((RegisterOffset)reg)));
+            }
+            else 
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        }
+        for(AbstractExpr a : this.args.getList()) {
+            compiler.addInstruction(new POP(Register.R0));
+        }
+        return reg;
     }
-
+    
     @Override
     public void decompile(IndentPrintStream s) {
         name.decompile(s);
