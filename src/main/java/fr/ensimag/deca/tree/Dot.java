@@ -55,6 +55,7 @@ public class Dot extends AbstractLValue {
         if (! ct.getDefinition().getMembers().get(right.getName()).isField()) {
             throw new ContextualError("identifier is not a field",this.right.getLocation());
         }
+        //checks if visibility allows for field to be called
         FieldDefinition fieldDef = ct.getDefinition().getMembers().get(right.getName()).asFieldDefinition("",this.getLocation());
         if ((fieldDef.getVisibility()==Visibility.PROTECTED) && (currentClass.getMembers().get(right.getName())==null)) {
             throw new ContextualError("field is protected",this.right.getLocation());
