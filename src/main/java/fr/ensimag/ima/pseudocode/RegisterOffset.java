@@ -28,7 +28,15 @@ public class RegisterOffset extends DAddr {
     }
     @Override 
     public void free(DecacCompiler compiler) {
-        compiler.freeStack(this.offset);
+        if(this.register.equals(Register.SP))
+            compiler.freeStack(this.offset);
+        else if(this.register.equals(Register.GB)) {}
+            //nothing to be done we dont free var 
+        else if(this.register.equals(Register.LB)) {}
+            //nothing to be done we don't free param
+        else 
+            this.register.free(compiler);
+        
     }
     @Override
     public boolean isRegisterOffset() {

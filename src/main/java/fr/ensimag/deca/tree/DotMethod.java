@@ -18,9 +18,11 @@ import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LEA;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import java.io.PrintStream;
 import java.util.Iterator;
+import org.antlr.v4.runtime.Token;
 
 /**
  *
@@ -30,9 +32,9 @@ public class DotMethod extends AbstractExpr {
     private AbstractExpr instance;
     private CallMethod method;
     
-    public DotMethod(AbstractExpr expr, AbstractIdentifier name, ListExpr list) {
+    public DotMethod(AbstractExpr expr, CallMethod method) {
         this.instance=expr;
-        this.method=new CallMethod(name,list);
+        this.method=method;
     }
 
     @Override
@@ -56,7 +58,7 @@ public class DotMethod extends AbstractExpr {
 
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
-        compiler.addInstruction(new LEA(((Identifier)this.instance).getAddr(compiler),Register.R0));
+        compiler.addInstruction(new LOAD(((Identifier)this.instance).getAddr(compiler),Register.R0));
         compiler.addInstruction(new PUSH(Register.R0));
         DVal reg = method.codeGenDotted(compiler);
         return reg;
