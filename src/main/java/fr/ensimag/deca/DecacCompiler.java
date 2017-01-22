@@ -363,7 +363,7 @@ public class DecacCompiler {
     public DVal allocRegister () {
         int i;
         DVal regis;
-        for(i=2;i<regLim;i++) {
+        for(i=3;i<regLim;i++) {//R2 est reservé aux classe offset 
             if(reg[i]==false) {
                 reg[i]=true;
                 regUsed[i]=true;
