@@ -21,7 +21,7 @@ public class And extends AbstractOpBool {
     }
 
     @Override
-    protected String getOperatorName() {
+    public String getOperatorName() {
         return "&&";
     }
     @Override

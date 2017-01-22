@@ -51,7 +51,7 @@ public class Assign extends AbstractBinaryExpr {
 
 
     @Override
-    protected String getOperatorName() {
+    public String getOperatorName() {
         return "=";
     }
     @Override
