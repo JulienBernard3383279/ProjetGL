@@ -18,6 +18,7 @@ import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LEA;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import java.io.PrintStream;
 import java.util.Iterator;
@@ -56,7 +57,7 @@ public class DotMethod extends AbstractExpr {
 
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
-        compiler.addInstruction(new LEA(((Identifier)this.instance).getAddr(compiler),Register.R0));
+        compiler.addInstruction(new LOAD(((Identifier)this.instance).getAddr(compiler),Register.R0));
         compiler.addInstruction(new PUSH(Register.R0));
         DVal reg = method.codeGenDotted(compiler);
         return reg;

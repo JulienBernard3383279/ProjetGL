@@ -16,6 +16,12 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.Visibility;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LEA;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import java.io.PrintStream;
 
 /**
@@ -66,7 +72,19 @@ public class Dot extends AbstractLValue {
 
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DVal regLeft = this.left.codeGen(compiler);
+        int offset = ((FieldDefinition)((Identifier)this.left).getClassDefinition().getMembers().getDico().get(right)).getIndex(); 
+        if(regLeft.isGPRegister()) {
+            compiler.addInstruction(new LOAD(new RegisterOffset(offset,(GPRegister)regLeft),(GPRegister)regLeft));
+        }
+        else if(regLeft.isRegisterOffset()) {
+            compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)regLeft),Register.R0));
+            compiler.addInstruction(new LOAD(new RegisterOffset(offset,Register.R0),Register.R0));
+            compiler.addInstruction(new STORE(Register.R0,compiler.translate((RegisterOffset)regLeft)));
+        }
+        else 
+            throw new UnsupportedOperationException("Should not be called");
+        return regLeft;
     }
 
     @Override
@@ -89,7 +107,18 @@ public class Dot extends AbstractLValue {
     }
 
     public DAddr getAddr(DecacCompiler compiler) {
-        return null; //Pas encore implémenté
+        DVal regLeft = this.left.codeGen(compiler);
+        int offset = ((FieldDefinition)((Identifier)this.left).getClassDefinition().getMembers().getDico().get(right)).getIndex();
+        if(regLeft.isGPRegister()) {
+            return new RegisterOffset(offset,(GPRegister)regLeft); 
+        }
+        else if(regLeft.isRegisterOffset()) {
+            compiler.allocR2();
+            compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)regLeft),Register.getR(2)));
+            return new RegisterOffset(offset,Register.getR(2));
+        }
+        else 
+          throw new UnsupportedOperationException("Should not be called");  
     }
 
 }
