@@ -12,7 +12,18 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.BRA;
+import fr.ensimag.ima.pseudocode.instructions.ERROR;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import fr.ensimag.ima.pseudocode.instructions.TSTO;
+import fr.ensimag.ima.pseudocode.instructions.WNL;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import java.io.PrintStream;
 
 /**
@@ -40,11 +51,30 @@ public class MethodBody extends AbstractMethodBody{
     
     @Override
     protected void codeGenMethodBody(DecacCompiler compiler) {
+        Label l = new Label("fin."+compiler.getMethodName());
+        compiler.setEndMethodLabel(l);
         TSTO tsto_inst=new TSTO(0);
         compiler.addInstruction(tsto_inst);
-        
-        //TODO
-        //tsto_inst.setValue(valeur_a_set);
+        compiler.addInstruction(new BOV(compiler.getStackOV()));
+        compiler.setSaveRegisterFlag( compiler.createFlag());
+        compiler.allocR2();
+        compiler.addInstruction(new LOAD(new RegisterOffset(-2,Register.LB),Register.getR(2)));
+        for(AbstractInst a : insts.getList()) {
+            a.codeGenInst(compiler);
+        }
+        int [] regUsedList = compiler.getUsedRegister();
+        for(int i : regUsedList) {
+            compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(i)));
+            if(compiler.hasReturn()) {
+                compiler.addInstruction(new BRA(l));
+                compiler.addInstruction(new WSTR("Erreur : sortie de la methode A.getX sans return"));
+                compiler.addInstruction(new WNL());
+                compiler.addInstruction(new ERROR());
+            }
+            compiler.addLabel(l);
+            compiler.addInstruction(new POP(Register.getR(i)));
+        }
+        tsto_inst.setValue(compiler.argTSTO());
     }
     
     @Override
@@ -57,7 +87,8 @@ public class MethodBody extends AbstractMethodBody{
     
     @Override
     protected void iterChildren(TreeFunction f) {
-        
+        decls.iter(f);
+        insts.iter(f);
     }
     
     @Override

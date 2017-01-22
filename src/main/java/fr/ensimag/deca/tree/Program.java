@@ -46,9 +46,14 @@ public class Program extends AbstractProgram {
 
     @Override
     public void codeGenProgram(DecacCompiler compiler) {
-        // A FAIRE: compléter ce squelette très rudimentaire de code
         compiler.addComment("Main program");
+        for(AbstractDeclClass a : classes.getList()) {
+            a.buildMethodTabl(compiler);
+        }
         main.codeGenMain(compiler);
+        for(AbstractDeclClass a : classes.getList()) {
+            a.generateMethodBody(compiler);
+        }
     }
 
     @Override

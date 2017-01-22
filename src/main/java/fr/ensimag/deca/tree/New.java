@@ -11,7 +11,18 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.LEA;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.NEW;
+import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import java.io.PrintStream;
 
 /**
@@ -40,10 +51,34 @@ public class New extends AbstractExpr {
         this.setType(t);
         return t;
     }
-
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ClassDefinition type = (ClassDefinition)compiler.getEnvTypes().get(this.getType().getName());
+        DVal reg = compiler.allocRegister();
+        if(reg.isGPRegister()) {
+            compiler.addInstruction(new NEW(type.getNumberOfFields()+1,(GPRegister)reg));
+            compiler.addInstruction(new BOV(compiler.getHeapOV()));
+            compiler.addInstruction(new LEA(type.write(compiler).getAddr(),Register.R0));
+            compiler.addInstruction(new STORE(Register.R0,new RegisterOffset(0,(GPRegister)reg)));
+            compiler.addInstruction(new PUSH((GPRegister)reg));
+            //compiler.addInstruction(new BSR(type.getInitMethod()));
+            compiler.addInstruction(new POP((GPRegister)reg));
+        }
+        else if(reg.isRegisterOffset()) {
+            //VERFIER QUE NumberOfFileds CONTIENT BIEN LE NOMBRE DE VARIABLE DANS LA CLASS  
+            compiler.addInstruction(new NEW(type.getNumberOfFields()+1,Register.R0));
+            compiler.addInstruction(new PUSH(Register.R0));
+            compiler.addInstruction(new BOV(compiler.getHeapOV()));
+            compiler.addInstruction(new LEA(type.write(compiler).getAddr(),Register.R0));
+            compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)reg),Register.R1));
+            compiler.addInstruction(new STORE(Register.R0,new RegisterOffset(0,Register.R1)));
+            //compiler.addInstruction(new BSR(type.getInitMethod()));
+            compiler.addInstruction(new POP(Register.R0));
+            compiler.addInstruction(new STORE(Register.R0,compiler.translate((RegisterOffset)reg)));
+        }
+        else 
+            throw new UnsupportedOperationException("Not supposed to be called");
+        return reg;
     }
 
     @Override
@@ -60,7 +95,7 @@ public class New extends AbstractExpr {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ident.iter(f);
     }
     
 }

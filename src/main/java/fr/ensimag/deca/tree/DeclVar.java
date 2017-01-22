@@ -116,55 +116,23 @@ public class DeclVar extends AbstractDeclVar {
     }
     @Override
     protected void codeGenVar(DecacCompiler compiler) {    
-        if(compiler.getEnvTypes().get(this.type.getName()).isType()) {
-            VariableDefinition customDefinition=new VariableDefinition( this.type.getDefinition().getType(), this.getLocation() );
-            DAddr resultAllocate = compiler.allocateVar();
-            customDefinition.setOperand(resultAllocate);
-            compiler.addVarToTable(this.varName.getName().getName(),customDefinition);
-            if (this.initialization.isInitialization()) {
-                DVal initVal = this.initialization.codeGen(compiler);
-                if(initVal.isGPRegister()) {
-                    compiler.addInstruction(new STORE((GPRegister)initVal,resultAllocate));
-                }
-                else if(initVal.isRegisterOffset()) {
-                    compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)initVal),Register.R0));
-                    compiler.addInstruction(new STORE(Register.R0,resultAllocate));
-                }
-                else {
-                    throw new UnsupportedOperationException("Not supposed to be called"); 
-                }
-                initVal.free(compiler);
+        VariableDefinition customDefinition=new VariableDefinition( this.type.getDefinition().getType(), this.getLocation() );
+        DAddr resultAllocate = compiler.allocateVar();
+        customDefinition.setOperand(resultAllocate);
+        compiler.addVarToTable(this.varName.getName().getName(),customDefinition);
+        if (this.initialization.isInitialization()) {
+            DVal initVal = this.initialization.codeGen(compiler);
+            if(initVal.isGPRegister()) {
+                compiler.addInstruction(new STORE((GPRegister)initVal,resultAllocate));
             }
-
+            else if(initVal.isRegisterOffset()) {
+                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)initVal),Register.R0));
+                compiler.addInstruction(new STORE(Register.R0,resultAllocate));
+            }
+            else {
+                throw new UnsupportedOperationException("Not supposed to be called"); 
+            }
+            initVal.free(compiler);
         }
-        else if(compiler.getEnvTypes().get(this.type.getName()).isClass()) {
-            ClassDefinition type = (ClassDefinition)compiler.getEnvTypes().get(this.type.getName());
-            DAddr addr = compiler.allocateVar();
-            DVal reg = compiler.allocRegister();
-            if(reg.isGPRegister()) {
-                compiler.addInstruction(new NEW(type.getNumberOfFields()+1,(GPRegister)reg));
-                compiler.addInstruction(new BOV(compiler.getHeapOV()));
-                compiler.addInstruction(new LEA(type.write(compiler).getAddr(),Register.R0));
-                compiler.addInstruction(new STORE(Register.R0,new RegisterOffset(0,(GPRegister)reg)));
-                compiler.addInstruction(new PUSH((GPRegister)reg));
-                //compiler.addInstruction(new BSR(type.getInitMethod()));
-                compiler.addInstruction(new POP((GPRegister)reg));
-                compiler.addInstruction(new STORE((GPRegister)reg,addr));
-            }
-            else if(reg.isRegisterOffset()) {
-                //VERFIER QUE NumberOfFileds CONTIENT BIEN LE NOMBRE DE VARIABLE DANS LA CLASS  
-                compiler.addInstruction(new NEW(type.getNumberOfFields()+1,Register.R0));
-                compiler.addInstruction(new PUSH(Register.R0));
-                compiler.addInstruction(new BOV(compiler.getHeapOV()));
-                compiler.addInstruction(new LEA(type.write(compiler).getAddr(),Register.R0));
-                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)reg),Register.R1));
-                compiler.addInstruction(new STORE(Register.R0,new RegisterOffset(0,Register.R1)));
-                //compiler.addInstruction(new BSR(type.getInitMethod()));
-                compiler.addInstruction(new POP(Register.R0));
-                compiler.addInstruction(new STORE(Register.R0,addr));
-            }
-            else 
-                throw new UnsupportedOperationException("Not supposed to be called");
-        }
-    }
+    } 
 }

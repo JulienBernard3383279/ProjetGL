@@ -10,7 +10,10 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.MethodDefinition;
+import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import java.util.Iterator;
 
 /**
@@ -38,6 +41,17 @@ public class ListDeclParam extends TreeList<AbstractDeclParam>{
             } catch (ContextualError e) {
                 throw e;
             }
+        }
+    }
+    public void fillVarTabl(DecacCompiler compiler) {
+        int i = 0;
+        for(AbstractDeclParam a : this.getList()) {
+            DeclParam b = (DeclParam)a;
+            
+            VariableDefinition customDefinition=new VariableDefinition( b.type.getDefinition().getType(), b.getLocation());
+            customDefinition.setOperand(new RegisterOffset(i-/*this.size()*/-2-1,Register.LB));//decomenter si changement 1er paramètre est adresse classe
+            compiler.addVarToTable(b.paramName.getName().getName(),customDefinition);
+            i++;
         }
     }
 }

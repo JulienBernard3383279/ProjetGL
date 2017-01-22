@@ -1,0 +1,8 @@
+class A {
+    int a;
+}
+{
+    A a = new A();
+    boolean b1 = a.instanceof(A);
+    boolean b2 = a.instanceof(int);
+}
