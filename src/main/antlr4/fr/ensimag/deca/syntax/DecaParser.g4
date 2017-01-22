@@ -507,7 +507,7 @@ list_classes returns[ListDeclClass tree]
 
 
 class_decl returns[AbstractDeclClass tree] //return ajouté
-    : CLASS name=ident superclass=class_extension OBRACE class_body CBRACE {
+    : CLASS name=ident superclass=class_extension[$CLASS] OBRACE class_body CBRACE {
         assert($name.tree!=null);
         assert($superclass.tree!=null);
         assert($class_body.treeFields!=null);
@@ -517,12 +517,14 @@ class_decl returns[AbstractDeclClass tree] //return ajouté
     }
     ;
 
-class_extension returns[AbstractIdentifier tree]
+class_extension[Token name] returns[AbstractIdentifier tree]
     : EXTENDS ident {
         $tree=new Identifier( tableSymboles.create($ident.text) );
+        setLocation($tree,$ident.start);
         }
     | /* epsilon */ {
         $tree=new Identifier( tableSymboles.create("Object") );
+        setLocation($tree,$name);
         }
     ;
 
