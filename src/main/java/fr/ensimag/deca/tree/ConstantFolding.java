@@ -5,25 +5,19 @@
  */
 package fr.ensimag.deca.tree;
 import java.util.*;
-<<<<<<< HEAD
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.*;
-=======
 import fr.ensimag.deca.Extension;
->>>>>>> 8be364bbee5580315a765d502988dcfdc128926a
 
 
 /**
  *
  * @author carret
  */
-<<<<<<< HEAD
-=======
 
->>>>>>> 8be364bbee5580315a765d502988dcfdc128926a
 public class ConstantFolding extends Extension{
     
-    private Type resultat;
+    /*private Type resultat;
 
     public Type getResultat() {
         return resultat;
@@ -95,6 +89,6 @@ public class ConstantFolding extends Extension{
            resTemp=resTemp/expr2.getValue();
        }
        return resultat;
-   }
+   }*/
     
 }
