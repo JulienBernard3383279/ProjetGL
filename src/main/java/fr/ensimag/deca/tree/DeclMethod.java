@@ -113,7 +113,10 @@ public class DeclMethod extends AbstractDeclMethod{
     
     @Override
     protected void iterChildren(TreeFunction f) {
-        
+        type.iter(f);
+        methodName.iter(f);
+        params.iter(f);
+        body.iter(f);
     }
     
     @Override

@@ -77,7 +77,7 @@ public class Return extends AbstractInst {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        expr.iter(f);
     }
     
 }
