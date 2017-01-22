@@ -395,7 +395,9 @@ select_expr returns[AbstractExpr tree]
         (o=OPARENT args=list_expr CPARENT {
            // we matched "e1.i(args)"
             assert($args.tree != null);
-            $tree=new DotMethod($e1.tree,$i.tree,$list_expr.tree);
+            CallMethod newCallMethod = new CallMethod($i.tree,$list_expr.tree);
+            setLocation(newCallMethod,$list_expr.start);
+            $tree=new DotMethod($e1.tree,newCallMethod);
             setLocation($tree,$DOT);
         }
         | /* epsilon */ {
