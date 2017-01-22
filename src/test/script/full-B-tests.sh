@@ -34,7 +34,7 @@ for cas_de_test in src/test/deca/context/valid/pierre/objects/*
 do
     echo "$cas_de_test : "
 
-    if src/test/script/launchers/test_context $cas_de_test 2>&1 | grep -q -e $cas_de_test:[0-9][0-9]*
+    if src/main/bin/decac -v $cas_de_test 2>&1 | grep -q -e *$cas_de_test*
     then 
         echo "Echec"
         exit 1

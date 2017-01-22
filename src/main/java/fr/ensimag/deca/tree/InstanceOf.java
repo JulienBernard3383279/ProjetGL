@@ -32,7 +32,10 @@ public class InstanceOf extends AbstractExpr {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
         try {
             name.verifyExpr(compiler, localEnv, currentClass);
-            type.verifyType(compiler);
+            Type ct = type.verifyType(compiler);
+            if (!ct.isClass()) {
+                throw new ContextualError("parameter of instanceof must be a class",this.getLocation());
+            }
         } catch (ContextualError e) {
             throw e;
         }

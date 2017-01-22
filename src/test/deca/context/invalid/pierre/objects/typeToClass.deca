@@ -1,0 +1,7 @@
+class A {
+    int b;
+}
+{
+    A a = new A();
+    a = (A)(a.b);
+}

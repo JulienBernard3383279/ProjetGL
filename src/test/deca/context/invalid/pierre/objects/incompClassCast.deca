@@ -1,0 +1,7 @@
+class A {}
+class B extends A {}
+class C {}
+{
+    A a = new A();
+    C c = (C)(a);
+}

@@ -520,6 +520,7 @@ class_decl returns[AbstractDeclClass tree] //return ajouté
 class_extension returns[AbstractIdentifier tree]
     : EXTENDS ident {
         $tree=new Identifier( tableSymboles.create($ident.text) );
+        setLocation($tree,$ident.start);
         }
     | /* epsilon */ {
         $tree=new Identifier( tableSymboles.create("Object") );

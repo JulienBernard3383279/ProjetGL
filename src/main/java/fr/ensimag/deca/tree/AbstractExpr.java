@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
@@ -90,7 +91,16 @@ public abstract class AbstractExpr extends AbstractInst {
         } catch (ContextualError e) {
             throw e;
         }
-        if (! t.sameType(expectedType)){
+        if (t.isClass()) {
+            if (!expectedType.isClass()) {
+                throw new ContextualError("expected type found class",this.getLocation());
+            } else {
+                ClassType ct = (ClassType)expectedType;
+                if (!ct.isChild(t)) {
+                    throw new ContextualError("incompatible class type",this.getLocation());
+                }
+            }
+        } else if (! t.sameType(expectedType)){
             if (expectedType.isFloat() && t.isInt()) {
                 ConvFloat conv = new ConvFloat(this);
                 conv.verifyExpr(compiler,localEnv,currentClass);

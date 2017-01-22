@@ -7,6 +7,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.MethodDefinition;
@@ -86,10 +87,18 @@ public class CallMethod extends AbstractExpr {
             int index = 0;
             while (it.hasNext()) {
                 AbstractExpr e = it.next();
-                e = e.verifyRValue(compiler,localEnv,currentClass,sig.paramNumber(index));
-                tbis = e.getType();
-                if (! tbis.sameType(sig.paramNumber(index))) {
-                    throw new ContextualError("parameter type does not match signature",e.getLocation());
+                tbis = e.verifyExpr(compiler,localEnv,currentClass);
+                if (tbis.isClass()){
+                    if (!sig.paramNumber(index).isClass()) {
+                        throw new ContextualError("parameter type does not match signature",e.getLocation());
+                    } else {
+                        ClassType ct = (ClassType) tbis;
+                        if (!ct.isChild(sig.paramNumber(index))) {
+                            throw new ContextualError("class type in call not subclass of class type in signature",e.getLocation());
+                        }
+                    }
+                } else {
+                    e = e.verifyRValue(compiler, localEnv, currentClass,sig.paramNumber(index));
                 }
                 index = index + 1; 
             }

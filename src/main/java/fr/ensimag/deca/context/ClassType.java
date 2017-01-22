@@ -50,9 +50,12 @@ public class ClassType extends Type {
         super(className);
     }
     
-
     @Override
     public boolean sameType(Type otherType) {
+        return (this.getName().getName().equals(otherType.getName().getName()));
+    }
+    
+    public boolean isChild(Type otherType) {
         ClassDefinition curr = this.getDefinition();
         while (curr != null) {
             if (curr.getType().getName().getName().equals(otherType.getName().getName())) {

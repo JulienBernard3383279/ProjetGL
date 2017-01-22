@@ -201,8 +201,8 @@ public class Identifier extends AbstractIdentifier {
      */
     @Override
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
-        if (compiler.getEnvTypes().get(this.getName()) == null) {
-            throw new ContextualError("type undefined",this.getLocation());
+        if (!this.getName().getName().equals("Object") && compiler.getEnvTypes().get(this.getName()) == null) {
+            throw new ContextualError("type or class undefined",this.getLocation());
         }
         this.setDefinition(compiler.getEnvTypes().get(name));
         Type t = compiler.getEnvTypes().get(this.getName()).getType();

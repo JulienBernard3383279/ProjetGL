@@ -48,10 +48,12 @@ public class CastExpr extends AbstractExpr{
         if (!t1.isClass() && t2.isClass()) {
             throw new ContextualError("class cast to type",this.getLocation());
         }
-        ClassType ct1 = (ClassType)t1;
-        ClassType ct2 = (ClassType)t2;
-        if (! ct1.getDefinition().isCastCompatible(ct2.getDefinition())) {
-            throw new ContextualError("classes incompatible for cast",this.getLocation());
+        if (t1.isClass() && t2.isClass()) {
+            ClassType ct1 = (ClassType)t1;
+            ClassType ct2 = (ClassType)t2;
+            if (! ct1.getDefinition().isCastCompatible(ct2.getDefinition())) {
+                throw new ContextualError("classes incompatible for cast",this.getLocation());
+            }
         }
         this.setType(t1);
         return t1;
