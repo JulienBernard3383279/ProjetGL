@@ -55,7 +55,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         s.print(")");
     }
 
-    abstract protected String getOperatorName();
+    abstract public String getOperatorName();
 
     @Override
     protected void iterChildren(TreeFunction f) {

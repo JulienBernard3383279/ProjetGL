@@ -24,7 +24,7 @@ public class Equals extends AbstractOpExactCmp {
 
 
     @Override
-    protected String getOperatorName() {
+    public String getOperatorName() {
         return "==";
     }    
     
