@@ -11,6 +11,11 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.BRA;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import java.io.PrintStream;
 
 /**
@@ -19,6 +24,12 @@ import java.io.PrintStream;
  */
 public class Return extends AbstractInst {
     private AbstractExpr expr;
+
+    public AbstractExpr getExpr() {
+        return expr;
+    }
+    
+    
     
     public Return(AbstractExpr expr) {
         this.expr=expr;
@@ -27,8 +38,12 @@ public class Return extends AbstractInst {
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass, Type returnType) throws ContextualError {
         Type t;
+        if (returnType.isVoid()) {
+            throw new ContextualError("return called in void method",this.getLocation());
+        }
         try {
-            t = this.expr.verifyExpr(compiler, localEnv, currentClass);
+            this.expr = this.expr.verifyRValue(compiler, localEnv, currentClass, returnType);
+            t = this.expr.getType();
         } catch (ContextualError e) {
             throw e;
         }
@@ -40,7 +55,12 @@ public class Return extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DVal value = this.expr.codeGen(compiler);
+        if(value.isGPRegister())
+            compiler.addInstruction(new LOAD(value,Register.R0));
+        else if(value.isRegisterOffset()) 
+            compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)value),Register.R0));
+        compiler.addInstruction(new BRA(compiler.getEndMethodLabel()));
     }
 
     @Override
@@ -57,7 +77,7 @@ public class Return extends AbstractInst {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        expr.iter(f);
     }
     
 }

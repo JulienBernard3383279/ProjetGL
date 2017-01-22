@@ -50,19 +50,20 @@ public class Main extends AbstractMain {
 
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
+        execute_dead(compiler); //on nettoie l'arbre avant
         compiler.addComment("Seprate constant stack and temporary variables");
         compiler.addComment("Beginning of main instructions:");
         declVariables.codeGenListVar(compiler);
         insts.codeGenListInst(compiler);
         compiler.addInstruction(new HALT());
         if(compiler.getCompilerOptions().getChecks()) {
-            Label pilePleineLabel = new Label("pile_pleine");
-            compiler.addLabel(pilePleineLabel);
+            
+            compiler.addLabel(compiler.getStackOV());
             compiler.addInstruction(new WSTR("Erreur : pile pleine"));
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
             compiler.addInstructionAtProgramBeginning(new ADDSP(compiler.getSizeOfConstantStack()));
-            compiler.addInstructionAtProgramBeginning(new BOV(pilePleineLabel));
+            compiler.addInstructionAtProgramBeginning(new BOV(compiler.getStackOV()));
             compiler.addInstructionAtProgramBeginning(new TSTO(compiler.argTSTO()));
             compiler.addLabel(compiler.getIOLabel());
             compiler.addInstruction(new WSTR("Error: Input/Output error"));
@@ -77,6 +78,15 @@ public class Main extends AbstractMain {
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
         }
+    }
+    
+    protected void execute_dead(DecacCompiler compiler){
+        if(compiler.getCompilerOptions().getDead()){  //si on a bien ajouté l'option -o1 dans la ligne de commande
+            Deadstore dead=(Deadstore) compiler.getExtension();
+            dead.store_dec(declVariables);
+            dead.store_var_inst(insts);
+            dead.remove_var(declVariables);
+        }    
     }
     
     @Override

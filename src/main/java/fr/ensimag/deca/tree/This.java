@@ -42,12 +42,14 @@ public class This extends AbstractExpr {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        //leaf node
+        s.print(prefix);
+        s.print("this");
+        s.println();
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //leaf node
     }
     
 }

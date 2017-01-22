@@ -32,7 +32,10 @@ public class InstanceOf extends AbstractExpr {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
         try {
             name.verifyExpr(compiler, localEnv, currentClass);
-            type.verifyType(compiler);
+            Type ct = type.verifyType(compiler);
+            if (!ct.isClass()) {
+                throw new ContextualError("parameter of instanceof must be a class",this.getLocation());
+            }
         } catch (ContextualError e) {
             throw e;
         }
@@ -55,12 +58,14 @@ public class InstanceOf extends AbstractExpr {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        name.prettyPrint(s, prefix, false);
+        type.prettyPrint(s, prefix, true);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        name.iter(f);
+        type.iter(f);
     }
     
 }

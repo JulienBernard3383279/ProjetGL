@@ -31,10 +31,18 @@ public class DecacMain {
         
         
         if (options.getPrintBanner()) {
-            System.out.println("Ceci est une bannière !");
+            System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+            System.out.println("MMMMMMMMMMMMMM PROJET GL MMMMMMMMMMMMMMMMMMM");
+            System.out.println("MMMMMMMMMMMMMM Equipe 58 MMMMMMMMMMMMMMMMMMM");
+            System.out.println("MMM Julien BERNARD    Thibaut CARRE MMMMMMMM");
+            System.out.println("MMMMMMM  Emmanuel MARCHAL-FRANCIS MMMMMMMMMM");
+            System.out.println("MMMMM Pierre COSTE   Guillaume MILAN MMMMMMM");
+            System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
             System.exit(0);
         }
         
+        
+       
         
         if (options.getSourceFiles().isEmpty()) {
             throw new UnsupportedOperationException("decac without argument not yet implemented");

@@ -1,0 +1,4 @@
+{
+    float b = 0.5;
+    int a = (int)(b);
+}

@@ -14,7 +14,11 @@ import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.LEA;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import java.io.PrintStream;
 import java.util.Iterator;
 
@@ -42,7 +46,7 @@ public class DotMethod extends AbstractExpr {
                 throw new ContextualError("expression is not instance of a class",this.instance.getLocation());
             }
             ct = (ClassType) t;
-            t = method.verifyExpr(compiler, localEnv, currentClass);
+            t = method.verifyExpr(compiler, localEnv, ct.getDefinition());
         } catch (ContextualError e) {
             throw e;
         }    
@@ -52,7 +56,10 @@ public class DotMethod extends AbstractExpr {
 
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        compiler.addInstruction(new LEA(((Identifier)this.instance).getAddr(compiler),Register.R0));
+        compiler.addInstruction(new PUSH(Register.R0));
+        DVal reg = method.codeGenDotted(compiler);
+        return reg;
     }
 
     @Override
@@ -70,6 +77,7 @@ public class DotMethod extends AbstractExpr {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        instance.iter(f);
+        method.iter(f);
     }
 }

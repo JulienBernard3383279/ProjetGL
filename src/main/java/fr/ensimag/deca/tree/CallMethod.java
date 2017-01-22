@@ -7,6 +7,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.MethodDefinition;
@@ -14,8 +15,16 @@ import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.NullOperand;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.BSR;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import java.io.PrintStream;
 import java.util.Iterator;
 
@@ -32,30 +41,64 @@ public class CallMethod extends AbstractExpr {
         this.name=name;
         this.args=args;
     }
+
+
+    public AbstractIdentifier getName() {
+        return name;
+    }
+
+    public ListExpr getArgs() {
+        return args;
+    }
+
+    public void setName(AbstractIdentifier name) {
+        this.name = name;
+    }
+
+    public void setArgs(ListExpr args) {
+        this.args = args;
+    }
+    
+    
+
     
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
         Type t;
+        Type tbis;
         try {
-            t = name.verifyExpr(compiler,currentClass.getMembers(),currentClass);
-            if (currentClass.getMembers().get(name.getName())==null) {
+            if (currentClass == null) {
+                throw new ContextualError("direct method call in main",this.name.getLocation());
+            }
+            EnvironmentExp classEnv = currentClass.getMembers();
+            t = name.verifyExpr(compiler,classEnv,currentClass);
+            if (classEnv.get(name.getName())==null) {
                 throw new ContextualError("no such method in class",this.name.getLocation());
             }
-            if (! currentClass.getMembers().get(name.getName()).isMethod()) {
+            if (! classEnv.get(name.getName()).isMethod()) {
                 throw new ContextualError("identifier is not a method",this.name.getLocation());
             }
-            MethodDefinition def = currentClass.getMembers().get(name.getName()).asMethodDefinition("",this.getLocation());
+            MethodDefinition def = classEnv.get(name.getName()).asMethodDefinition("",this.name.getLocation());
             Signature sig = def.getSignature();
             if (sig.size()!=args.size()) {
-                throw new ContextualError("number of parameters does not match signature",this.getLocation());
+                throw new ContextualError("number of parameters does not match signature",this.name.getLocation());
             }
             Iterator<AbstractExpr> it = this.args.iterator();
             int index = 0;
             while (it.hasNext()) {
                 AbstractExpr e = it.next();
-                t = e.verifyExpr(compiler,localEnv,currentClass);
-                if (! t.sameType(sig.paramNumber(index))) {
-                    throw new ContextualError("parameter type does not match signature",e.getLocation());
+                tbis = e.verifyExpr(compiler,localEnv,currentClass);
+                if (tbis.isClass()){
+                    if (!sig.paramNumber(index).isClass()) {
+                        throw new ContextualError("parameter type does not match signature",e.getLocation());
+                    } else {
+                        ClassType ct = (ClassType) tbis;
+                        if (!ct.isChild(sig.paramNumber(index))) {
+                            throw new ContextualError("class type in call not subclass of class type in signature",e.getLocation());
+                        }
+                    }
+                } else {
+                    e = e.verifyRValue(compiler, localEnv, currentClass,sig.paramNumber(index));
                 }
                 index = index + 1; 
             }
@@ -65,19 +108,80 @@ public class CallMethod extends AbstractExpr {
         this.setType(t);
         return t;
     }
-
+    protected DVal codeGenDotted(DecacCompiler compiler) {
+        for(AbstractExpr a : this.args.getList()) {
+            DVal reg = a.codeGen(compiler);
+            if(reg.isGPRegister()) {
+                compiler.addInstruction(new PUSH((GPRegister)reg));
+            }
+            else if(reg.isRegisterOffset()) {
+                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)reg),Register.R0));
+                compiler.addInstruction(new PUSH(Register.R0));
+            }
+            else {
+                compiler.addInstruction(new LOAD(reg,Register.R0));
+                compiler.addInstruction(new PUSH(Register.R0));
+            }
+        }
+        compiler.addInstruction(new BSR(this.name.getMethodDefinition().getLabel()));
+        DVal reg =null;
+        if(!this.getType().isVoid()){
+            reg = compiler.allocRegister();
+            if(reg.isGPRegister()) {
+                compiler.addInstruction(new LOAD(Register.R0,(GPRegister)reg));
+            }
+            else if(reg.isRegisterOffset()) {
+                compiler.addInstruction(new STORE(Register.R0,compiler.translate((RegisterOffset)reg)));
+            }
+            else 
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        }
+        for(AbstractExpr a : this.args.getList()) {
+            compiler.addInstruction(new POP(Register.R0));
+        }
+        return reg;
+    }
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
-        if(compiler!=null)
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        else {
-            compiler =new DecacCompiler(null,null);
-            Label l = ((MethodDefinition)(compiler.getEnvTypes().get(name))).getLabel();
-            compiler.addInstruction(new BSR(l));
-            return null;
+        compiler.addInstruction(new LOAD(new NullOperand(),Register.R0));
+        compiler.addInstruction(new PUSH(Register.R0));
+        for(AbstractExpr a : this.args.getList()) {
+            DVal reg = a.codeGen(compiler);
+            if(reg.isGPRegister()) {
+                compiler.addInstruction(new PUSH((GPRegister)reg));
+            }
+            else if(reg.isRegisterOffset()) {
+                compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)reg),Register.R0));
+                compiler.addInstruction(new PUSH(Register.R0));
+            }
+            else {
+                compiler.addInstruction(new LOAD(reg,Register.R0));
+                compiler.addInstruction(new PUSH(Register.R0));
+            }
         }
+        compiler.addInstruction(new BSR(this.name.getMethodDefinition().getLabel()));
+        DVal reg =null;
+        if(!this.getType().isVoid()){
+            reg = compiler.allocRegister();
+            if(reg.isGPRegister()) {
+                compiler.addInstruction(new LOAD(Register.R0,(GPRegister)reg));
+            }
+            else if(reg.isRegisterOffset()) {
+                compiler.addInstruction(new STORE(Register.R0,compiler.translate((RegisterOffset)reg)));
+            }
+            else 
+            {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        }
+        for(AbstractExpr a : this.args.getList()) {
+            compiler.addInstruction(new POP(Register.R0));
+        }
+        return reg;
     }
-
+    
     @Override
     public void decompile(IndentPrintStream s) {
         name.decompile(s);
@@ -94,6 +198,7 @@ public class CallMethod extends AbstractExpr {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        name.iter(f);
+        args.iter(f);
     }
 }

@@ -32,6 +32,8 @@ import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 import java.io.PrintStream;
+import java.util.Iterator;
+import java.util.Map;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -199,8 +201,8 @@ public class Identifier extends AbstractIdentifier {
      */
     @Override
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
-        if (compiler.getEnvTypes().get(this.getName()) == null) {
-            throw new ContextualError("type undefined",this.getLocation());
+        if (!this.getName().getName().equals("Object") && compiler.getEnvTypes().get(this.getName()) == null) {
+            throw new ContextualError("type or class undefined",this.getLocation());
         }
         this.setDefinition(compiler.getEnvTypes().get(name));
         Type t = compiler.getEnvTypes().get(this.getName()).getType();
@@ -250,7 +252,14 @@ public class Identifier extends AbstractIdentifier {
      */
     @Override
     public DAddr getAddr(DecacCompiler compiler) {
-        return compiler.getVarData(this.name.getName()).getOperand();
+        if(compiler.varExist(this.name.getName()))
+            return compiler.getVarData(this.name.getName()).getOperand();
+        else {
+            if(!compiler.isInMethod())
+                throw new UnsupportedOperationException("Shouldn't be called");
+            else 
+                return new RegisterOffset(((FieldDefinition)compiler.getClassDefinition().getMembers().get(this.name)).getIndex(),Register.getR(2)); 
+        }
     }
     @Override
     protected DVal codeGenPrint(DecacCompiler compiler) {

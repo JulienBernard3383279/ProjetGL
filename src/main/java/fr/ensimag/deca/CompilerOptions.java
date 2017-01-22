@@ -51,6 +51,30 @@ public class CompilerOptions {
     public int getNbRegisters() {
         return nbRegisters;
     }
+
+    public static int getDEBUG() {
+        return DEBUG;
+    }
+
+    public static int getINFO() {
+        return INFO;
+    }
+
+    public static int getQUIET() {
+        return QUIET;
+    }
+
+    public static int getTRACE() {
+        return TRACE;
+    }
+    
+    public boolean getDead() {
+        return dead;
+    }
+    
+    public boolean getFolding(){
+        return folding;
+    }
     
     private int debug = 0;
     private boolean parallel = false;
@@ -61,6 +85,8 @@ public class CompilerOptions {
     private boolean checks=true;
     private boolean parse=false;
     private boolean verif=false;
+    private boolean dead=false;
+    private boolean folding=false;
     
     public void parseArgs(String[] args) throws CLIException {        
         // Le comportement dans le cas d'une utilisation non conforme à la syntaxe est non spécifié.
@@ -99,6 +125,12 @@ public class CompilerOptions {
                     break;
                 case "-r" :
                     waitingForNbRegisters=true;
+                    break;
+                case "-o1":
+                    dead=true;
+                    break;
+                case "-o2":
+                    folding=true;
                     break;
                 default:
                     sourceFiles.add(new File(str));

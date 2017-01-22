@@ -29,8 +29,7 @@ public class DeclClass extends AbstractDeclClass {
         this.className = className;
         this.superClass = superClass;
         this.field = field;
-        this.methods = methods;
-        
+        this.methods = methods;  
     }
     //fin modif
     
@@ -48,9 +47,8 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
-        if (compiler.getEnvTypes().get(this.superClass.getName())==null) {
-            throw new ContextualError("class extends undefined class",this.getLocation());
-        } else if (! compiler.getEnvTypes().get(this.superClass.getName()).isClass()) {
+        Type t1 = this.superClass.verifyType(compiler);
+        if (! t1.isClass()) {
             throw new ContextualError("class extends type",this.getLocation());
         } else if (compiler.getEnvTypes().get(this.className.getName())!=null){
             throw new ContextualError("class already defined",this.getLocation());
@@ -59,6 +57,8 @@ public class DeclClass extends AbstractDeclClass {
         ClassType t = new ClassType(this.className.getName(),this.getLocation(),superDef);
         ClassDefinition def = t.getDefinition();
         compiler.getEnvTypes().put(this.className.getName(), def);
+        this.className.setDefinition(def);
+        this.className.setType(t);
     }
 
     @Override
@@ -87,7 +87,10 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not yet supported");
+        className.iter(f);
+        superClass.iter(f);
+        this.field.iter(f);
+        this.methods.iter(f);
     }
     @Override 
     public void buildMethodTabl(DecacCompiler compiler) {
@@ -96,8 +99,9 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     public void generateMethodBody(DecacCompiler compiler) {
+        compiler.currentClass(this.className.getClassDefinition());
         for(AbstractDeclMethod a : super.methods.getList()) {
-            a.codeGenBody(compiler);
+            a.codeGenBody(compiler,field);
         }
     }
     
