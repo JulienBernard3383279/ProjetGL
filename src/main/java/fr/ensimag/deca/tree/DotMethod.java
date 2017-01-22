@@ -21,6 +21,7 @@ import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import java.io.PrintStream;
 import java.util.Iterator;
+import org.antlr.v4.runtime.Token;
 
 /**
  *
@@ -30,9 +31,9 @@ public class DotMethod extends AbstractExpr {
     private AbstractExpr instance;
     private CallMethod method;
     
-    public DotMethod(AbstractExpr expr, AbstractIdentifier name, ListExpr list) {
+    public DotMethod(AbstractExpr expr, CallMethod method) {
         this.instance=expr;
-        this.method=new CallMethod(name,list);
+        this.method=method;
     }
 
     @Override
