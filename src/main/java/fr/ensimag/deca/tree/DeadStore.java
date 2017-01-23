@@ -55,7 +55,7 @@ public class DeadStore extends Extension{
                 if(abstVar instanceof DeclVar){
                     DeclVar dec=(DeclVar) abstVar;
                     if(!this.arr1.contains(abstVar))                        
-                       this.arr1.add(dec.getVarName());//on copie le nom des variables initialisées   
+                       this.arr1.add(dec.getVarName());//on copie le nom des variables initialisées en un seul exemplaire  
                 }    
         }  
     }
@@ -79,9 +79,12 @@ public class DeadStore extends Extension{
                 }
                     
                 
-                if(varBin.getLeftOperand() instanceof Identifier){
+                if(varBin.getRightOperand() instanceof Identifier){
                     Identifier id=(Identifier) varBin.getRightOperand();
                     this.arr2.add(id.getName().getName());
+                }
+                else{
+                    
                 }
                              
             }
@@ -129,6 +132,17 @@ public class DeadStore extends Extension{
      * mais pas dans la liste des instructions
      * @param list_var 
      */
+    
+    public void get_args(AbstractExpr expr){
+        if(expr instanceof AbstractBinaryExpr){
+            AbstractBinaryExpr binExpr=(AbstractBinaryExpr) expr;
+            if(binExpr.getLeftOperand() instanceof Identifier){
+                Identifier id=(Identifier) binExpr.getLeftOperand();
+            }
+            else
+                get_args(binExpr.getLeftOperand());
+        }
+    }
     
     public void remove_var(ListDeclVar list_var){
         int j=0;
