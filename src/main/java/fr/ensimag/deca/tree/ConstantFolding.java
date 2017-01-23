@@ -24,38 +24,103 @@ public class ConstantFolding extends Extension{
     
     
     
-    public void calcConst(ListInst listInst){
+    public void optTreeConst(ListInst listInst){
             Iterator<AbstractInst> i= listInst.iterator();
-            AbstractExpr expr;
+            AbstractExpr exprOp, exprCons;
             Boolean typeVar;
             String ope;
-            this.resultat=null;
+            int taille;
+            int intRes=0;
+            ArrayList<String> tabOperation = new ArrayList<>();
+            ArrayList<AbstractExpr> tabCons = new ArrayList<>();
             while(i.hasNext()){
                 AbstractInst inst = i.next();
                 if(inst instanceof AbstractBinaryExpr){
                         if(inst instanceof Assign){
                             typeVar=((Assign) inst).getLeftOperand().getType().isInt();
                             if(typeVar){
-                                expr=((Assign) inst).getRightOperand();
-                                if(expr instanceof AbstractBinaryExpr){
-                                    ope=((AbstractBinaryExpr) expr).getOperatorName();
-                                    intCalc(expr, ope);
+                               
+                                exprOp=((Assign) inst).getRightOperand();
+                               
+                                if(exprOp instanceof AbstractBinaryExpr){
+                                    ope=((AbstractBinaryExpr) exprOp).getOperatorName();
+                                    tabOperation.add(ope);
+                                    exprCons=((AbstractBinaryExpr) exprOp).getRightOperand();
+                                    if(exprCons instanceof Identifier){
+                                    }
+                                    tabCons.add(exprCons);
+                                }
+                                else{
+                                    System.out.println("erreur");
+                                }
+                                
+                                while(((AbstractBinaryExpr) exprOp).getLeftOperand() instanceof AbstractOpArith){
+                                    ope=((AbstractBinaryExpr) exprOp).getOperatorName();
+                                    tabOperation.add(ope);
+                                    exprCons=((AbstractBinaryExpr) exprOp).getRightOperand();
+                                    tabCons.add(exprCons);
+                                }
+                                
+                                exprCons=((AbstractBinaryExpr) exprOp).getLeftOperand();
+                                tabCons.add(exprCons);
+                                exprCons=((AbstractBinaryExpr) exprOp).getRightOperand();
+                                tabCons.add(exprCons);
+                                
+                                taille=tabOperation.size();
+                                ope=tabOperation.remove(taille);
+                               
+                                if(ope=="+"){
+                                taille=tabCons.size();
+                                intRes=((IntLiteral)(tabCons.remove(taille))).getValue()+((IntLiteral)(tabCons.remove(taille-1))).getValue();
+                                }
+                                else if(ope=="-"){
+                                taille=tabCons.size();
+                                intRes=-((IntLiteral)(tabCons.remove(taille))).getValue()+((IntLiteral)(tabCons.remove(taille-1))).getValue();
+                                }
+                                else if(ope=="*"){
+                                taille=tabCons.size();
+                                intRes=((IntLiteral)(tabCons.remove(taille))).getValue()*((IntLiteral)(tabCons.remove(taille-1))).getValue();
+                                }
+                                else if(ope=="/"){
+                                taille=tabCons.size();
+                                intRes=((IntLiteral)(tabCons.remove(taille-1))).getValue()*((IntLiteral)(tabCons.remove(taille))).getValue();
+                                }
+                                
+                                while(!tabOperation.isEmpty()){
+                                    taille=tabOperation.size();
+                                    ope=tabOperation.remove(taille);
+                                    if(ope=="+"){
+                                        taille=tabCons.size();
+                                        intRes=intRes+((IntLiteral)(tabCons.remove(taille))).getValue();
+                                    }
+                                    else if(ope=="-"){
+                                        taille=tabCons.size();
+                                        intRes=-intRes+((IntLiteral)(tabCons.remove(taille))).getValue();
+                                    }
+                                    else if(ope=="*"){
+                                        taille=tabCons.size();
+                                        intRes=intRes*((IntLiteral)(tabCons.remove(taille))).getValue();
+                                    }
+                                    else if(ope=="/"){
+                                        taille=tabCons.size();
+                                        intRes=((IntLiteral)(tabCons.remove(taille))).getValue()/intRes;
+                                    }
                                 }
                             }
-                            typeVar=((Assign) inst).getLeftOperand().getType().isBoolean();
-                            if(typeVar){
-                                
-                            }
+                            
+                            
+                            
+                          
                             typeVar=((Assign) inst).getLeftOperand().getType().isFloat();
                             if(typeVar){
-                                expr=((Assign) inst).getRightOperand();
-                                if(expr instanceof AbstractBinaryExpr){
-                                    ope=((AbstractBinaryExpr) expr).getOperatorName();
-                                    intCalc(expr, ope);
+                                exprOp=((Assign) inst).getRightOperand();
+                                if(exprOp instanceof AbstractBinaryExpr){
+                                    ope=((AbstractBinaryExpr) exprOp).getOperatorName();
+                                    intCalc(exprOp, ope);
                                 }
                             }
-                            expr=((Assign) inst).getRightOperand();
-                            if(expr instanceof AbstractBinaryExpr){
+                            exprOp=((Assign) inst).getRightOperand();
+                            if(exprOp instanceof AbstractBinaryExpr){
                                     
                             }
                         }
