@@ -31,12 +31,10 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod>{
         while (it.hasNext()) {
             try {
                 it.next().verifyDeclMethod(compiler, currentClass,index);
-                index = index + 1;
             } catch (ContextualError e) {
                 throw e;
             }
         }
-        currentClass.setNumberOfMethods(index);
     }
     
     protected void verifyListBody(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError{
