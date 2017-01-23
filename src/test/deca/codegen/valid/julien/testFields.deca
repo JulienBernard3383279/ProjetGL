@@ -4,4 +4,4 @@ class myClass {
 }
 
 {myClass c = new myClass();
-if (c.x==1 && c.y==1) {print(1)}}
+if (c.x==1 && c.y==1) {print(1);}}

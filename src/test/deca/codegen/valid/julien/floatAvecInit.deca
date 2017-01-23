@@ -3,5 +3,5 @@ class myClass {
 }
 
 {myClass c = new myClass();
-if (c.f==2.0) {print(1)}
+if (c.f==2.0) {print(1);}
 }

@@ -450,6 +450,12 @@ public class DecacCompiler {
     private int elseCounter = -1;
     private int beginWhileCounter = -1;
     private int endWhileCounter = -1;
+    private int instanceOfCounter = -1;
+    
+    public int getInstanceOfCounter() {
+        instanceOfCounter++;
+        return instanceOfCounter;
+    }
     
     public int getFiCounter() {
         fiCounter++;
@@ -651,6 +657,14 @@ public class DecacCompiler {
     }
     public Label getEndMethodLabel() {
         return endMethod;
+    }
+
+    public void newMethodKey() {
+        methodKey++;
+    }
+    int methodKey=0;
+    public String getMethodkey() {
+        return ""+methodKey;
     }
     /** End of Code for Methods Only**/
 }
