@@ -74,7 +74,7 @@ public class Dot extends AbstractLValue {
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
         DVal regLeft = this.left.codeGen(compiler);
-        int offset = ((FieldDefinition)((Identifier)this.left).getClassDefinition().getMembers().getDico().get(right)).getIndex(); 
+        int offset = ((FieldDefinition)((ClassType)((Identifier)this.left).getType()).getDefinition().getMembers().getDico().get(right)).getIndex(); 
         if(regLeft.isGPRegister()) {
             compiler.addInstruction(new LOAD(new RegisterOffset(offset,(GPRegister)regLeft),(GPRegister)regLeft));
         }

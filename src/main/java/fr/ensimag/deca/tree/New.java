@@ -14,9 +14,11 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.BSR;
 import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.NEW;
@@ -61,7 +63,7 @@ public class New extends AbstractExpr {
             compiler.addInstruction(new LEA(type.write(compiler).getAddr(),Register.R0));
             compiler.addInstruction(new STORE(Register.R0,new RegisterOffset(0,(GPRegister)reg)));
             compiler.addInstruction(new PUSH((GPRegister)reg));
-            //compiler.addInstruction(new BSR(type.getInitMethod()));
+            compiler.addInstruction(new BSR(new Label("init."+ident.getName().getName())));
             compiler.addInstruction(new POP((GPRegister)reg));
         }
         else if(reg.isRegisterOffset()) {
@@ -72,7 +74,7 @@ public class New extends AbstractExpr {
             compiler.addInstruction(new LEA(type.write(compiler).getAddr(),Register.R0));
             compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)reg),Register.R1));
             compiler.addInstruction(new STORE(Register.R0,new RegisterOffset(0,Register.R1)));
-            //compiler.addInstruction(new BSR(type.getInitMethod()));
+            compiler.addInstruction(new BSR(new Label("init."+ident.getName().getName())));
             compiler.addInstruction(new POP(Register.R0));
             compiler.addInstruction(new STORE(Register.R0,compiler.translate((RegisterOffset)reg)));
         }

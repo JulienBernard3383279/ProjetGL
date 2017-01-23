@@ -62,7 +62,7 @@ public class Main extends AbstractMain {
             compiler.addInstruction(new WSTR("Erreur : pile pleine"));
             compiler.addInstruction(new WNL());
             compiler.addInstruction(new ERROR());
-            compiler.addInstructionAtProgramBeginning(new ADDSP(compiler.getSizeOfConstantStack()));
+            compiler.addInstructionAtProgramBeginning(new ADDSP(compiler.getSizeOfConstantStack()+compiler.getCurrentMethodNumber()));
             compiler.addInstructionAtProgramBeginning(new BOV(compiler.getStackOV()));
             compiler.addInstructionAtProgramBeginning(new TSTO(compiler.argTSTO()));
             compiler.addLabel(compiler.getIOLabel());

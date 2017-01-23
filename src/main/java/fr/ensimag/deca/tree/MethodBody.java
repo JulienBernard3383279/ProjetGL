@@ -67,8 +67,13 @@ public class MethodBody extends AbstractMethodBody{
         for(int i : regUsedList) {
             if(i!=-1) {
                 compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(i)));
-                
+                compiler.incOverFlow();
+            }
+        }
+        for(int i : regUsedList) {
+            if(i!=-1) {
                 compiler.addInstruction(new POP(Register.getR(i)));
+                compiler.decOverFlow();
             }
         }
         if(compiler.hasReturn()) {
@@ -79,6 +84,7 @@ public class MethodBody extends AbstractMethodBody{
         }
         compiler.addLabel(l);
         compiler.addInstruction(new RTS());
+        compiler.writeFlag(compiler.getSaveRegisterFlag());
         tsto_inst.setValue(compiler.argTSTO());
     }
     

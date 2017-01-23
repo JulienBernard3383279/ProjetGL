@@ -21,7 +21,9 @@ public class TestStackPUSH {
     public void testStackunStack() {
         compiler.setRegLim(2);
         DVal temp;
+        System.out.println("OUI");
         temp = compiler.allocRegister();
+        System.out.println("OUI");
         assertTrue(temp.isRegisterOffset());
         RegisterOffset reg = (RegisterOffset) temp;
         RegisterOffset reg1 = (RegisterOffset)compiler.allocRegister();

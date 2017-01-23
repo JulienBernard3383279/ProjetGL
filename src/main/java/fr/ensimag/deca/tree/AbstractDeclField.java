@@ -16,4 +16,6 @@ import fr.ensimag.deca.context.ContextualError;
 public abstract class AbstractDeclField extends Tree{
     
     protected abstract void verifyDeclField(DecacCompiler compiler, ClassDefinition currentClass,int index) throws ContextualError;
+    
+    abstract void generateInit(DecacCompiler compiler);
 }
