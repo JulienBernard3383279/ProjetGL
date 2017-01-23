@@ -1,3 +1,6 @@
 class myClass {
 	boolean b=true;
 }
+
+{myClass c = new myClass();
+if (c) {print(1);}}

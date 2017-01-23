@@ -8,13 +8,13 @@ class Triangle {
 	Cote cote3 = new Cote();
 }
 
-{	
+{
 	Triangle t = new Triangle();
 	if (t.cote1.taille == 1) {
-		println("Oui !");
+		print(1);
 	}
 	else {
-		println("Non !...");
+		print(0);
 	}
 
 }
