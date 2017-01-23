@@ -44,7 +44,7 @@ public class This extends AbstractExpr {
 
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
-        return new RegisterOffset(-2,Register.SP);
+        return new RegisterOffset(-2,Register.LB);
     }
 
     @Override
