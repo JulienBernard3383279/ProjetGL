@@ -37,10 +37,11 @@ public class ListDeclField extends TreeList<AbstractDeclField>{
             try {
                 it.next().verifyDeclField(compiler, currentClass,n);
                 n = n + 1;
-                currentClass.incNumberOfFields();
+                //currentClass.incNumberOfFields();
             } catch (ContextualError e) {
                 throw e;
             }
         }
+        currentClass.setNumberOfFields(n-1);
     }
 }
