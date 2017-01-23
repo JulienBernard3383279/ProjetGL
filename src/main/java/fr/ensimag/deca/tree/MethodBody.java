@@ -21,6 +21,7 @@ import fr.ensimag.ima.pseudocode.instructions.ERROR;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.POP;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.RTS;
 import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import fr.ensimag.ima.pseudocode.instructions.WNL;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
@@ -64,16 +65,20 @@ public class MethodBody extends AbstractMethodBody{
         }
         int [] regUsedList = compiler.getUsedRegister();
         for(int i : regUsedList) {
-            compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(i)));
-            if(compiler.hasReturn()) {
-                compiler.addInstruction(new BRA(l));
-                compiler.addInstruction(new WSTR("Erreur : sortie de la methode A.getX sans return"));
-                compiler.addInstruction(new WNL());
-                compiler.addInstruction(new ERROR());
+            if(i!=-1) {
+                compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(i)));
+                
+                compiler.addInstruction(new POP(Register.getR(i)));
             }
-            compiler.addLabel(l);
-            compiler.addInstruction(new POP(Register.getR(i)));
         }
+        if(compiler.hasReturn()) {
+            compiler.addInstruction(new BRA(l));
+            compiler.addInstruction(new WSTR("Erreur : sortie de la methode A.getX sans return"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
+        compiler.addLabel(l);
+        compiler.addInstruction(new RTS());
         tsto_inst.setValue(compiler.argTSTO());
     }
     
