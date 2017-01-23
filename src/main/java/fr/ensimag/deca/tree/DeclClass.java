@@ -144,7 +144,7 @@ public class DeclClass extends AbstractDeclClass {
         Label init = new Label("init."+def.getType().getName().getName() );
         compiler.addLabel(init);
         compiler.setSaveRegisterFlag( compiler.createFlag());
-        compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB) , Register.R1));
+        compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB) , Register.getR(2)));
         fieldsInInit(compiler);
         int [] regUsedList = compiler.getUsedRegister();
         for(int i : regUsedList) {
