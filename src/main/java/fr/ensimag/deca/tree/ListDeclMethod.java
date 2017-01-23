@@ -32,6 +32,7 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod>{
             try {
                 it.next().verifyDeclMethod(compiler, currentClass,index);
                 index = index + 1;
+                currentClass.incNumberOfFields();
             } catch (ContextualError e) {
                 throw e;
             }
