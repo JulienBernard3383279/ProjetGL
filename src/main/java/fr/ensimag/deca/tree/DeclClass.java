@@ -90,8 +90,8 @@ public class DeclClass extends AbstractDeclClass {
     
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
-        
         ClassDefinition def = (ClassDefinition)compiler.getEnvTypes().get(this.className.getName());
+        this.field.verifyListInit(compiler,def);
         this.methods.verifyListBody(compiler,def);
     }
 
