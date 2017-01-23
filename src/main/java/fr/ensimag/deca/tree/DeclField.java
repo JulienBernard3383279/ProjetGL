@@ -56,12 +56,10 @@ public class DeclField extends AbstractDeclField{
                     //otherwise, index has the value of the number of fields in the hierarchy
                     def = new FieldDefinition(t,this.type.getLocation(),this.visib,currentClass,index);
                     currentClass.incNumberOfFields();
-                    index = index + 1;
                 }
             } else {
                 def = new FieldDefinition(t,this.type.getLocation(),this.visib,currentClass,index);
                 currentClass.incNumberOfFields();
-                index = index + 1;
             }
             this.fieldName.setDefinition(def);
             classEnv.declare(this.fieldName.getName(), def);

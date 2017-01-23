@@ -23,3 +23,23 @@ class D extends B {
         println(x);
     }
 }
+{
+    A a = new D();
+    B b = new C();
+    C c = new C();
+    D d = new D();
+    a.x = b.getX();
+    c.z = b.getY();
+    c.x = readInt();
+    d.get();
+    while (a.y < 10) {
+        if (b instanceof A) {
+            d.x = c.getX() + d.y;
+        } else {
+            print("ok");
+        }
+        b = (D)(a);
+        c = (C)(b);
+        a = (A)(b);
+    }
+}   

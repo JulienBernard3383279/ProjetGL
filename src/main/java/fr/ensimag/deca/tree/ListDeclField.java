@@ -31,15 +31,15 @@ public class ListDeclField extends TreeList<AbstractDeclField>{
      * @param compiler 
      */
     public void verifyListField(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError{
-        int n = currentClass.getSuperClass().getNumberOfFields() ;
+        int n = currentClass.getSuperClass().getNumberOfFields() + 1;
         Iterator<AbstractDeclField> it = this.iterator();
         while (it.hasNext()) {
             try {
                 it.next().verifyDeclField(compiler, currentClass,n);
+                n = n + 1;
             } catch (ContextualError e) {
                 throw e;
             }
         }
-        currentClass.setNumberOfFields(n);
     }
 }
