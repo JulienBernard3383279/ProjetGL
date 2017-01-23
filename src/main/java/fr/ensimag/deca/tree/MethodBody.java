@@ -70,6 +70,8 @@ public class MethodBody extends AbstractMethodBody{
                 compiler.incOverFlow();
             }
         }
+        compiler.addInstruction(new PUSH(Register.getR(2)));
+        compiler.incOverFlow();
         int j;
         for(j=0;j<regUsedList.length;j++) {
             int i=regUsedList[regUsedList.length-1-j];
@@ -78,6 +80,8 @@ public class MethodBody extends AbstractMethodBody{
                 compiler.decOverFlow();
             }
         }
+        compiler.addInstruction(new POP(Register.getR(2)));
+        compiler.decOverFlow();
         if(compiler.hasReturn()) {
             compiler.addInstruction(new BRA(l));
             compiler.addInstruction(new WSTR("Erreur : sortie de la methode A.getX sans return"));

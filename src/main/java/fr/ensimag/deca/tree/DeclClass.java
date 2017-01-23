@@ -153,6 +153,8 @@ public class DeclClass extends AbstractDeclClass {
                 compiler.incOverFlow();
             }
         }
+        compiler.addInstruction(new PUSH(Register.getR(2)));
+        compiler.incOverFlow();
         int j;
         for(j=0;j<regUsedList.length;j++) {
             int i=regUsedList[regUsedList.length-1-j];
@@ -161,6 +163,8 @@ public class DeclClass extends AbstractDeclClass {
                 compiler.decOverFlow();
             }
         }
+        compiler.addInstruction(new POP(Register.getR(2)));
+        compiler.decOverFlow();
         compiler.addInstruction(new RTS());
         compiler.writeFlag(compiler.getSaveRegisterFlag());
     }    
