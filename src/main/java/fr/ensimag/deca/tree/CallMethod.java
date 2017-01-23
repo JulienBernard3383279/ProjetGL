@@ -74,10 +74,6 @@ public class CallMethod extends AbstractExpr {
             }
             EnvironmentExp classEnv = currentClass.getMembers();
             t = name.verifyExpr(compiler,classEnv,currentClass);
-            //check for identifier in class
-            if (classEnv.get(name.getName())==null) {
-                throw new ContextualError("no such method in class",this.name.getLocation());
-            }
             //check that identifier is method
             if (! classEnv.get(name.getName()).isMethod()) {
                 throw new ContextualError("identifier is not a method",this.name.getLocation());
