@@ -40,6 +40,5 @@ public class ListDeclField extends TreeList<AbstractDeclField>{
                 throw e;
             }
         }
-        currentClass.setNumberOfFields(n);
     }
 }

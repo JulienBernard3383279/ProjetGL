@@ -20,7 +20,9 @@ import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.BEQ;
 import fr.ensimag.ima.pseudocode.instructions.BSR;
+import fr.ensimag.ima.pseudocode.instructions.CMP;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.POP;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
@@ -111,6 +113,19 @@ public class CallMethod extends AbstractExpr {
         }
         this.setType(t);
         return t;
+    }
+    protected void codeGenCond(DecacCompiler compiler,Label l,boolean jump) {
+        DVal reg = this.codeGen(compiler);
+        if(jump) {
+            if(reg.isGPRegister()) {
+                compiler.addInstruction(new CMP(1,(GPRegister)reg));
+                compiler.addInstruction(new BEQ(l));
+            }
+        }
+        else {
+            compiler.addInstruction(new CMP(0,(GPRegister)reg));
+            compiler.addInstruction(new BEQ(l));
+        }
     }
     protected DVal codeGenDotted(DecacCompiler compiler) {
         for(AbstractExpr a : this.args.getList()) {

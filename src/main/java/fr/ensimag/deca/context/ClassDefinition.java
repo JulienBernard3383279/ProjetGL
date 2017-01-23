@@ -126,7 +126,10 @@ public class ClassDefinition extends TypeDefinition {
             }
             compiler.addComment("Construction de la table des méthodes de "
                     +this.getType().getName().getName());
-            compiler.addInstruction(new LEA(MethodsSet.getAddr(),Register.R0));
+            if(!this.getType().getName().getName().equals("Object"))
+                compiler.addInstruction(new LEA(MethodsSet.getAddr(),Register.R0));
+            else 
+                compiler.addInstruction(new LOAD(MethodsSet.getAddr(),Register.R0));
             MethodsSet.setAddr(new RegisterOffset(compiler.getCurrentMethodNumber()+1,Register.GB));
             compiler.addInstruction(new STORE(Register.R0,MethodsSet.getAddr()));
             int i=1;
