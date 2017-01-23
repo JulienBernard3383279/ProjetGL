@@ -1,6 +1,8 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.EqualsObject;
+import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.instructions.*;
@@ -54,6 +56,7 @@ public class Program extends AbstractProgram {
         for(AbstractDeclClass a : classes.getList()) {
             a.generateMethodBody(compiler);
         }
+        EqualsObject.generateObjectMethod(compiler);
     }
 
     @Override

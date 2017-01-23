@@ -16,7 +16,11 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.BEQ;
+import fr.ensimag.ima.pseudocode.instructions.CMP;
 import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
@@ -63,7 +67,22 @@ public class DotMethod extends AbstractExpr {
         DVal reg = method.codeGenDotted(compiler);
         return reg;
     }
-
+    @Override 
+    protected void codeGenCond(DecacCompiler compiler,Label l,boolean jump) {
+        compiler.addInstruction(new LOAD(((Identifier)this.instance).getAddr(compiler),Register.R0));
+        compiler.addInstruction(new PUSH(Register.R0));
+        DVal reg = method.codeGenDotted(compiler);
+        if(jump) {
+            if(reg.isGPRegister()) {
+                compiler.addInstruction(new CMP(1,(GPRegister)reg));
+                compiler.addInstruction(new BEQ(l));
+            }
+        }
+        else {
+            compiler.addInstruction(new CMP(0,(GPRegister)reg));
+            compiler.addInstruction(new BEQ(l));
+        }
+    }
     @Override
     public void decompile(IndentPrintStream s) {
         instance.decompile(s);
