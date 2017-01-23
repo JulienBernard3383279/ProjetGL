@@ -1,0 +1,42 @@
+	TSTO #0
+	BOV pile_pleine
+	ADDSP #0
+; start main program
+; Main program
+; Seprate constant stack and temporary variables
+; Beginning of main instructions:
+	LOAD #1, R3
+	LOAD #0, R4
+	CMP R4, R3
+	BLT debutElse0
+	WSTR "ok"
+	WNL
+	BRA finElse0
+debutElse0:
+	WSTR "erreur"
+	WNL
+finElse0:
+	HALT
+pile_pleine:
+	WSTR "Erreur : pile pleine"
+	WNL
+	ERROR
+io_error:
+	WSTR "Error: Input/Output error"
+	WNL
+	ERROR
+overflow_error:
+	WSTR "Error: Arithmetic Overflow"
+	WNL
+	ERROR
+heap_overflow_error:
+	WSTR "Error: Heap OverFlow"
+	WNL
+	ERROR
+equals_object:
+	LOAD -3(SP), R0
+	LOAD -2(SP), R1
+	CMP R0, R1
+	SEQ R0
+	RTS
+; end main program
