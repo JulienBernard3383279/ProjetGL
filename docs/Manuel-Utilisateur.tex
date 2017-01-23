@@ -1,0 +1,171 @@
+\usepackage[margin=0.5in]{geometry\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1.2in]{geometry}
+
+\title{Compilateur Deca : Manuel Utilisateur}
+\author{\'Equipe 58}
+
+\begin{document}
+
+\maketitle
+\section{Introduction au compilateur}
+Le compilateur Deca prend en argument un fichier source en Deca et le compile pour donner un fichier en code assembleur. \newline
+Ce compilateur gère toutes les étapes de la compilation, c'est-a-dire le parsing (analyse lexical et syntaxique) du fichier source, l'analyse contextuel du code et la génération du code assembleur. 
+\section{Ex\'ecution de decac}
+Pour lancer le compilateur, il faut utiliser la commande \texttt{decac}. Cette commande possède différentes options d'exécution:
+\begin{itemize}
+    \item \texttt{decac}
+    \newline
+    Affiche les options possibles.
+    \item \texttt{decac -b}
+    \newline
+    Affiche une banni\`ere de l'\'equipe qui a programm\'e ce compilateur.
+    \item \texttt{decac -p <ficher deca>} \newline
+    Parse le fichier pass\'e en argument et affiche sa decompilation.
+    \item \texttt{decac -v <fichier deca>}
+    \newline
+    V\'erifie contextuellement le fichier deca. Affiche une erreur si il y en a.
+    \item \texttt{decac -n <fichier deca>}
+    \newline
+    Exécute le fichier deca en ignorant les erreurs de débordement \`a l'exécution.
+    \item \texttt{decac -r X <fichier deca>}
+    \newline
+    Execute le fichier deca en limitant les registres disponible \`a \texttt{R\{0\}...R\{X\}}.
+    \item \texttt{decac -d <fichier deca>}
+    \newline
+    Active les traces de debug lors de l'exécution.
+    \item{\texttt{decac -P <fichier(s) deca>}}
+    \newline
+    Si il y a plusieurs fichiers sources, les exécutent en parallèle.
+\end{itemize}
+Plusieurs options peuvent être appelées simultanément, \texttt{-p} et \texttt{-v} exclus.
+Le fichier \texttt{.ass} obtenu en sorti du compilateur peut \^etre pass\'e en exécutable avec la commande \texttt{ima <fichier assembleur>}.
+
+\section{Erreurs levées par le compilateur}
+\subsection{Erreurs lexicales}
+\subsection{Erreurs syntaxiques}
+\subsection{Erreurs contextuelles}
+Voici les erreurs qui peuvent être levées par l'analyse contextuelle :
+\begin{itemize}
+\item \texttt{type or class undefined} \newline
+Est levée si un identifier de type est attendu, mais l'identifier trouvé n'est pas un type prédéfini ou une classe qui a été définie.
+\item \texttt{class extends type}
+\newline
+Est levée si, lors de la déclaration d'une classe, l'identifier suivant \texttt{extends} est un type (\texttt{int,float,boolean,void});
+\item \texttt{class already defined}
+\newline
+Est levée si une même classe est déclarée plusieurs fois.
+\item \texttt{field already defined}
+\newline
+Est levée si un champ est déclaré plusieurs fois ou déclaré avec le même nom qu'une méthode existante.
+\item \texttt{field cannot be void}
+\newline
+Est levée si un champ a pour type \texttt{void}.
+\item \texttt{method already defined}
+\newline
+Est levée si une méthode est déclarée plusieurs fois dans la même classe ou déclarée avec le même nom qu'un champ existant.
+\item \texttt{method overrides method with different signature}
+\newline
+Est levée si une méthode essaie d'écraser une méthode avec une différente signature (différent type, différent nombre de paramètres ou diff\'erent types de paramètres).
+\item \texttt{parameter cannot be void}
+\newline
+Est levée si un paramètre d'une méthode a pour type \texttt{void}.
+\item \texttt{parameter already defined}
+\newline
+Est levée si plusieurs paramètres d'une même méthode ont le même nom.
+\item \texttt{variable already defined}
+\newline
+Est levée si une variable est déclarée plusieurs fois.
+\item \texttt{variable cannot be void}
+\newline
+Est levée si une variable a pour type \texttt{void}.
+\item \texttt{return called in void method}
+\newline 
+Est levée si \texttt{return} est appelée dans une méthode qui a pour type \texttt{void}.
+\item \texttt{type of expression must match method type}
+\newline
+Est levée si l'expression renvoyée n'est pas du même type que la méthode.
+\item \texttt{expected type found class}
+\newline
+Est levée si l'expression est une instance de classe alors qu'une expression de type \texttt{int,float} ou \texttt{boolean} est attendue.
+\item \texttt{incompatible class type}
+\newline
+Est levée si la classe attendue n'est pas une super-classe de la classe renvoyé. Ce cas est le seul qui permet d'initier l'instance d'une classe avec une différente classe.
+\item \texttt{expected different type}
+\newline
+Est levée si l'expression trouvée n'est pas du type attendu, sauf si l'expression est de type \texttt{int} et le type attendu est \texttt{float}. Dans ce dernier cas, on converti l'\texttt{int} en \texttt{float}.
+\item \texttt{only string, int and float expressions can be printed}
+\newline
+Est levée si un \texttt{void},\texttt{null} ou une instance de classe est mis en paramètre de \texttt{print} ou \texttt{println}.
+\item \texttt{condition must be boolean}
+\newline
+Est levée si la condition dans un \texttt{if} ou \texttt{while} n'est pas booléen.
+\item \texttt{operands must be int or float}
+\newline
+Est levée si les opérandes d'un opération arithmétique (ou d'une comparaison) ne sont pas numériques.
+\item \texttt{operand must be int or float}
+\newline
+Est levée si l'opérande du moins unaire n'est pas numérique.
+\item \texttt{operands must be boolean}
+\newline
+Est levée si les opérandes d'une opération booléenne n'est pas \texttt{boolean}.
+\item \texttt{operand must be boolean}
+\newline
+Est levée si l'opérande de \texttt{Not(!)} n'est pas booléen.
+\item \texttt{operands must have same type}
+\newline
+Est levée si les operandes d'une comparaison n'ont pas le meme type. Notamment, on ne peut pas comparer un \texttt{int} et un \texttt{float}.
+\item \texttt{incompatible types for cast}
+\newline
+Est levée si expression est \texttt{Cast} dans un type incompatible a son propre type. Le seul \texttt{Cast} de type accepté est le passage de \texttt{int} \`a \texttt{float}.
+\item \texttt{type cast to class}
+\newline
+Est levée si une expression de type \texttt{int,float} ou \texttt{boolean} est \texttt{Cast} dans une \texttt{class}.
+\item \texttt{class cast to type}
+\newline
+Est levée si l'instance d'une classe est \texttt{Cast} en \texttt{int,float} ou \texttt{boolean}.
+\item \texttt{classes incompatible for cast}
+\newline
+Est levée si l'instance d'une classe est \texttt{Cast} dans une classe incompatible. Cela se produit quand les deux classes ne sont pas dans la même hiérarchie de classes.
+\item \texttt{identifier is not a class}
+\newline
+Est levée si l'identifier suivant \texttt{new} n'est pas un nom de classe.
+\item \texttt{cannot call this in main}
+\newline
+Est levée si \texttt{this} est appelé en dehors d'une déclaration de classe.
+\item \texttt{left operand not instance of a class}
+\newline
+Est levée si l'identifier a gauche d'un appel de champ n'est pas l'instance d'une classe.
+\item \texttt{no such field in class}
+\newline
+Est levée si l'identifier \`a droite d'un appel de champ ne correspond pas \`a un champ de la classe \`a gauche.
+\item \texttt{identifier is not a field}
+\newline
+Est levée si l'identifier \`a droite d'un appel de champ correspond \`a une méthode.
+\item \texttt{field is protected}
+\newline
+Est levée si on essaie d'appeler un champ \texttt{protected} en dehors de la classe \`a laquelle il appartient.
+\item \texttt{expression not instance of a class}
+\newline
+Est levée si l'identifier a gauche d'un appel de méthode n'est pas l'instance d'une classe.
+\item \texttt{direct method call in main}
+\newline
+Est levée si une méthode est appelée sans préciser la classe, en dehors d'une déclaration de classe.
+\item \texttt{identifier is not a method}
+\newline
+Est levée si l'identifier a droite d'un appel de méthode correspond a un champ.
+\item \texttt{number of parameters does not match signature}
+\newline
+Est levée si une méthode est appelée avec un nombre de paramètres différent du nombre de paramètre dans sa signature.
+\item \texttt{parameter type does not match signature}
+\newline
+Est levée si le type d'un paramètre dans un appel de méthode ne correspond pas au type de paramètre dans la signature de la méthode.
+\item \texttt{class type in call not subclass of class type in signature}
+\newline
+Est levée si, lorsqu'une méthode demande une instance de classe en paramètre, la classe appelée n'est pas une sous-classe de la classe donnée en signature. 
+\end{itemize}
+
+
+\subsection{Erreurs \`a l'\'execution}
+
+\end{document}
