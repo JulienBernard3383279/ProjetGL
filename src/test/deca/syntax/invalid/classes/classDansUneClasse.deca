@@ -1,0 +1,4 @@
+class myClass1 {
+      class myClass2 {
+      }
+}
