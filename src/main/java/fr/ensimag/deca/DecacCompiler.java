@@ -450,6 +450,12 @@ public class DecacCompiler {
     private int elseCounter = -1;
     private int beginWhileCounter = -1;
     private int endWhileCounter = -1;
+    private int instanceOfCounter = -1;
+    
+    public int getInstanceOfCounter() {
+        instanceOfCounter++;
+        return instanceOfCounter;
+    }
     
     public int getFiCounter() {
         fiCounter++;
