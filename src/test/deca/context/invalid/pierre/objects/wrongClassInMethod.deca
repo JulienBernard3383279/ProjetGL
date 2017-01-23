@@ -1,0 +1,8 @@
+class A {
+    void main(B b) {}
+}
+class B extends A {}
+{
+    A a = new A();
+    a.main(a);
+}

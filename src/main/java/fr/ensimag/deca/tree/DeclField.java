@@ -163,16 +163,22 @@ public class DeclField extends AbstractDeclField{
         }
         else {
             if (init instanceof Initialization) {
-                compiler.addInstruction(new PUSH(Register.R0));
+                //compiler.addInstruction(new PUSH(Register.R0));
                 
                 DVal reg = init.codeGen(compiler);
+                if (reg.isGPRegister()) {
+                    compiler.addInstruction(new LOAD(reg,Register.R0));
+                }
+                else if (reg.isRegisterOffset()) {
+                    compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset) reg),Register.R0));
+                }
                 
-                compiler.addInstruction(new POP(Register.R0));
+                //compiler.addInstruction(new POP(Register.R0));
             }
             else {
                 compiler.addInstruction(new LOAD(null,Register.R0));
             }
         }
-        compiler.addInstruction(new STORE(Register.R0,new RegisterOffset(field.getIndex(),Register.R1)));
+        compiler.addInstruction(new STORE(Register.R0,new RegisterOffset(field.getIndex(),Register.getR(2))));
     }
 }

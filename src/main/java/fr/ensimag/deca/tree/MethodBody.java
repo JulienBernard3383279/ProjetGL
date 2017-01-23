@@ -64,18 +64,25 @@ public class MethodBody extends AbstractMethodBody{
             a.codeGenInst(compiler);
         }
         int [] regUsedList = compiler.getUsedRegister();
+        compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(2)));
+        compiler.incOverFlow();
         for(int i : regUsedList) {
             if(i!=-1) {
                 compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(i)));
                 compiler.incOverFlow();
             }
         }
-        for(int i : regUsedList) {
+        
+        int j;
+        for(j=0;j<regUsedList.length;j++) {
+            int i=regUsedList[regUsedList.length-1-j];
             if(i!=-1) {
                 compiler.addInstruction(new POP(Register.getR(i)));
                 compiler.decOverFlow();
             }
         }
+        compiler.addInstruction(new POP(Register.getR(2)));
+        compiler.decOverFlow();
         if(compiler.hasReturn()) {
             compiler.addInstruction(new BRA(l));
             compiler.addInstruction(new WSTR("Erreur : sortie de la methode A.getX sans return"));
