@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.DecacInternalError;
@@ -28,7 +29,12 @@ public abstract class AbstractExpr extends AbstractInst {
     boolean isImplicit() {
         return false;
     }
-
+    
+    Definition def;
+    
+    Definition getDefinition() {
+        throw new UnsupportedOperationException("should not be called");
+    }
     /**
      * Get the type decoration associated to this expression (i.e. the type computed by contextual verification).
      */

@@ -9,6 +9,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -23,9 +24,8 @@ public class This extends AbstractExpr {
 
     public This() {}
     
-    ClassDefinition def;
-    
-    ClassDefinition getClassDefinition() {
+    @Override
+    Definition getDefinition() {
         return def;
     }
     
