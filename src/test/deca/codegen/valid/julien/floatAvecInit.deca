@@ -1,0 +1,5 @@
+class myClass {
+	float f=2.0;
+}
+
+{myClass c = new myClass();}

@@ -1,0 +1,20 @@
+class Cote {
+	int taille=1;
+}
+
+class Triangle {
+	Cote cote1 = new Cote();
+	Cote cote2 = new Cote();
+	Cote cote3 = new Cote();
+}
+
+{	
+	Triangle t = new Triangle();
+	if (t.cote1.taille == 1) {
+		println("Oui !");
+	}
+	else {
+		println("Non !...");
+	}
+
+}
