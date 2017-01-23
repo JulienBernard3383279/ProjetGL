@@ -96,8 +96,8 @@ public abstract class AbstractExpr extends AbstractInst {
             if (!expectedType.isClass()) {
                 throw new ContextualError("expected type found class",this.getLocation());
             } else {
-                ClassType ct = (ClassType)expectedType;
-                if (!ct.isChild(t)) {
+                ClassType ct = (ClassType)t;
+                if (!ct.isChild(expectedType)) {
                     throw new ContextualError("incompatible class type",this.getLocation());
                 }
             }

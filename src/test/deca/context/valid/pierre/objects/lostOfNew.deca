@@ -1,0 +1,16 @@
+class A {
+    B b = new B();
+
+    boolean test(B i) {
+        B newB = new B();
+        newB.equals(i);
+    }
+}
+class B extends A{
+    A a = new A();
+}
+{
+    A a1 = new A();
+    boolean t = a1.test(new B());
+    a1.b = new B();
+}
