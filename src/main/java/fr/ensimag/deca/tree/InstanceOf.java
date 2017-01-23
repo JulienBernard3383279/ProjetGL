@@ -76,10 +76,11 @@ public class InstanceOf extends AbstractExpr {
         }
         
         DAddr addr = type.getClassDefinition().write(compiler).getAddr();
-        
+        compiler.allocR2();
+        compiler.addInstruction(new LEA(addr,Register.getR(2)));
         compiler.addLabel(instanceOfBeginning);
         
-        compiler.addInstruction(new CMP(addr,Register.R0));
+        compiler.addInstruction(new CMP(Register.getR(2),Register.R0));
         compiler.addInstruction(new SEQ(Register.R1));
         compiler.addInstruction(new CMP(new ImmediateInteger(1),Register.R1));
         compiler.addInstruction(new BEQ(instanceOfSucceeded));
