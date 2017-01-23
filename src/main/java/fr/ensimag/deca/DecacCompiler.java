@@ -48,6 +48,7 @@ import java.io.PrintStream;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.log4j.Logger;
+import fr.ensimag.deca.tree.*;
 
 /**
  * Decac compiler instance.
@@ -494,6 +495,18 @@ public class DecacCompiler {
     public void setDead(DeadStore dead) {
         this.dead = dead;
     }   
+    
+    private ConstantFolding folding;
+
+    public ConstantFolding getFolding() {
+        return folding;
+    }
+
+    public void setFolding(ConstantFolding folding) {
+        this.folding = folding;
+    }
+    
+    
     public DAddr allocateVar() {
         this.varCounter++;
         if(isInMethod) 
