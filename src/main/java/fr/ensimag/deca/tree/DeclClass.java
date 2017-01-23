@@ -15,6 +15,8 @@ import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.FLOAT;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import fr.ensimag.ima.pseudocode.instructions.RTS;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.TSTO;
@@ -141,9 +143,31 @@ public class DeclClass extends AbstractDeclClass {
         ClassDefinition def = className.getClassDefinition();
         Label init = new Label("init."+def.getType().getName().getName() );
         compiler.addLabel(init);
-        compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB) , Register.R1));
+        compiler.setSaveRegisterFlag( compiler.createFlag());
+        compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB) , Register.getR(2)));
         fieldsInInit(compiler);
+        int [] regUsedList = compiler.getUsedRegister();
+        compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(2)));
+        compiler.incOverFlow();
+        for(int i : regUsedList) {
+            if(i!=-1) {
+                compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(i)));
+                compiler.incOverFlow();
+            }
+        }
+        
+        int j;
+        for(j=0;j<regUsedList.length;j++) {
+            int i=regUsedList[regUsedList.length-1-j];
+            if(i!=-1) {
+                compiler.addInstruction(new POP(Register.getR(i)));
+                compiler.decOverFlow();
+            }
+        }
+        compiler.addInstruction(new POP(Register.getR(2)));
+        compiler.decOverFlow();
         compiler.addInstruction(new RTS());
+        compiler.writeFlag(compiler.getSaveRegisterFlag());
     }    
 
 }

@@ -1,0 +1,3 @@
+class myClass {
+	boolean b=true;
+}
