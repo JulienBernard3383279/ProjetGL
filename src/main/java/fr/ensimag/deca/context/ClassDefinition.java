@@ -5,6 +5,8 @@ import fr.ensimag.deca.tree.Location;
 import fr.ensimag.ima.pseudocode.Label;
 import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.deca.tree.DeclClass;
+import fr.ensimag.deca.tree.ListDeclField;
 import fr.ensimag.ima.pseudocode.LabelOperand;
 import fr.ensimag.ima.pseudocode.NullAddr;
 import fr.ensimag.ima.pseudocode.Register;
@@ -22,6 +24,16 @@ import fr.ensimag.ima.pseudocode.instructions.STORE;
  * @date 01/01/2017
  */
 public class ClassDefinition extends TypeDefinition {
+    
+    private DeclClass decl;
+    
+    public void setDecl(DeclClass decl) {
+        this.decl=decl;
+    }
+    
+    public DeclClass getDecl() {
+        return decl;
+    }
     
     
     public void setNumberOfFields(int numberOfFields) {
@@ -99,7 +111,7 @@ public class ClassDefinition extends TypeDefinition {
         if(!writen) {
             writen = true;
             
-            addInit(compiler);
+            //addInit(compiler);
             
             if(superClass!=null) 
                 MethodsSet= new ClassMethodSet(this.superClass.write(compiler));
@@ -146,13 +158,14 @@ public class ClassDefinition extends TypeDefinition {
         return false;
     }
     
+    /*
     public void addInit(DecacCompiler compiler) {
         
-        /*init.A :
+        init.A :
         LOAD #0, R0
         LOAD -2 (LB), R1
         STORE R0, 1 (R1)
-        RTS*/
+        RTS
         
         Label init = new Label("init."+this.getType().getName().getName() );
         compiler.addLabel(init);
@@ -204,7 +217,7 @@ public class ClassDefinition extends TypeDefinition {
         String : N'EXISTE PAS
         Autres => #null
         
-        */
+        
     }
-    
+    */
 }
