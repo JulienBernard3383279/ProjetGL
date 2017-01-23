@@ -6,12 +6,22 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.deca.tools.SymbolTable;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.FLOAT;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import java.io.PrintStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Declaration of a class (<code>class name extends superClass {members}<code>).
@@ -105,4 +115,18 @@ public class DeclClass extends AbstractDeclClass {
         }
     }
     
+    public void addInit(DecacCompiler compiler) {
+        ClassDefinition def = className.getClassDefinition();
+        Label init = new Label("init."+def.getType().getName().getName() );
+        compiler.addLabel(init);
+        compiler.addInstruction(new LOAD(new RegisterOffset(-(1+def.getNumberOfFields()), Register.LB) , Register.R1));
+        
+        Iterator<AbstractDeclField> it = field.iterator();
+        
+        while (it.hasNext()) {
+            AbstractDeclField localDecl=it.next();
+            localDecl.generateInit(compiler);
+        }
+    }    
+
 }

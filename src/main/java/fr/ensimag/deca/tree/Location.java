@@ -18,6 +18,7 @@ public class Location implements Serializable {
     public static final String NO_SOURCE_NAME = "<no source file>";
     public static final Location BUILTIN = new Location(-1, -1, NO_SOURCE_NAME);
 
+
     /**
      * Display the (line, positionInLine) as a String. The file is not
      * displayed.
