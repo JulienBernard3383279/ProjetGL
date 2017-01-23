@@ -8,10 +8,14 @@ import fr.ensimag.deca.context.FloatType;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.NullOperand;
 import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import java.io.PrintStream;
 
@@ -57,9 +61,18 @@ public class ReadFloat extends AbstractReadExpr {
     @Override 
     protected DVal codeGen(DecacCompiler compiler) {
         compiler.addInstruction(new RFLOAT());
+        DVal reg = compiler.allocRegister();
         if(compiler.getCompilerOptions().getChecks()) {
             compiler.addInstruction(new BOV(compiler.getIOLabel()));
         }
-        return Register.R1;
+        if(reg.isGPRegister()) {
+            compiler.addInstruction(new LOAD(Register.R1,(GPRegister)reg));
+        }
+        else if(reg.isRegisterOffset()) {
+            compiler.addInstruction(new STORE(Register.R1,compiler.translate((RegisterOffset)reg)));
+        }
+        else 
+            throw new UnsupportedOperationException("Should no be called");
+        return reg;
     }
 }
