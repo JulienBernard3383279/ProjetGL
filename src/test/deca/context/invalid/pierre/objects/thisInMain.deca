@@ -3,4 +3,5 @@ class A {
 }
 {
     A a = new A();
-    this
+    this.method();
+}

@@ -25,6 +25,10 @@ public class This extends AbstractExpr {
     
     ClassDefinition def;
     
+    ClassDefinition getClassDefinition() {
+        return def;
+    }
+    
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
         if (currentClass == null ){
