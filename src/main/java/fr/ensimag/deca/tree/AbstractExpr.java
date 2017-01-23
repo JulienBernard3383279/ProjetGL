@@ -91,6 +91,7 @@ public abstract class AbstractExpr extends AbstractInst {
         } catch (ContextualError e) {
             throw e;
         }
+        //special case where expected type or actual type are classes
         if (t.isClass()) {
             if (!expectedType.isClass()) {
                 throw new ContextualError("expected type found class",this.getLocation());
@@ -101,6 +102,7 @@ public abstract class AbstractExpr extends AbstractInst {
                 }
             }
         } else if (! t.sameType(expectedType)){
+            //case where an int needs to be converted to a float
             if (expectedType.isFloat() && t.isInt()) {
                 ConvFloat conv = new ConvFloat(this);
                 conv.verifyExpr(compiler,localEnv,currentClass);
@@ -119,7 +121,6 @@ public abstract class AbstractExpr extends AbstractInst {
             throws ContextualError {
         try {
             this.verifyExpr(compiler,localEnv,currentClass);
-            //For programs with classes and methods, check for returnType
         } catch (ContextualError e) {
             throw e;
         }

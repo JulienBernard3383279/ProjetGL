@@ -18,7 +18,7 @@ public class Multiply extends AbstractOpArith {
 
 
     @Override
-    protected String getOperatorName() {
+    public String getOperatorName() {
         return "*";
     }
     @Override

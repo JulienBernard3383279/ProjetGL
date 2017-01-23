@@ -32,9 +32,11 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         } catch (ContextualError e) {
             throw e;
         }
+        //case where either left or right aren't numerical
         if ((!t1.isInt()&&!t1.isFloat())||(!t2.isInt()&&!t2.isFloat())) {
             throw new ContextualError("operands must be int or float",this.getLocation());
         } else {
+            //in case of conversion from int to float
             if (t1.isFloat() && t2.isInt()){
                 this.setRightOperand(this.getRightOperand().verifyRValue(compiler, localEnv, currentClass,t1));
                 this.setType(t1);

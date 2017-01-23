@@ -117,7 +117,7 @@ public class DecacCompiler {
         Signature sigEq = new Signature();
         sigEq.add(ctObj);
         MethodDefinition defEq = new MethodDefinition(new BooleanType(symBool),Location.BUILTIN,sigEq,0);
-        
+        defEq.setLabel(new Label("equals_Object"));
         // add types to envTypes
         this.envTypes.put(symInt, defInt);
         this.envTypes.put(symBool, defBool);

@@ -1,0 +1,41 @@
+class myClassA {
+    int a;
+    protected float b = a;
+    void method1(boolean tf) {
+        if (tf) {
+            this.a = a + 1;
+            this.b = (float)(a);
+            println(b);
+        }
+    }
+    float getB() {
+        return b;
+    }
+}
+class myClassB extends myClassA {
+    float a;
+    float method2(int a) {
+        myClassA newA = new myClassA();
+        newA.method1(true);
+        this.a = this.b;
+        return b;
+    }
+}
+class myOtherClass {
+    myClassA instanceA = new myClassA();
+    myClassB instanceB = new myClassB();
+    void otherMethod(myClassA instance1) {
+        if (instanceA instanceof myClassA) {
+            instanceA.method1(false);
+            instanceB.method2(3);
+            instance1 = (myClassA)(instanceB);
+        }
+    }
+}
+{
+    myOtherClass c = new myOtherClass();
+    float b = c.instanceB.method2(c.instanceA.a);
+    c.instanceB.method1(true);
+    println(c.instanceA.getB());
+}
+    

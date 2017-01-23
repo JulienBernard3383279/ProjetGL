@@ -56,10 +56,12 @@ public class DeclField extends AbstractDeclField{
             t = this.type.verifyType(compiler);
             ExpDefinition superDef = classEnv.get(fieldName.getName());
             if (superDef != null) {
+                //in case field overrides another, the index must be transfered
                 if (superDef.isField()) {
                     FieldDefinition superDef2 = (FieldDefinition)superDef;
                     def = new FieldDefinition(t,this.type.getLocation(),this.visib,currentClass,superDef2.getIndex());
                 } else {
+                    //otherwise, index has the value of the number of fields in the hierarchy
                     def = new FieldDefinition(t,this.type.getLocation(),this.visib,currentClass,index);
                     currentClass.incNumberOfFields();
                     index = index + 1;

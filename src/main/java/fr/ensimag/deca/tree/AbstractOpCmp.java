@@ -31,7 +31,7 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         } catch (ContextualError e) {
             throw e;
         }
-        
+        //error in case either operand is not numerical and if they have different types
         if ((!t1.isInt() && !t1.isFloat())||(!t2.isInt() && !t2.isFloat())) {
             throw new ContextualError("Operands must be int or float",this.getLocation());
         } else if(!t1.sameType(t2)) {

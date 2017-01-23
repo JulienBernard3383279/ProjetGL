@@ -179,6 +179,12 @@
             <phase>test</phase>
             <goals><goal>exec</goal></goals>
           </execution>
+	  <execution>
+            <id>full-context</id>
+            <configuration><executable>./src/test/script/full-context.sh</executable></configuration>
+            <phase>test</phase>
+            <goals><goal>exec</goal></goals>
+          </execution>
           <execution>
             <id>basic-gencode</id>
             <configuration><executable>./src/test/script/basic-gencode.sh</executable></configuration>

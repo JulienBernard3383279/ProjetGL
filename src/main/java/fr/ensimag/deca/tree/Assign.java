@@ -41,6 +41,7 @@ public class Assign extends AbstractBinaryExpr {
         Type t;
         try {
             t = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+            //check for int to float conversion (thus the verifyRValue)
             this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, t);
         } catch (ContextualError e) {
             throw e;
@@ -51,7 +52,7 @@ public class Assign extends AbstractBinaryExpr {
 
 
     @Override
-    protected String getOperatorName() {
+    public String getOperatorName() {
         return "=";
     }
     @Override

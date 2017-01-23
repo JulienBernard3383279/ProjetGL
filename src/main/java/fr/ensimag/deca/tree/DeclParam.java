@@ -36,6 +36,7 @@ public class DeclParam extends AbstractDeclParam{
             if (t.isVoid()) {
                 throw new ContextualError("parameter cannot be void",this.getLocation());
             }
+            //adds the parameter to the method signature
             ParamDefinition def = new ParamDefinition(t,this.getLocation());
             if (currentMethod != null) {
                 currentMethod.getSignature().add(t);

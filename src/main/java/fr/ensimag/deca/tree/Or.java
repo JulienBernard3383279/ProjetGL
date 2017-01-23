@@ -19,7 +19,7 @@ public class Or extends AbstractOpBool {
     }
 
     @Override
-    protected String getOperatorName() {
+    public String getOperatorName() {
         return "||";
     }
 

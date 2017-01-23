@@ -57,12 +57,14 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
+        //checks superClass and className
         Type t1 = this.superClass.verifyType(compiler);
         if (! t1.isClass()) {
             throw new ContextualError("class extends type",this.getLocation());
         } else if (compiler.getEnvTypes().get(this.className.getName())!=null){
             throw new ContextualError("class already defined",this.getLocation());
         }
+        //defines classDefinition and classType
         ClassDefinition superDef = (ClassDefinition)compiler.getEnvTypes().get(this.superClass.getName());
         ClassType t = new ClassType(this.className.getName(),this.getLocation(),superDef);
         ClassDefinition def = t.getDefinition();
