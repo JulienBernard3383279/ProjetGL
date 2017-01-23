@@ -65,6 +65,9 @@ public class Assign extends AbstractBinaryExpr {
         DVal reg = this.getRightOperand().codeGen(compiler);
         DAddr addr  = this.getLeftOperand().getAddr(compiler);
         if(reg.isGPRegister()) {
+            /*if(this.getRightOperand().getType().isFloat()&&this.getLeftOperand().getType().isInt()) {
+                compiler.addInstruction(new );
+            }*/
             compiler.addInstruction(new STORE((GPRegister)reg,addr));  
         }
         else if(reg.isRegisterOffset()) {

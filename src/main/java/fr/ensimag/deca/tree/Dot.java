@@ -47,7 +47,7 @@ public class Dot extends AbstractLValue {
             throw e;
         } 
         if (! t.isClass()) {
-            throw new ContextualError("left operand is not an instance of class",this.left.getLocation());
+            throw new ContextualError("left operand not an instance of a class",this.left.getLocation());
         }
         ClassType ct = (ClassType) t;
         try {
