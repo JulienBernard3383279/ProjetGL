@@ -51,7 +51,7 @@ public class Main extends AbstractMain {
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
         execute_dead(compiler); //on nettoie l'arbre avant
-        //execute_folding(compiler);
+        execute_folding(compiler);
         compiler.addComment("Seprate constant stack and temporary variables");
         compiler.addComment("Beginning of main instructions:");
         declVariables.codeGenListVar(compiler);
