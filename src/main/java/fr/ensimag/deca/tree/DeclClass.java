@@ -147,14 +147,15 @@ public class DeclClass extends AbstractDeclClass {
         compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB) , Register.getR(2)));
         fieldsInInit(compiler);
         int [] regUsedList = compiler.getUsedRegister();
+        compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(2)));
+        compiler.incOverFlow();
         for(int i : regUsedList) {
             if(i!=-1) {
                 compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(i)));
                 compiler.incOverFlow();
             }
         }
-        compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(2)));
-        compiler.incOverFlow();
+        
         int j;
         for(j=0;j<regUsedList.length;j++) {
             int i=regUsedList[regUsedList.length-1-j];

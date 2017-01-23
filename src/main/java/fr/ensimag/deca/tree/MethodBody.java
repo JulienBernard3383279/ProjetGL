@@ -64,14 +64,15 @@ public class MethodBody extends AbstractMethodBody{
             a.codeGenInst(compiler);
         }
         int [] regUsedList = compiler.getUsedRegister();
+        compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(2)));
+        compiler.incOverFlow();
         for(int i : regUsedList) {
             if(i!=-1) {
                 compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(i)));
                 compiler.incOverFlow();
             }
         }
-        compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(2)));
-        compiler.incOverFlow();
+        
         int j;
         for(j=0;j<regUsedList.length;j++) {
             int i=regUsedList[regUsedList.length-1-j];
