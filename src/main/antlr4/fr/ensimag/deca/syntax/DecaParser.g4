@@ -317,6 +317,7 @@ inequality_expr returns[AbstractExpr tree]
             assert($e1.tree != null);
             assert($type.tree != null);
             $tree=new InstanceOf($e1.tree,$type.tree);
+            setLocation($tree,$INSTANCEOF);
         }
     ;
 

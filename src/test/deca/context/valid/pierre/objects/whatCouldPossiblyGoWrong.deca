@@ -1,0 +1,13 @@
+class A {
+    int x;
+    int y;
+    int getX() {
+        return this.x;
+    }
+    int getY() {
+        return this.y;
+    }
+}
+class B extends {
+    float x;
+    f

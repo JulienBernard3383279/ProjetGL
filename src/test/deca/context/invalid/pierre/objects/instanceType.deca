@@ -4,5 +4,5 @@ class A {
 {
     A a = new A();
     boolean b1 = a instanceof A ;
-    boolean b2 = a instanceof int ;
+    boolean b2 = a instanceof a ;
 }

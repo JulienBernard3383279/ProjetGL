@@ -23,10 +23,16 @@ public class This extends AbstractExpr {
 
     public This() {}
     
+    ClassDefinition def;
+    
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
+        if (currentClass == null ){
+            throw new ContextualError("cannot call this in main",this.getLocation());
+        }
         ClassType t = currentClass.getType();
         this.setType(t);
+        this.def = currentClass;
         return t;
     }
 
