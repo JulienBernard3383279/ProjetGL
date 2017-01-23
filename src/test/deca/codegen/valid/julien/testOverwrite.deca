@@ -1,0 +1,19 @@
+class A {
+    void f() {
+        print(0);
+    }
+}
+
+class B extends A {
+    void f() {
+        print(1);
+    }
+}
+
+class C extends B {
+}
+
+{
+C c = new C();
+c.f();
+}

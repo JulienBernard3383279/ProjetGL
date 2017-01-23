@@ -26,8 +26,8 @@ import fr.ensimag.deca.context.VoidType;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.ListDeclField;
-import fr.ensimag.deca.tree.Deadstore;
-import fr.ensimag.deca.tree.ConstantFolding;
+import fr.ensimag.deca.tree.DeadStore;
+//import fr.ensimag.deca.tree.ConstantFolding;
 import fr.ensimag.deca.tree.ListDeclVar;
 import fr.ensimag.deca.tree.ListInst;
 import fr.ensimag.deca.tree.Location;
@@ -479,14 +479,14 @@ public class DecacCompiler {
     public boolean isInMethod() {
         return isInMethod;
     }
-    private Extension ext=new Extension();
+    private DeadStore dead=new DeadStore();
 
-    public Extension getExtension() {
-        return ext;
+    public DeadStore getDead() {
+        return dead;
     }
 
-    public void setExtension(Extension ext) {
-        this.ext = ext;
+    public void setDead(DeadStore dead) {
+        this.dead = dead;
     }   
     public DAddr allocateVar() {
         this.varCounter++;
@@ -507,19 +507,15 @@ public class DecacCompiler {
     
     public void execute_dead_store(ListDeclVar list_var, ListInst list_inst){
         if(this.compilerOptions.getDead()){
-            setExtension(new Deadstore());
-            Deadstore dead=(Deadstore) ext;
-            dead.store_dec(list_var);
-            dead.store_var_inst(list_inst);
-            dead.remove_var(list_var);
+            this.getDead().execute(list_var,list_inst);
         }
     }
     
-    public void execute_constant_folding(ListDeclVar list_var,ListInst list_inst){
+   /* public void execute_constant_folding(ListDeclVar list_var,ListInst list_inst){
        if(this.compilerOptions.getFolding()){
            setExtension(new ConstantFolding());
        } 
-    }
+    }*/
     
     //TSTO
     

@@ -1,0 +1,22 @@
+class A {
+    void printOne() {
+        print(1);
+    }
+}
+
+class UnAutreMonde extends A {
+    void printOne() {
+        print(0);
+    }
+}
+
+class B extends A {
+}
+
+class C extends B {
+}
+
+{
+C c = new C();
+c.printOne();
+}

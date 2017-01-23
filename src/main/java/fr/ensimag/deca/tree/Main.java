@@ -81,13 +81,16 @@ public class Main extends AbstractMain {
     }
     
     protected void execute_dead(DecacCompiler compiler){
-        if(compiler.getCompilerOptions().getDead()){  //si on a bien ajouté l'option -o1 dans la ligne de commande
-            Deadstore dead=(Deadstore) compiler.getExtension();
-            dead.store_dec(declVariables);
-            dead.store_var_inst(insts);
-            dead.remove_var(declVariables);
+        if(compiler.getCompilerOptions().getDead()){  //si on a bien ajouté l'option -o1 dans la ligne de commande           
+            compiler.getDead().execute(declVariables, insts);
         }    
     }
+    
+   /* protected void execute_constant_folding(DecacCompiler compiler){
+        if(compiler.getCompilerOptions().getFolding()){
+            compiler.get
+        }
+    }*/
     
     @Override
     public void decompile(IndentPrintStream s) {

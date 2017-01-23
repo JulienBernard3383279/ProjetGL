@@ -1,0 +1,158 @@
+	TSTO #10
+	BOV pile_pleine
+	ADDSP #9
+; start main program
+; Main program
+; Construction de la table des méthodes de Object
+	LOAD #null, R0
+	STORE R0, 1(GB)
+	LOAD equals_Object, R0
+	STORE R0, 2(GB)
+; Construction de la table des méthodes de A
+	LEA 1(GB), R0
+	STORE R0, 3(GB)
+	LOAD equals_Object, R0
+	STORE R0, 4(GB)
+; Construction de la table des méthodes de B
+	LEA 3(GB), R0
+	STORE R0, 5(GB)
+	LOAD equals_Object, R0
+	STORE R0, 6(GB)
+; Construction de la table des méthodes de C
+	LEA 5(GB), R0
+	STORE R0, 7(GB)
+	LOAD equals_Object, R0
+	STORE R0, 8(GB)
+; Seprate constant stack and temporary variables
+; Beginning of main instructions:
+	NEW #6, R3
+	BOV heap_overflow_error
+	LEA 7(GB), R0
+	STORE R0, 0(R3)
+	PUSH R3
+	BSR init.C
+	POP R3
+	STORE R3, 9(GB)
+	LOAD 9(GB), R3
+	LOAD 1(R3), R3
+	LOAD #10, R4
+	CMP R4, R3
+	BNE debutElse0
+	LOAD #1, R1
+	WINT
+	BRA finElse0
+debutElse0:
+	LOAD #0, R1
+	WINT
+finElse0:
+	HALT
+pile_pleine:
+	WSTR "Erreur : pile pleine"
+	WNL
+	ERROR
+io_error:
+	WSTR "Error: Input/Output error"
+	WNL
+	ERROR
+overflow_error:
+	WSTR "Error: Arithmetic Overflow"
+	WNL
+	ERROR
+heap_overflow_error:
+	WSTR "Error: Heap OverFlow"
+	WNL
+	ERROR
+init.A:
+	PUSH R2
+	PUSH R3
+	PUSH R4
+	LOAD -2(LB), R2
+	LOAD #10, R3
+	LOAD R3, R0
+	STORE R0, 1(R2)
+	LOAD #20, R4
+	LOAD R4, R0
+	STORE R0, 2(R2)
+	POP R4
+	POP R3
+	POP R2
+	RTS
+init.B:
+	PUSH R2
+	PUSH R3
+	PUSH R4
+	PUSH R5
+	PUSH R6
+	PUSH R7
+	PUSH R8
+	LOAD -2(LB), R2
+	LOAD #10, R5
+	LOAD R5, R0
+	STORE R0, 1(R2)
+	LOAD #20, R6
+	LOAD R6, R0
+	STORE R0, 2(R2)
+	LOAD #30, R7
+	LOAD R7, R0
+	STORE R0, 3(R2)
+	LOAD #40, R8
+	LOAD R8, R0
+	STORE R0, 4(R2)
+	POP R8
+	POP R7
+	POP R6
+	POP R5
+	POP R4
+	POP R3
+	POP R2
+	RTS
+init.C:
+	PUSH R2
+	PUSH R3
+	PUSH R4
+	PUSH R5
+	PUSH R6
+	PUSH R7
+	PUSH R8
+	PUSH R9
+	PUSH R10
+	PUSH R11
+	PUSH R12
+	PUSH R13
+	LOAD -2(LB), R2
+	LOAD #10, R9
+	LOAD R9, R0
+	STORE R0, 1(R2)
+	LOAD #20, R10
+	LOAD R10, R0
+	STORE R0, 2(R2)
+	LOAD #30, R11
+	LOAD R11, R0
+	STORE R0, 3(R2)
+	LOAD #40, R12
+	LOAD R12, R0
+	STORE R0, 4(R2)
+	LOAD #50, R13
+	LOAD R13, R0
+	STORE R0, 5(R2)
+	POP R13
+	POP R12
+	POP R11
+	POP R10
+	POP R9
+	POP R8
+	POP R7
+	POP R6
+	POP R5
+	POP R4
+	POP R3
+	POP R2
+	RTS
+equals_object:
+	TSTO #0
+	LOAD -3(SP), R0
+	LOAD -2(SP), R1
+	CMP R0, R1
+	SEQ R0
+	RTS
+; end main program
