@@ -41,6 +41,7 @@ public class Assign extends AbstractBinaryExpr {
         Type t;
         try {
             t = this.getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+            //check for int to float conversion (thus the verifyRValue)
             this.getRightOperand().verifyRValue(compiler, localEnv, currentClass, t);
         } catch (ContextualError e) {
             throw e;

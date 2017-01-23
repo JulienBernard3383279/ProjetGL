@@ -9,15 +9,10 @@ import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.*;
 import fr.ensimag.deca.Extension;
 
-
-
 /**
  *
  * @author carret
  */
-
-
-
 
 public class ConstantFolding extends Extension{
     
@@ -135,6 +130,5 @@ public class ConstantFolding extends Extension{
             }
         }
         return res;
-    }
-    
+    }   
 }

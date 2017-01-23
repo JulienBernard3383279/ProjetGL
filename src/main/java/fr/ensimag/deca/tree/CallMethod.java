@@ -72,9 +72,11 @@ public class CallMethod extends AbstractExpr {
             }
             EnvironmentExp classEnv = currentClass.getMembers();
             t = name.verifyExpr(compiler,classEnv,currentClass);
+            //check for identifier in class
             if (classEnv.get(name.getName())==null) {
                 throw new ContextualError("no such method in class",this.name.getLocation());
             }
+            //check that identifier is method
             if (! classEnv.get(name.getName()).isMethod()) {
                 throw new ContextualError("identifier is not a method",this.name.getLocation());
             }
@@ -88,6 +90,7 @@ public class CallMethod extends AbstractExpr {
             while (it.hasNext()) {
                 AbstractExpr e = it.next();
                 tbis = e.verifyExpr(compiler,localEnv,currentClass);
+                //special case where the types are classes (subclasses can be called when a superclass is expected)
                 if (tbis.isClass()){
                     if (!sig.paramNumber(index).isClass()) {
                         throw new ContextualError("parameter type does not match signature",e.getLocation());
@@ -98,6 +101,7 @@ public class CallMethod extends AbstractExpr {
                         }
                     }
                 } else {
+                    //possible int to float conversion
                     e = e.verifyRValue(compiler, localEnv, currentClass,sig.paramNumber(index));
                 }
                 index = index + 1; 

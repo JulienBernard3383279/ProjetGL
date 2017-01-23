@@ -50,7 +50,7 @@ public abstract class AbstractPrint extends AbstractInst {
             }
             
             if ((! t.isInt()) && (! t.isFloat()) && (! t.isString())) {
-                throw new ContextualError("Only string, int and float expressions can be printed",this.getLocation());
+                throw new ContextualError("only string, int and float expressions can be printed",this.getLocation());
             }
         }
     }

@@ -46,6 +46,7 @@ public class DeclMethod extends AbstractDeclMethod{
             t = this.type.verifyType(compiler);
             ExpDefinition superDef = classEnv.get(methodName.getName());
             if (superDef != null) {
+                //in case method overrides an existing method, transfer index
                 if (superDef.isMethod()) {
                     MethodDefinition superDef2 = (MethodDefinition)superDef;
                     def = new MethodDefinition(t,this.getLocation(),new Signature(),superDef2.getIndex());
@@ -70,6 +71,7 @@ public class DeclMethod extends AbstractDeclMethod{
         } catch (EnvironmentExp.DoubleDefException d) {
             throw new ContextualError("method already defined",this.methodName.getLocation());
         }
+        //if a method is overriden, checks if the signatures are the same
         EnvironmentExp superEnv = currentClass.getSuperClass().getMembers();
         if (superEnv.get(methodName.getName())!=null) {
             if (superEnv.get(methodName.getName()).isMethod()) {
