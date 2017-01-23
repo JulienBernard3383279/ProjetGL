@@ -1,0 +1,68 @@
+class UltimateTest {
+    
+    int desIntegerate = ((1 + (2*3))-(6/2))%3;
+
+    boolean superBoowl = (true && false) || (true && (new UltimateTest() instanceof UltimateTest));
+
+    float soreFloat = (0.1 + 1) * 124.643;
+
+    Classtastrophy crystalMethod(UltimateTest testMyLimits, float soreFloat) {
+        InCaseOfFire alarm = new InCaseOfFire();
+        int finalCountDown = alarm.getSchrod();
+        Classtastrophy cataclassm;
+        alarm = (InCaseOfFire)(alarm);
+        desIntegerate = alarm.cat(alarm);
+        if (!(soreFloat!=this.soreFloat)&& superBoowl) {
+            this.soreFloat = soreFloat - alarm.withHammer.cat(alarm.withHammer);
+        }
+        while (finalCountDown < desIntegerate) {
+            println("*alarm rings vigorously for",finalCountDown,"seconds*");
+            finalCountDown = finalCountDown + 1;
+        }
+        cataclassm.autobotsAssembler();
+        return testMyLimits.crystalMethod(testMyLimits, desIntegerate);
+    }
+}
+class BreakClass {
+    
+    protected int schrodInteger;
+    
+    int cat(BreakClass box) {
+        UltimateTest t = new UltimateTest();
+        schrodInteger = t.desIntegerate + box.getSchrod();
+        return schrodInteger;
+    }
+    int getSchrod() {
+        return null;
+    }
+}
+class InCaseOfFire extends BreakClass {
+
+    BreakClass withHammer;
+
+    int getSchrod() {
+        return schrodInteger;
+    }
+}
+class Classtastrophy {
+    
+    boolean booldozer = ((new BreakClass()).cat(new InCaseOfFire())==1);
+    
+    void autobotsAssembler()
+        asm("LOAD -2(LB), R1");
+
+}
+{
+    UltimateTest testInPeace = new UltimateTest();
+    Classtastrophy classthulu = testInPeace.crystalMethod(new UltimateTest(),13.37);
+    InCaseOfFire starter;
+    if (!(classthulu.booldozer)||(classthulu instanceof BreakClass)) {
+        testInPeace.soreFloat = (float)(starter.cat(starter.withHammer));
+        print(testInPeace.desIntegerate,readFloat());
+    }
+}
+    
+    
+    
+    
+    
