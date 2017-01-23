@@ -37,6 +37,7 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod>{
                 throw e;
             }
         }
+        currentClass.setNumberOfMethods(index-1);
     }
     
     protected void verifyListBody(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError{
