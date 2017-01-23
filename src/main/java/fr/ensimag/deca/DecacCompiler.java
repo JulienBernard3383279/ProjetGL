@@ -357,8 +357,6 @@ public class DecacCompiler {
             reg[2]=true;
             regUsed[2]=true;
         }
-        else 
-            throw new UnsupportedOperationException("Shouldn't be called");
     }
     public DVal allocRegister () {
         int i;
