@@ -13,6 +13,7 @@ import fr.ensimag.ima.pseudocode.instructions.CMP;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.RTS;
 import fr.ensimag.ima.pseudocode.instructions.SEQ;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
 
 /**
  *
@@ -21,6 +22,7 @@ import fr.ensimag.ima.pseudocode.instructions.SEQ;
 public class EqualsObject {
     public static void generateObjectMethod(DecacCompiler compiler) {
         compiler.addLabel(new Label("equals_object"));
+        compiler.addInstruction(new TSTO(0));
         compiler.addInstruction(new LOAD(new RegisterOffset(-3,Register.SP),Register.R0));
         compiler.addInstruction(new LOAD(new RegisterOffset(-2,Register.SP),Register.R1));
         compiler.addInstruction(new CMP(Register.R0,Register.R1));

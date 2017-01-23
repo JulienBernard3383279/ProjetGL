@@ -130,6 +130,7 @@ public class CallMethod extends AbstractExpr {
     protected DVal codeGenDotted(DecacCompiler compiler) {
         for(AbstractExpr a : this.args.getList()) {
             DVal reg = a.codeGen(compiler);
+            compiler.incOverFlow();
             if(reg.isGPRegister()) {
                 compiler.addInstruction(new PUSH((GPRegister)reg));
             }
@@ -159,6 +160,7 @@ public class CallMethod extends AbstractExpr {
         }
         for(AbstractExpr a : this.args.getList()) {
             compiler.addInstruction(new POP(Register.R0));
+            compiler.decOverFlow();
         }
         return reg;
     }
