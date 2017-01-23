@@ -357,8 +357,15 @@ public class DecacCompiler {
             reg[2]=true;
             regUsed[2]=true;
         }
-        else 
-            throw new UnsupportedOperationException("Shouldn't be called");
+    }
+    public void decOverFlow() {
+        overFlow--;
+    }
+    public void incOverFlow() {
+        if(overFlow>maxOverFlow) {
+            maxOverFlow=overFlow;
+        }
+        overFlow++;
     }
     public DVal allocRegister () {
         int i;
@@ -517,11 +524,11 @@ public class DecacCompiler {
     //TSTO
     
     public int argTSTO() {
-        if (maxOverFlow-1 + varCounter + this.methodCounter/*- this.compilerOptions.getNbRegisters()*/ > 0) {
-            return maxOverFlow -1+ varCounter+this.methodCounter /*- this.compilerOptions.getNbRegisters()*/;
+        if(!isInMethod){
+            return maxOverFlow+ varCounter+this.methodCounter+1 /*- this.compilerOptions.getNbRegisters()*/;
         }
         else {
-            return 0;
+            return maxOverFlow+ varCounter;
         }
     }
 

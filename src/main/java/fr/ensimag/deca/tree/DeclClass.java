@@ -6,12 +6,23 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.deca.tools.SymbolTable;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.FLOAT;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.RTS;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import java.io.PrintStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Declaration of a class (<code>class name extends superClass {members}<code>).
@@ -29,7 +40,7 @@ public class DeclClass extends AbstractDeclClass {
         this.className = className;
         this.superClass = superClass;
         this.field = field;
-        this.methods = methods;  
+        this.methods = methods;
     }
     //fin modif
     
@@ -61,6 +72,9 @@ public class DeclClass extends AbstractDeclClass {
         compiler.getEnvTypes().put(this.className.getName(), def);
         this.className.setDefinition(def);
         this.className.setType(t);
+        
+        //Not for verifying, but for the sake of binding the declaration to the definition
+        this.className.getClassDefinition().setDecl(this);
     }
 
     @Override
@@ -105,6 +119,31 @@ public class DeclClass extends AbstractDeclClass {
         for(AbstractDeclMethod a : super.methods.getList()) {
             a.codeGenBody(compiler,field);
         }
+        addInit(compiler);
+        
     }
     
+    public void fieldsInInit(DecacCompiler compiler) {
+        
+        if (superClass.getName().getName() != "Object") {
+            superClass.getClassDefinition().getDecl().fieldsInInit(compiler);
+        }
+        
+        Iterator<AbstractDeclField> it = field.iterator();
+        
+        while (it.hasNext()) {
+            AbstractDeclField localDecl=it.next();
+            localDecl.generateInit(compiler);
+        }
+    }
+    
+    public void addInit(DecacCompiler compiler) {
+        ClassDefinition def = className.getClassDefinition();
+        Label init = new Label("init."+def.getType().getName().getName() );
+        compiler.addLabel(init);
+        compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB) , Register.R1));
+        fieldsInInit(compiler);
+        compiler.addInstruction(new RTS());
+    }    
+
 }

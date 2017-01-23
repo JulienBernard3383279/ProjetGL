@@ -5,12 +5,17 @@ import fr.ensimag.deca.tree.Location;
 import fr.ensimag.ima.pseudocode.Label;
 import org.apache.commons.lang.Validate;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.deca.tree.DeclClass;
+import fr.ensimag.deca.tree.ListDeclField;
 import fr.ensimag.ima.pseudocode.LabelOperand;
 import fr.ensimag.ima.pseudocode.NullAddr;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.BSR;
+import fr.ensimag.ima.pseudocode.instructions.FLOAT;
 import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.RTS;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 /**
  * Definition of a class.
@@ -19,7 +24,18 @@ import fr.ensimag.ima.pseudocode.instructions.STORE;
  * @date 01/01/2017
  */
 public class ClassDefinition extends TypeDefinition {
-
+    
+    private DeclClass decl;
+    
+    public void setDecl(DeclClass decl) {
+        this.decl=decl;
+    }
+    
+    public DeclClass getDecl() {
+        return decl;
+    }
+    
+    
     public void setNumberOfFields(int numberOfFields) {
         this.numberOfFields = numberOfFields;
     }
@@ -72,6 +88,8 @@ public class ClassDefinition extends TypeDefinition {
         return members;
     }
 
+    Map<Symbol,FieldDefinition> symbolsToFieldDefinition = new HashMap<>();
+    
     public ClassDefinition(ClassType type, Location location, ClassDefinition superClass) {
         super(type, location);
         EnvironmentExp parent;
@@ -84,12 +102,17 @@ public class ClassDefinition extends TypeDefinition {
         members = new EnvironmentExp(parent);
 
         this.superClass = superClass;
+                
     }
+            
     private boolean writen=false;
     private ClassMethodSet MethodsSet;
     public ClassMethodSet write(DecacCompiler compiler) {
         if(!writen) {
             writen = true;
+            
+            //addInit(compiler);
+            
             if(superClass!=null) 
                 MethodsSet= new ClassMethodSet(this.superClass.write(compiler));
             else 
@@ -103,7 +126,10 @@ public class ClassDefinition extends TypeDefinition {
             }
             compiler.addComment("Construction de la table des méthodes de "
                     +this.getType().getName().getName());
-            compiler.addInstruction(new LEA(MethodsSet.getAddr(),Register.R0));
+            if(!this.getType().getName().getName().equals("Object"))
+                compiler.addInstruction(new LEA(MethodsSet.getAddr(),Register.R0));
+            else 
+                compiler.addInstruction(new LOAD(MethodsSet.getAddr(),Register.R0));
             MethodsSet.setAddr(new RegisterOffset(compiler.getCurrentMethodNumber()+1,Register.GB));
             compiler.addInstruction(new STORE(Register.R0,MethodsSet.getAddr()));
             int i=1;
@@ -135,4 +161,66 @@ public class ClassDefinition extends TypeDefinition {
         return false;
     }
     
+    /*
+    public void addInit(DecacCompiler compiler) {
+        
+        init.A :
+        LOAD #0, R0
+        LOAD -2 (LB), R1
+        STORE R0, 1 (R1)
+        RTS
+        
+        Label init = new Label("init."+this.getType().getName().getName() );
+        compiler.addLabel(init);
+        compiler.addInstruction(new LOAD(new RegisterOffset(-(1+numberOfFields), Register.LB) , Register.R1));
+        
+        Set<Symbol> keySet=this.members.getDico().keySet();
+        for (Symbol s : keySet ) {
+            Definition resultDefinition = members.getDico().get(s);
+            if (resultDefinition.isField()) {
+                FieldDefinition field = (FieldDefinition) resultDefinition;
+                Type itsType = field.getType();
+                if ( itsType.isInt() ) {
+                    compiler.addInstruction(new LOAD(0,Register.R0));
+                }
+                else if (itsType.isFloat() ) {
+                    compiler.addInstruction(new LOAD(0,Register.R0));
+                    compiler.addInstruction(new FLOAT(Register.R0,Register.R0));
+                }
+                else if (itsType.isBoolean() ) {
+                    compiler.addInstruction(new LOAD(0,Register.R0));
+                }
+                else {
+                    compiler.addInstruction(new LOAD(null,Register.R0));
+                }
+                compiler.addInstruction(new STORE(Register.R0,new RegisterOffset(field.getIndex(),Register.R1)));
+            }
+            
+        }
+        compiler.addInstruction(new RTS());
+        
+        /* LOAD -2 (LB), R1 devrait être au début
+        -2 = - (nb de champ, incluant ceux des superclasses + 1)
+        
+        puis boucle sur members.dico puis utiliser isField
+        
+        LOAD #0, R0
+        STORE R0, 1 (R1)
+        
+        =>
+        
+        LOAD (la valeur qui va bien en fonction du type, R0
+        STORE R0, index (R1)
+        
+        à la fin, RTS
+        
+        int => #0
+        boolean => #0
+        float => #0 puis FLOAT
+        String : N'EXISTE PAS
+        Autres => #null
+        
+        
+    }
+    */
 }

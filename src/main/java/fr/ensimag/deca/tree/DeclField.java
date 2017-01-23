@@ -14,6 +14,14 @@ import fr.ensimag.deca.context.FieldDefinition;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.FLOAT;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import java.io.PrintStream;
 
 /**
@@ -56,12 +64,10 @@ public class DeclField extends AbstractDeclField{
                     //otherwise, index has the value of the number of fields in the hierarchy
                     def = new FieldDefinition(t,this.type.getLocation(),this.visib,currentClass,index);
                     currentClass.incNumberOfFields();
-                    index = index + 1;
                 }
             } else {
                 def = new FieldDefinition(t,this.type.getLocation(),this.visib,currentClass,index);
                 currentClass.incNumberOfFields();
-                index = index + 1;
             }
             this.fieldName.setDefinition(def);
             classEnv.declare(this.fieldName.getName(), def);
@@ -106,5 +112,73 @@ public class DeclField extends AbstractDeclField{
         type.prettyPrint(s,prefix,false);
         fieldName.prettyPrint(s,prefix,false);
         init.prettyPrint(s,prefix,false);
+    }
+    
+    @Override
+    void generateInit(DecacCompiler compiler) {
+        FieldDefinition field = (FieldDefinition) fieldName.getDefinition();
+        Type itsType = field.getType();
+        if ( itsType.isInt() ) {
+            if (init instanceof Initialization) {
+                DVal reg = init.codeGen(compiler);
+                if (reg.isGPRegister()) {
+                    compiler.addInstruction(new LOAD(reg,Register.R0));
+                }
+                else if (reg.isRegisterOffset()) {
+                    compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset) reg),Register.R0));
+                }
+            }
+            else {
+                compiler.addInstruction(new LOAD(0,Register.R0));
+            }
+        }
+        else if (itsType.isFloat() ) {
+            if (init instanceof Initialization) {
+                DVal reg = init.codeGen(compiler);
+                if (reg.isGPRegister()) {
+                    compiler.addInstruction(new LOAD(reg,Register.R0));
+                }
+                else if (reg.isRegisterOffset()) {
+                    compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset) reg),Register.R0));
+                }
+            }
+            else {
+                compiler.addInstruction(new LOAD(0,Register.R0));
+                compiler.addInstruction(new FLOAT(Register.R0,Register.R0));
+            }
+        }
+        else if (itsType.isBoolean() ) {
+            if (init instanceof Initialization) {
+                DVal reg = init.codeGen(compiler);
+                if (reg.isGPRegister()) {
+                    compiler.addInstruction(new LOAD(reg,Register.R0));
+                }
+                else if (reg.isRegisterOffset()) {
+                    compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset) reg),Register.R0));
+                }
+            }
+            else {
+                compiler.addInstruction(new LOAD(0,Register.R0));
+            }
+        }
+        else {
+            if (init instanceof Initialization) {
+                //compiler.addInstruction(new PUSH(Register.R0));
+                
+                DVal reg = init.codeGen(compiler);
+                if (reg.isGPRegister()) {
+                    compiler.addInstruction(new LOAD(reg,Register.R0));
+                }
+                else if (reg.isRegisterOffset()) {
+                    compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset) reg),Register.R0));
+                }
+                
+                //compiler.addInstruction(new POP(Register.R0));
+            }
+            else {
+                compiler.addInstruction(new LOAD(null,Register.R0));
+            }
+        }
+        compiler.addInstruction(new STORE(Register.R0,new RegisterOffset(field.getIndex(),Register.R1)));
     }
 }

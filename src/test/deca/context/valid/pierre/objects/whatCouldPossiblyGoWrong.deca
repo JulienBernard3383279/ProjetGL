@@ -1,0 +1,45 @@
+class A {
+    int x;
+    int y;
+    int getX() {
+        return this.x;
+    }
+    int getY() {
+        return this.y;
+    }
+}
+class B extends A{
+    float z;
+}
+class C extends B {
+    float getZ() {
+        return this.z;
+    }
+}
+class D extends B {
+    void get() {
+        float x = (this.x + y) + z;
+        boolean b = (new D()) instanceof A;
+        println(x);
+    }
+}
+{
+    A a = new D();
+    B b = new C();
+    C c = new C();
+    D d = new D();
+    a.x = b.getX();
+    c.z = b.getY();
+    c.x = readInt();
+    d.get();
+    while (a.y < 10) {
+        if (b instanceof A) {
+            d.x = c.getX() + d.y;
+        } else {
+            print("ok");
+        }
+        b = (D)(a);
+        c = (C)(b);
+        a = (A)(b);
+    }
+}   

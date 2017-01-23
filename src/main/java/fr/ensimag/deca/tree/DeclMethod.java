@@ -53,12 +53,10 @@ public class DeclMethod extends AbstractDeclMethod{
                 } else {
                     def = new MethodDefinition(t,this.getLocation(),new Signature(),index);
                     currentClass.incNumberOfMethods();
-                    index = index + 1;
                 }
             } else {
                 def = new MethodDefinition(t,this.getLocation(),new Signature(),index);
                 currentClass.incNumberOfMethods();
-                index = index + 1;
             }
             EnvironmentExp methodEnv = new EnvironmentExp(classEnv);
             this.params.verifyListParam(compiler, currentClass,def,methodEnv);
@@ -131,9 +129,9 @@ public class DeclMethod extends AbstractDeclMethod{
     }
     @Override 
     public void codeGenBody(DecacCompiler compiler,ListDeclField fields){
-        MethodDefinition def = (MethodDefinition)(compiler.getEnvTypes().get(this.methodName.getName()));
+        ClassDefinition cDef = compiler.getClassDefinition();
         compiler.setMethodName(this.methodName.getName().getName());
-        compiler.addLabel(def.getLabel());
+        compiler.addLabel(((MethodDefinition)cDef.getMembers().getDico().get(this.methodName.getName())).getLabel());
         compiler.resetCompiler(this.params.size(),fields);
         if(!type.getType().isVoid())
             compiler.isNotVoid();
