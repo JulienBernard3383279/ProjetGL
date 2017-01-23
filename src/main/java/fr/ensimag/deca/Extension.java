@@ -9,6 +9,11 @@ package fr.ensimag.deca;
  *
  * @author marchaem
  */
-public class Extension {
+ public abstract class Extension {
+     /**
+      * méthode abstraite d'éxécution des optimisations
+      * voir documentation technique pour plus de détails
+      */
+     public abstract void execute(); 
     
 }
