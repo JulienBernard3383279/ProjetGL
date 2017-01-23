@@ -1,0 +1,11 @@
+class A {
+	int a=10;
+	int b=20;
+}
+class B extends A {
+	int c=30;
+	int d=40;
+}
+class C extends B  {
+	int e=50;
+}
