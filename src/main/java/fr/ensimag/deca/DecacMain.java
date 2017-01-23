@@ -34,7 +34,7 @@ public class DecacMain {
             System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
             System.out.println("MMMMMMMMMMMMMM PROJET GL MMMMMMMMMMMMMMMMMMM");
             System.out.println("MMMMMMMMMMMMMM Equipe 58 MMMMMMMMMMMMMMMMMMM");
-            System.out.println("MMM Julien BERNARD    Thibaut CARRE MMMMMMMM");
+            System.out.println("MMM Julien BERNARD    Thibault CARRE MMMMMMM");
             System.out.println("MMMMMMM  Emmanuel MARCHAL-FRANCIS MMMMMMMMMM");
             System.out.println("MMMMM Pierre COSTE   Guillaume MILAN MMMMMMM");
             System.out.println("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");

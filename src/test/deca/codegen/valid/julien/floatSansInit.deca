@@ -1,3 +1,5 @@
 class myClass {
 	float f;
 }
+{myClass c = new myClass();
+print(1);}
