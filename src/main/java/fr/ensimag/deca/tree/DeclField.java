@@ -179,6 +179,6 @@ public class DeclField extends AbstractDeclField{
                 compiler.addInstruction(new LOAD(null,Register.R0));
             }
         }
-        compiler.addInstruction(new STORE(Register.R0,new RegisterOffset(field.getIndex(),Register.R1)));
+        compiler.addInstruction(new STORE(Register.R0,new RegisterOffset(field.getIndex(),Register.getR(2))));
     }
 }

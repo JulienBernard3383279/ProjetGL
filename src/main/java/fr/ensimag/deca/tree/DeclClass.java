@@ -141,7 +141,7 @@ public class DeclClass extends AbstractDeclClass {
         ClassDefinition def = className.getClassDefinition();
         Label init = new Label("init."+def.getType().getName().getName() );
         compiler.addLabel(init);
-        compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB) , Register.R1));
+        compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB) , Register.getR(2)));
         fieldsInInit(compiler);
         compiler.addInstruction(new RTS());
     }    
