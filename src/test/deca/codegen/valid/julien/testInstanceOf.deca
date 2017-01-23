@@ -1,0 +1,8 @@
+class B {}
+class A extends B {}
+{
+B a = new A();
+if (a instanceof A) {
+	print(1);
+} else { print(0); }
+}
