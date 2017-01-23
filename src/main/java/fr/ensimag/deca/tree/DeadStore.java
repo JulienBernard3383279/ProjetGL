@@ -49,14 +49,13 @@ public class DeadStore extends Extension{
      */
 
     public void store_dec(ListDeclVar list_var){
-        Iterator<AbstractDeclVar> i=list_var.iterator(); 
-        
+        Iterator<AbstractDeclVar> i=list_var.iterator();        
         while(i.hasNext()){   
                 AbstractDeclVar abstVar= i.next();
                 if(abstVar instanceof DeclVar){
                     DeclVar dec=(DeclVar) abstVar;
-                    if(!this.arr1.contains(abstVar))  //on copie le nom des variables initialisées                       
-                       this.arr1.add(dec.getVarName());
+                    if(!this.arr1.contains(abstVar))                        
+                       this.arr1.add(dec.getVarName());//on copie le nom des variables initialisées   
                 }    
         }  
     }
@@ -75,6 +74,11 @@ public class DeadStore extends Extension{
                     Identifier id=(Identifier) varBin.getLeftOperand();
                     this.arr2.add(id.getName().getName());
                 }
+                else {
+                   // store_var_inst(varBin.getLeftOperand());
+                }
+                    
+                
                 if(varBin.getLeftOperand() instanceof Identifier){
                     Identifier id=(Identifier) varBin.getRightOperand();
                     this.arr2.add(id.getName().getName());
@@ -128,8 +132,7 @@ public class DeadStore extends Extension{
     
     public void remove_var(ListDeclVar list_var){
         int j=0;
-        Iterator<String> i=this.arr1.iterator();
-        
+        Iterator<String> i=this.arr1.iterator();        
         while(i.hasNext()){
             String name=i.next();
             if(this.arr2.contains(i)){
