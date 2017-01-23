@@ -15,7 +15,7 @@ import fr.ensimag.deca.Extension;
  * @author carret
  */
 
-public class ConstantFolding extends Extension{
+//public class ConstantFolding extends Extension{
     
     /*private Type resultat;
 
@@ -89,6 +89,6 @@ public class ConstantFolding extends Extension{
            resTemp=resTemp/expr2.getValue();
        }
        return resultat;
-   }*/
+   }
     
-}
+}*/

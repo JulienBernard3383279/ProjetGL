@@ -8,7 +8,6 @@ import static org.junit.Assert.*;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 import fr.ensimag.deca.tree.ListDeclVar;
-import fr.ensimag.deca.tree.Deadstore;
 import fr.ensimag.deca.tree.Identifier;
 import fr.ensimag.deca.tree.AbstractIdentifier;
 import fr.ensimag.deca.tree.AbstractInitialization;
