@@ -36,6 +36,7 @@ public class ListDeclField extends TreeList<AbstractDeclField>{
         while (it.hasNext()) {
             try {
                 it.next().verifyDeclField(compiler, currentClass,n);
+                n = n + 1;
             } catch (ContextualError e) {
                 throw e;
             }
