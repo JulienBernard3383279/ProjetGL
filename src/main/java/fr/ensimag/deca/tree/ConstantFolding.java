@@ -5,22 +5,20 @@
  */
 package fr.ensimag.deca.tree;
 import java.util.*;
-<<<<<<< HEAD
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.*;
-=======
 import fr.ensimag.deca.Extension;
->>>>>>> 8be364bbee5580315a765d502988dcfdc128926a
+
 
 
 /**
  *
  * @author carret
  */
-<<<<<<< HEAD
-=======
 
->>>>>>> 8be364bbee5580315a765d502988dcfdc128926a
+
+
+
 public class ConstantFolding extends Extension{
     
     private Type resultat;
@@ -35,6 +33,7 @@ public class ConstantFolding extends Extension{
             Iterator<AbstractInst> i= listInst.iterator();
             AbstractExpr expr;
             Boolean typeVar;
+            String ope;
             this.resultat=null;
             while(i.hasNext()){
                 AbstractInst inst = i.next();
@@ -42,7 +41,11 @@ public class ConstantFolding extends Extension{
                         if(inst instanceof Assign){
                             typeVar=((Assign) inst).getLeftOperand().getType().isInt();
                             if(typeVar){
-                                
+                                expr=((Assign) inst).getRightOperand();
+                                if(expr instanceof AbstractBinaryExpr){
+                                    ope=((AbstractBinaryExpr) expr).getOperatorName();
+                                    intCalc(expr, ope);
+                                }
                             }
                             typeVar=((Assign) inst).getLeftOperand().getType().isBoolean();
                             if(typeVar){
@@ -50,7 +53,11 @@ public class ConstantFolding extends Extension{
                             }
                             typeVar=((Assign) inst).getLeftOperand().getType().isFloat();
                             if(typeVar){
-                                
+                                expr=((Assign) inst).getRightOperand();
+                                if(expr instanceof AbstractBinaryExpr){
+                                    ope=((AbstractBinaryExpr) expr).getOperatorName();
+                                    intCalc(expr, ope);
+                                }
                             }
                             expr=((Assign) inst).getRightOperand();
                             if(expr instanceof AbstractBinaryExpr){
@@ -62,39 +69,72 @@ public class ConstantFolding extends Extension{
             
     }
     
+   
+    public int intCalc(AbstractExpr expr, String operateur){
+        AbstractExpr expr1, expr2;
+        String ope;
+        int res=0;
+        if(expr instanceof AbstractBinaryExpr){
+            expr1=((AbstractBinaryExpr) expr).getLeftOperand();
+            expr2= ((AbstractBinaryExpr) expr).getRightOperand();
+            if (expr1 instanceof Identifier || expr2 instanceof Identifier){
+               return 0;
+           }
+            else if(expr2 instanceof IntLiteral){
+                if(operateur=="+"){
+                    res=res+((IntLiteral)expr2).getValue();
+                }
+                else if(operateur=="-"){
+                    res=res-((IntLiteral)expr2).getValue();
+                }
+                else if(operateur=="*"){
+                    res=res*((IntLiteral)expr2).getValue();
+                }
+                else if(operateur=="/"){
+                    res=res/((IntLiteral)expr2).getValue();
+                }
+                
+            }
+            else if(expr2 instanceof AbstractBinaryExpr) {
+                ope=((AbstractBinaryExpr) expr2).getOperatorName();
+                res=intCalc(expr2, ope);
+            }
+        }
+        return res;
+    }
     
-   public Type boucle(AbstractExpr expr, String operateur){
-       AbstractExpr expr1, expr2;
-       String ope;
-       Type resTemp;
-       if(expr instanceof AbstractBinaryExpr){
-           expr1=((AbstractBinaryExpr) expr).getLeftOperand();
-           expr2= ((AbstractBinaryExpr) expr).getRightOperand();
-           if (expr1 instanceof Identifier || expr2 instanceof Identifier){
-               return null;
+    
+    public float floatCalc(AbstractExpr expr, String operateur){
+        AbstractExpr expr1, expr2;
+        String ope;
+        float res=0;
+        if(expr instanceof AbstractBinaryExpr){
+            expr1=((AbstractBinaryExpr) expr).getLeftOperand();
+            expr2= ((AbstractBinaryExpr) expr).getRightOperand();
+            if (expr1 instanceof Identifier || expr2 instanceof Identifier){
+               return 0;
            }
-           if(expr2  instanceof AbstractBinaryExpr){
-               ope=((AbstractBinaryExpr) expr2).getOperatorName();
-               boucle(expr2, ope);
-           }
-           
-       }
-       if (expr2 instanceof IntLiteral){
-           
-       }
-       if(operateur=="+"){
-           resTemp=expr2.getValue()+resTemp;
-       }
-       else if(operateur=="-"){
-           resTemp=resTemp-expr2.getValue();
-       }
-       else if(operateur=="*"){
-           resTemp=expr2.getValue()*resTemp;
-       }
-       else if(operateur=="/"){
-           resTemp=resTemp/expr2.getValue();
-       }
-       return resultat;
-   }
+            else if(expr2 instanceof FloatLiteral){
+                if(operateur=="+"){
+                    res=res+((FloatLiteral)expr2).getValue();
+                }
+                else if(operateur=="-"){
+                    res=res-((FloatLiteral)expr2).getValue();
+                }
+                else if(operateur=="*"){
+                    res=res*((FloatLiteral)expr2).getValue();
+                }
+                else if(operateur=="/"){
+                    res=res/((FloatLiteral)expr2).getValue();
+                }
+                
+            }
+            else if(expr2 instanceof AbstractBinaryExpr) {
+                ope=((AbstractBinaryExpr) expr2).getOperatorName();
+                res=intCalc(expr2, ope);
+            }
+        }
+        return res;
+    }
     
 }
