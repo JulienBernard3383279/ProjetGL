@@ -9,6 +9,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.NullOperand;
+import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.RFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
@@ -59,6 +60,6 @@ public class ReadFloat extends AbstractReadExpr {
         if(compiler.getCompilerOptions().getChecks()) {
             compiler.addInstruction(new BOV(compiler.getIOLabel()));
         }
-        return new NullOperand();
+        return Register.R1;
     }
 }
