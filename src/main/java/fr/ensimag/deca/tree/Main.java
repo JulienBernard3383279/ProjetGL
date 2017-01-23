@@ -51,6 +51,7 @@ public class Main extends AbstractMain {
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
         execute_dead(compiler); //on nettoie l'arbre avant
+        //execute_folding(compiler);
         compiler.addComment("Seprate constant stack and temporary variables");
         compiler.addComment("Beginning of main instructions:");
         declVariables.codeGenListVar(compiler);
@@ -80,11 +81,18 @@ public class Main extends AbstractMain {
         }
     }
     
-    protected void execute_dead(DecacCompiler compiler){
+    public void execute_dead(DecacCompiler compiler){
         if(compiler.getCompilerOptions().getDead()){  //si on a bien ajouté l'option -o1 dans la ligne de commande           
             compiler.getDead().execute(declVariables, insts);
         }    
     }
+    
+    public void execute_folding(DecacCompiler compiler){
+        if(compiler.getCompilerOptions().getFolding()){  //si on a bien ajouté l'option -o1 dans la ligne de commande           
+            compiler.getFolding().execute(insts);
+        }    
+    }
+    
     
    /* protected void execute_constant_folding(DecacCompiler compiler){
         if(compiler.getCompilerOptions().getFolding()){
