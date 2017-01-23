@@ -9,3 +9,13 @@ class B extends A {
 class C extends B  {
 	int e=50;
 }
+
+{
+	C c = new C();
+	if (c.a==10) {
+		print(1);
+	}
+	else {
+		print(0);
+	}
+}
