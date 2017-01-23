@@ -1,0 +1,7 @@
+class A {
+    void method(){}
+}
+{
+    A a = new A();
+    this.method();
+}

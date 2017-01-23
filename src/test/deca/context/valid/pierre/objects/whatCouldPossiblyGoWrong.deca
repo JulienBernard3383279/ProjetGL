@@ -1,0 +1,25 @@
+class A {
+    int x;
+    int y;
+    int getX() {
+        return this.x;
+    }
+    int getY() {
+        return this.y;
+    }
+}
+class B extends A{
+    float z;
+}
+class C extends B {
+    float getZ() {
+        return this.z;
+    }
+}
+class D extends B {
+    void get() {
+        float x = (this.x + y) + z;
+        boolean b = (new D()) instanceof A;
+        println(x);
+    }
+}
