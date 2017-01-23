@@ -55,7 +55,7 @@ public class DeadStore extends Extension{
                 if(abstVar instanceof DeclVar){
                     DeclVar dec=(DeclVar) abstVar;
                     if(!this.arr1.contains(abstVar))                        
-                       this.arr1.add(dec.getVarName());//on copie le nom des variables initialisées en un seul exemplaire  
+                       this.arr1.add(dec.getVarName().getName().getName());//on copie le nom des variables initialisées en un seul exemplaire  
                 }    
         }  
     }
