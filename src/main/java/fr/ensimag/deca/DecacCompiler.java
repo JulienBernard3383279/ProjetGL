@@ -658,5 +658,13 @@ public class DecacCompiler {
     public Label getEndMethodLabel() {
         return endMethod;
     }
+
+    public void newMethodKey() {
+        methodKey++;
+    }
+    int methodKey=0;
+    public String getMethodkey() {
+        return ""+methodKey;
+    }
     /** End of Code for Methods Only**/
 }

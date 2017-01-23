@@ -15,6 +15,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
 import fr.ensimag.ima.pseudocode.instructions.ERROR;
@@ -52,7 +53,8 @@ public class MethodBody extends AbstractMethodBody{
     
     @Override
     protected void codeGenMethodBody(DecacCompiler compiler) {
-        Label l = new Label("fin."+compiler.getMethodName());
+        Label l = new Label("fin."+compiler.getMethodName()+compiler.getMethodkey());
+        compiler.newMethodKey();
         compiler.setEndMethodLabel(l);
         TSTO tsto_inst=new TSTO(0);
         compiler.addInstruction(tsto_inst);
@@ -66,13 +68,15 @@ public class MethodBody extends AbstractMethodBody{
         int [] regUsedList = compiler.getUsedRegister();
         compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(2)));
         compiler.incOverFlow();
+        int addsp=1;
         for(int i : regUsedList) {
             if(i!=-1) {
                 compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(i)));
                 compiler.incOverFlow();
+                addsp++;
             }
         }
-        
+        compiler.addToFlag(compiler.getSaveRegisterFlag(),new ADDSP(addsp));
         int j;
         for(j=0;j<regUsedList.length;j++) {
             int i=regUsedList[regUsedList.length-1-j];
