@@ -3,4 +3,5 @@ class myClass {
       int y=1;
 }
 
-{myClass c = new myClass();}
+{myClass c = new myClass();
+if (c.x==1 && c.y==1) {print(1);}}

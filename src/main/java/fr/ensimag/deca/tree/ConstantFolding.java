@@ -21,6 +21,11 @@ public class ConstantFolding extends Extension{
     public Type getResultat() {
         return resultat;
     }
+
+    @Override
+    public void execute() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
     
@@ -140,6 +145,7 @@ public class ConstantFolding extends Extension{
             if (expr1 instanceof Identifier || expr2 instanceof Identifier){
                return 0;
            }
+
             else if(expr2 instanceof IntLiteral){
                 if(operateur=="+"){
                     res=res+((IntLiteral)expr2).getValue();
@@ -197,3 +203,4 @@ public class ConstantFolding extends Extension{
         return res;
     }   
 }
+

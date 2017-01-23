@@ -71,6 +71,8 @@ public class Assign extends AbstractBinaryExpr {
             compiler.addInstruction(new LEA(compiler.translate((RegisterOffset)reg),Register.R0));
             compiler.addInstruction(new STORE(Register.R0,addr)) ;
         }
+        else 
+            throw new UnsupportedOperationException("Should not be called");
         reg.free(compiler);
         return addr;
     }

@@ -63,25 +63,28 @@ public class DeclField extends AbstractDeclField{
                 } else {
                     //otherwise, index has the value of the number of fields in the hierarchy
                     def = new FieldDefinition(t,this.type.getLocation(),this.visib,currentClass,index);
-                    currentClass.incNumberOfFields();
                 }
             } else {
                 def = new FieldDefinition(t,this.type.getLocation(),this.visib,currentClass,index);
-                currentClass.incNumberOfFields();
             }
             this.fieldName.setDefinition(def);
             classEnv.declare(this.fieldName.getName(), def);
         } catch (ContextualError e) {
             throw e;
         } catch (EnvironmentExp.DoubleDefException d) {
-            throw new ContextualError("field is already defined",this.getLocation());
+            throw new ContextualError("field already defined",this.getLocation());
         }
         
         if (t.isVoid()) {
                 throw new ContextualError("field cannot be void",this.getLocation());
         }
-        
+    }
+    @Override
+    protected void verifyFieldInit(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError {
+        EnvironmentExp classEnv = currentClass.getMembers();
+        Type t;
         try {
+            t = this.type.verifyType(compiler);
             this.init.verifyInitialization(compiler, t, classEnv, currentClass);
         } catch (ContextualError i) {
             throw i;

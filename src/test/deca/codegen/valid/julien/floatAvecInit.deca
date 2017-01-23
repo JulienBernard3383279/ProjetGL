@@ -2,4 +2,6 @@ class myClass {
 	float f=2.0;
 }
 
-{myClass c = new myClass();}
+{myClass c = new myClass();
+if (c.f==2.0) {print(1);}
+}

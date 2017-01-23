@@ -13,6 +13,7 @@ import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 import fr.ensimag.ima.pseudocode.instructions.FLOAT;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.POP;
@@ -89,8 +90,8 @@ public class DeclClass extends AbstractDeclClass {
     
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
-        
         ClassDefinition def = (ClassDefinition)compiler.getEnvTypes().get(this.className.getName());
+        this.field.verifyListInit(compiler,def);
         this.methods.verifyListBody(compiler,def);
     }
 
@@ -143,18 +144,23 @@ public class DeclClass extends AbstractDeclClass {
         ClassDefinition def = className.getClassDefinition();
         Label init = new Label("init."+def.getType().getName().getName() );
         compiler.addLabel(init);
+        TSTO tsto = new TSTO(0);
+        compiler.addInstruction(tsto);
         compiler.setSaveRegisterFlag( compiler.createFlag());
         compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB) , Register.getR(2)));
         fieldsInInit(compiler);
         int [] regUsedList = compiler.getUsedRegister();
         compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(2)));
         compiler.incOverFlow();
+        int addsp=1;
         for(int i : regUsedList) {
             if(i!=-1) {
                 compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(i)));
                 compiler.incOverFlow();
+                addsp++;
             }
         }
+        compiler.addToFlag(compiler.getSaveRegisterFlag(),new ADDSP(addsp));
         
         int j;
         for(j=0;j<regUsedList.length;j++) {
@@ -168,6 +174,7 @@ public class DeclClass extends AbstractDeclClass {
         compiler.decOverFlow();
         compiler.addInstruction(new RTS());
         compiler.writeFlag(compiler.getSaveRegisterFlag());
+        tsto.setValue(compiler.argTSTO());
     }    
 
 }

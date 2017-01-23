@@ -52,11 +52,9 @@ public class DeclMethod extends AbstractDeclMethod{
                     def = new MethodDefinition(t,this.getLocation(),new Signature(),superDef2.getIndex());
                 } else {
                     def = new MethodDefinition(t,this.getLocation(),new Signature(),index);
-                    currentClass.incNumberOfMethods();
                 }
             } else {
                 def = new MethodDefinition(t,this.getLocation(),new Signature(),index);
-                currentClass.incNumberOfMethods();
             }
             EnvironmentExp methodEnv = new EnvironmentExp(classEnv);
             this.params.verifyListParam(compiler, currentClass,def,methodEnv);
