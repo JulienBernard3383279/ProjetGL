@@ -76,7 +76,7 @@ public class DeclVar extends AbstractDeclVar {
         } catch (ContextualError e) {
             throw e;
         } catch (DoubleDefException d) {
-            throw new ContextualError("variable is already defined",this.getLocation());
+            throw new ContextualError("variable already defined",this.getLocation());
         }
         
         if (t.isVoid()) {
