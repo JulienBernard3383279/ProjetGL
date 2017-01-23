@@ -75,7 +75,6 @@ public class FloatLiteral extends AbstractExpr {
     @Override 
     protected DVal codeGenPrint(DecacCompiler compiler) {
         compiler.addInstruction(new LOAD(new ImmediateFloat(value),Register.R1));
-        compiler.addInstruction(new FLOAT(Register.R1,Register.R1));
         if(!compiler.getPrintHex()) 
                 compiler.addInstruction(new WFLOAT());
             else 
