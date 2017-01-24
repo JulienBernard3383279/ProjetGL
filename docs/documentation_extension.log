@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.6.22)  24 JAN 2017 17:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.6.22)  24 JAN 2017 17:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -97,10 +97,6 @@ er-taines op^^Serations
 [1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 30--31
-
- []
-
 [2] (./documentation_extension.aux) ) 
 Here is how much of TeX's memory you used:
  1012 strings out of 493014
@@ -117,7 +113,7 @@ e1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
 /public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmtt10.pfb>
-Output written on documentation_extension.pdf (2 pages, 76657 bytes).
+Output written on documentation_extension.pdf (2 pages, 77363 bytes).
 PDF statistics:
  35 PDF objects out of 1000 (max. 8388607)
  24 compressed objects within 1 object stream
