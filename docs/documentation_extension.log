@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.6.22)  24 JAN 2017 17:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.6.22)  24 JAN 2017 18:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -81,31 +81,135 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (/usr/local/texlive/2016/texmf-dist/tex/latex/ucs/data/uni-0.def
 File: uni-0.def 2013/05/13 UCS: Unicode data U+0000..U+00FF
 )
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 15.
+Overfull \hbox (4.94502pt too wide) in paragraph at lines 10--11
+\OT1/cmr/m/n/10 Pour notre com-pi-la-teur De-cac nous avons d^u choisir une ex-
+ten-sion parmi plusieurs
+ []
 
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 15.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 15.
+ [1
 
-Overfull \hbox (2.50056pt too wide) in paragraph at lines 26--28
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (2.50056pt too wide) in paragraph at lines 35--37
 \OT1/cmr/m/n/10 Le strengh re-duc-tion est une op-ti-mi-sa-tion qui rem-place c
 er-taines op^^Serations
  []
 
-[1
 
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2] (./documentation_extension.aux) ) 
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.44 \item \texttt
+                  {http://www.javaworld.com/article/2078623/core-java/jvm-pe...
+
+? 
+
+Overfull \hbox (258.74474pt too wide) in paragraph at lines 44--46
+[]\OT1/cmtt/m/n/10 http://www.javaworld.com/article/2078623/core-java/jvm-perfo
+rmance-optimization-part-1-a-jvm-technology-primer.html 
+ []
+
+[2]
+
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.46 \item \texttt
+                  {http://www.javaworld.com/article/2078635/enterprise-middl...
+
+? 
+
+Overfull \hbox (248.24483pt too wide) in paragraph at lines 46--47
+[]\OT1/cmtt/m/n/10 http://www.javaworld.com/article/2078635/enterprise-middlewa
+re/jvm-performance-optimization-part-2-compilers.html 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 46--47
+
+ []
+
+
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.48 \item \texttt
+                  {} \\
+? 
+
+Underfull \hbox (badness 10000) in paragraph at lines 48--49
+
+ []
+
+
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.49 \item \texttt
+                  {} \\
+? 
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--50
+
+ []
+
+
+! LaTeX Error: Lonely \item--perhaps a missing list environment.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.50 \item \texttt
+                  {} \\
+? 
+
+Underfull \hbox (badness 10000) in paragraph at lines 50--51
+
+ []
+
+
+! LaTeX Error: \begin{document} ended by \end{itemize}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.51      \end{itemize}
+                       
+? 
+! Extra \endgroup.
+<recently read> \endgroup 
+                          
+l.51      \end{itemize}
+                       
+? 
+[3] (./documentation_extension.aux) ) 
 Here is how much of TeX's memory you used:
  1012 strings out of 493014
  13268 string characters out of 6133336
- 72558 words of memory out of 5000000
+ 73558 words of memory out of 5000000
  4606 multiletter control sequences out of 15000+600000
  7755 words of font info for 28 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 23i,7n,23p,480b,478s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 23i,7n,23p,792b,478s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/typ
@@ -113,10 +217,10 @@ e1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
 /public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmtt10.pfb>
-Output written on documentation_extension.pdf (2 pages, 77363 bytes).
+Output written on documentation_extension.pdf (3 pages, 84040 bytes).
 PDF statistics:
- 35 PDF objects out of 1000 (max. 8388607)
- 24 compressed objects within 1 object stream
+ 38 PDF objects out of 1000 (max. 8388607)
+ 26 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
