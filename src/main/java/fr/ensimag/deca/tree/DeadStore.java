@@ -129,7 +129,7 @@ public class DeadStore extends Extension{
     
     /**
      * retire les variables qui sont dans la liste des variables déclarées
-     * mais pas dans la liste des instructions
+     * mais pas dans la liste des instructions de façon récursive
      * @param list_var 
      */
     
@@ -139,8 +139,18 @@ public class DeadStore extends Extension{
             if(binExpr.getLeftOperand() instanceof Identifier){
                 Identifier id=(Identifier) binExpr.getLeftOperand();
             }
-            else
+            else{
                 get_args(binExpr.getLeftOperand());
+            }
+            if(binExpr.getRightOperand() instanceof Identifier){
+                Identifier id=(Identifier) binExpr.getRightOperand();
+            }
+            else{
+                get_args(binExpr.getRightOperand());
+            }
+        }
+        else if(){
+            
         }
     }
     
