@@ -5,7 +5,6 @@
  */
 package fr.ensimag.deca.tree;
 import java.util.*;
-import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.Extension;
 /**
  *cette classe sert pour l'extension deadstore
@@ -130,7 +129,7 @@ public class DeadStore extends Extension{
     /**
      * retire les variables qui sont dans la liste des variables déclarées
      * mais pas dans la liste des instructions de façon récursive
-     * @param list_var 
+     * @param expr
      */
     
     public void get_args(AbstractExpr expr){
