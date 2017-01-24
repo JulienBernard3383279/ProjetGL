@@ -3,11 +3,40 @@
 \RequirePackage[utf8]{inputenc}
 
 \begin{document}
-\title{Compilateur Deca : Manuel Utilisateur}
+\title{Compilateur Deca : Documentation de l'extension : Optimisation}
 \author{\'Equipe 58}
 \maketitle
-\section{Introduction au compilateur}
-blablabla
-
+\section{Introduction}
+Pour notre compilateur Decac nous avons dû choisir une extension parmi plusieurs extensions possibles, et notre choix s'est porté sur l'optimisation. L'optimisation consiste à rendre un code plus performant, de donner de meilleurs résultats, ou y arriver plus vite ou avec le moins de ressources possibles, c'est à dire à l'exécuter plus rapidement en faisant moins d'opérations au niveau du processeur, ou des opérations qui sont plus rapides.Plusieurs types d'optimisation de code sont possibles et ont été déjà implémentées, il s'agissait donc pour nous de reprendre ces méthodes classiques et en utiliser dans notre propre compilateur.
+\section{Spécification de l'extension Optimisation}
+\subsection{Optimisations implémentées}
+Voici la liste des différentes spécifications de l'optimisation:
+\begin{itemize}
+\item \texttt{DeadStore} \\
+      \texttt{decac -o1} \\
+Le dead store consiste à éliminer les variables qui ne sont pas utiles dans le code. typiquement , si on initialise des valeurs, mais que lors d'autres initialisations ou lors de la liste d'instructions, notre variable n'est pas utilisée, alors elle est considérée comme inutile pour le programme, est peut être supprimée. \\
+Exemple de programme utilisant le Deadstore :
+\begin{center}
+int a=2;\\
+int b=4;\\
+boolean f=false;\\
+b=b*b+a*a;\\
+a=(a*b)/2;\\
+Dans ce programme là, on observe que le booléen f n'est pas utilisée dans le programme. Elle n'est pas utilisée pour une initialisation, ni pour les instructions. Elle sera ainsi supprimée de l'arbre, au niveau des déclarations de variables. Mais on pourrait fortement discuter de la notion de "programme inutile. En effet, dans le programme deca précédent, rien n'est retourner, donc les variables a,b et f sont en soit "inutiles" pour d'autres programmes , et pourraient en théorie être éliminié. En fait on peut éliminer tout le programme ici car il est bien inutile. Mais comment définir l'utilité d'un programme ? Par les valeurs retorunées ? les paramètres ? Pour des questions de temps et de simplicité  
+\end{center}
+\item \texttt{Constant Folding}\\
+\texttt{decac -o2}\\
+Le constant folding est une optimisation qui calcul tout les calculs constants et stocke les résultats au lieu de stocker le calcul. A l'exécution le processeur n'a plus besoin de faire les opérations, il à déjà le résultat en mémoire.
+     \end{itemize}
+\subsection{Optimisations envisagées}
+\begin{itemize}
+\item \texttt{Inlining} \\
+Le inlining est une optimisation qui consiste à remplacer les appels des méthodes par le corps des méthodes, dans le cas ou la méthode ne prend pas trop de place en mémoire.
+     \end{itemize}
+\section{Analyse bibliographique}
+\section{Choix de conception}
+\section{Méthode de validation}
+\section{Résultat}
+\section{Améliorations possibles de l'extension}
 
 \end{document}
