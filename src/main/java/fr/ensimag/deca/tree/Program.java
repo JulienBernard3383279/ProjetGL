@@ -33,7 +33,7 @@ public class Program extends AbstractProgram {
     }
     private ListDeclClass classes;
     private AbstractMain main;
-
+    
     @Override
     public void verifyProgram(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify program: start");
@@ -75,4 +75,11 @@ public class Program extends AbstractProgram {
         classes.prettyPrint(s, prefix, false);
         main.prettyPrint(s, prefix, true);
     }
+
+    @Override
+    public void execute_dead(DeadStore dead) {
+        main.execute_dead(dead);
+    }
+    
+    
 }

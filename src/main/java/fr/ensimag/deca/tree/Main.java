@@ -34,6 +34,19 @@ public class Main extends AbstractMain {
         this.insts = insts;
     }
 
+    public ListDeclVar getDeclVariables() {
+        return declVariables;
+    }
+
+    public ListInst getInsts() {
+        return insts;
+    }
+
+    public static Logger getLOG() {
+        return LOG;
+    }
+    
+
     @Override
     protected void verifyMain(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify Main: start");
@@ -121,4 +134,11 @@ public class Main extends AbstractMain {
         declVariables.prettyPrint(s, prefix, false);
         insts.prettyPrint(s, prefix, true);
     }
+
+    @Override
+    public void execute_dead(DeadStore dead) {
+        dead.execute(declVariables, insts);
+    }
+    
+    
 }

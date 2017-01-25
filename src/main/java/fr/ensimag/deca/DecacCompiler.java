@@ -230,7 +230,7 @@ public class DecacCompiler {
             if ( compilerOptions.getParse() ) {
                 AbstractProgram prog = doLexingAndParsing(sourceFile, out);
                 if(compilerOptions.getDead()){
-                    this.dead.execute(null, null);
+                    prog.execute_dead(dead);
                 }
                 prog.decompile(out);
                 return false;
@@ -289,7 +289,9 @@ public class DecacCompiler {
 
         prog.verifyProgram(this);
         assert(prog.checkAllDecorations());
-        
+         if(compilerOptions.getDead()){
+                    prog.execute_dead(dead);
+                }
         addComment("start main program");
         prog.codeGenProgram(this);
         addComment("end main program");
