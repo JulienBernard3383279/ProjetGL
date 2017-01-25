@@ -229,6 +229,9 @@ public class DecacCompiler {
             //modif
             if ( compilerOptions.getParse() ) {
                 AbstractProgram prog = doLexingAndParsing(sourceFile, out);
+                if(compilerOptions.getDead()){
+                    this.dead.execute(null, null);
+                }
                 prog.decompile(out);
                 return false;
             } else if (compilerOptions.getVerif() ) {

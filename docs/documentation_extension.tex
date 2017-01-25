@@ -1,0 +1,200 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\RequirePackage[utf8]{inputenc}
+
+\begin{document}
+\title{Compilateur Deca: Documentation de l'extension: Optimisation}
+\author{\'Equipe 58}
+\maketitle
+\section{Introduction}
+Pour notre compilateur Decac nous avons dû choisir une extension parmi plusieurs extensions possibles, et notre choix s'est porté sur l'optimisation. L'optimisation consiste à rendre un code plus performant, de donner de meilleurs résultats, ou y arriver plus vite ou avec le moins de ressources possibles, c'est à dire à l'exécuter plus rapidement en faisant moins d'opérations au niveau du processeur, ou des opérations qui sont plus rapides.Plusieurs types d'optimisation de code sont possibles et ont été déjà implémentées, il s'agissait donc pour nous de reprendre ces méthodes classiques et en utiliser dans notre propre compilateur.
+\section{Spécification de l'extension Optimisation}
+\subsection{Optimisations implémentées}
+Voici la liste des différentes spécifications de l'optimisation:
+\begin{itemize}
+\item \texttt{DeadStore} \\
+      \texttt{decac -o1} \\
+Le dead store consiste à éliminer les variables qui ne sont pas utiles dans le code. Typiquement, si on initialise des valeurs, mais que lors d'autres initialisations ou lors de la liste d'instructions, notre variable n'est pas utilisée, alors elle est considérée comme inutile pour le programme, est peut être supprimée. \\
+Exemple de programme utilisant le Deadstore:
+\begin{center}
+int a=2;\\
+int b=4;\\
+boolean f=false;\\
+b=b*b+a*a;\\
+a= (a*b)/2;\\
+Dans ce programme là, on observe que le booléen f n'est pas utilisée dans le programme. Elle n'est pas utilisée pour une initialisation, ni pour les instructions. Elle sera ainsi supprimée de l'arbre, au niveau des déclarations de variables. Mais on pourrait fortement discuter de la notion de "programme inutile. En effet, dans le programme deca précédent, rien n'est retourner, donc les variables a,b et f sont en soit "inutiles" pour d'autres programmes, et pourraient en théorie être éliminié. En fait on peut éliminer tout le programme ici car il est bien inutile. Mais comment définir l'utilité d'un programme? Par les valeurs retournées? les paramètres? Pour des questions de temps et de simplicité  
+\end{center}
+\item \texttt{Constant Folding}\\
+\texttt{decac -o2}\\
+Le constant folding est une optimisation qui calcul tout les calculs constants et stocke les résultats au lieu de stocker le calcul. A l'exécution le processeur n'a plus besoin de faire les opérations, il à déjà le résultat en mémoire.
+     \end{itemize}
+\subsection{Optimisations envisagées}
+\begin{itemize}
+\item \texttt{Inlining} \\
+Le inlining est une optimisation qui consiste à remplacer les appels des méthodes par le corps des méthodes, dans le cas ou la méthode ne prend pas trop de place en mémoire. Ceci permet de gagner du temps car la méthode n'est pas appelée lors de l'exécution, mais cette optimisation ne peut pas être utilisé sur les méthodes qui prendraient trop de place en mémoire.
+\item \texttt{Strengh Reduction} \\
+Le strengh reduction est une optimisation qui remplace certaines opérations par d'autres qui sont équivalentes. Une multiplication peut être remplacé par une succession d'addition, une multiplication par une puissance de 2 peut être remplacé par un décalage à gauche. Il y a de multiples façons de faire des strengh reductions qui améliore localement l'optimalité du code.
+\item \texttt{Common Subexpression} \\
+Le common subexpression est une optimisation qui consiste à ne calculer qu'une seule fois les sous expressions qui apparaissent à plusieurs endroits dans le code, de manière à les stocker pour ne plus les recalculer ensuite. Lorsque le calcul réapparaît dans le programme le processeur a juste besoin de charger la valeur stockée et n'a pas besoin de refaire le calcul.
+\item \texttt{Optimiastion des registres au niveau du processeur} \\
+Cette optimisation consiste à regarder dans le code généré en assembleur s'il y a des améliorations possibles. Dans certains cas le processeur fait un calcul sur une variable puis la stocke, mais la recharge juste après pour la réutiliser. On gagne en rapidité si on supprime tous les stockages et les chargements inutiles de variables dans le processeur. 
+     \end{itemize}
+\section{Analyse bibliographique}
+\subsection{Liens sur l'optimisation de la compilation en Java}
+\begin{itemize}
+\item \texttt{http://www.javaworld.com/article/2078623/core-java/jvm-performance-optimization-part-1-a-jvm-technology-primer.html} \\
+Ce lien donne des informations générales sur la compilation en Java en donnant quelques concepts généraux sur l'optimisation du Java et du Bytecode Java.\\
+
+\item \texttt{http://www.javaworld.com/article/2078635/enterprise-middleware/jvm-performance-optimization-part-2-compilers.html} \\
+Ce lien explixicite plus clairement les différentes optimisations, les avantages et les inconvénients de la compilation statique et ceux de la compilation dynamique.\\
+
+\item \texttt{http://www.javaworld.com/article/2076060/build-ci-sdlc/compiler-optimizations.html} \\
+Ce lien donne des techniques d'optimisation et des exemples de celles-ci (le constant folding et le dead code elimination).\\
+
+\item \texttt{http://web.stanford.edu/class/archive/cs/cs108/cs108.1082/handouts/39ImplementationHotspot.pdf} \\
+Ce lien donne l'implémentation de la machine Java Hotspots et les optimisations de cette machine Java, comme le inlining.\\
+
+\item \texttt{http://www.oracle.com/technetwork/java/whitepaper-135217.html} \\
+Ce lien présente les performances de la machine Java Hotspots et son architecture.\\
+
+\item \texttt{https://www.usenix.org/legacy/publications/library/proceedings/jvm02/yu/yu\_html/node3.htmll} \\
+Ce lien envoie donne de nombreuses références de livres sur la compilation etl'optimisation en Java.\\
+     \end{itemize}
+
+\subsection{Liens sur les compilateurs Just In Time}
+\begin{itemize}
+\item \texttt{http://docs.oracle.com/cd/E15289\_01/doc.40/e15058/underst\_jit.htm} \\
+Ce lien présente avec des schémas le fonctionnement de la compilation JIT et présente des techniques d'optimisations étapes par étapes.\\
+
+\item \texttt{http://www.sdsc.edu/~allans/cs231/openjit.pdf} \\
+Ce lien présente le design, l'implémentation d'un compilateur JIT et évalue les différentes optimisations.\\
+     \end{itemize}
+
+\subsection{Liens sur la compilation statique}
+\begin{itemize}
+\item \texttt{http://blog.soat.fr/2015/10/java-entre-compilation-statique-et-dynamique-mon-coeur-balance/} \\
+Ce lien présente les différents types de compilateurs et explique les différents types de compilations et d'optimisations avec des schémas. Il présente aussi quelques techniques d'optimisations un peu moins évidente.\\
+
+\item \texttt{https://briangordon.github.io/2014/01/javac-optimizations.html} \\
+Ce lien présente différentes techniques d'optimisations que les machines Java font en donnant des exemples simples et en les expliquant.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/List\_of\_optimization\_software} \\
+Donne une liste de software qui optimise les programmes dans de nombreux langages.\\
+     \end{itemize}
+
+\subsection{Liens sur les différentes techniques d'optimisations}
+\subsubsection{Techniques générales}
+\begin{itemize}
+\item \texttt{https://en.wikipedia.org/wiki/Optimizing\_compiler} \\
+Ce lien donne une liste assez complète des techniques d'optimisations de programme.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Strength\_reduction} \\
+Ce lien présente la technique du Strength reduction qui consiste à à optimiser localement des opérations en les remplaçant par des opérations équivalentes, par exmple remplacer une multiplication par une succession d'addition, ou une multiplication par une puissance de 2 par un décalage à gauche. De nombreuses optimisations locales sont possibles.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Inline\_expansion} \\
+Ce lien présente la technique de l'Inlining qui consiste à remplacer l'appel d'une fonction par le corps de la fonction elle même. Ce n'est pas toujours une optimisation mais optimise le code si la fonction prend peu de place en mémoire ou si elle est appelée souvent.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Jump\_threading} \\
+Ce lien présente la technique du Jump threading qui consiste à fusionner des conditions successives dans le cas où elles se recoupent.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Dead\_code\_elimination} \\
+Ce lien présente la technique du Dead code elimination qui consiste à éliminer les portions de code qui ne sont pas accessible lors de l'exécution d'un programme ou les portions de code qui sont inutiles.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Bounds-checking\_elimination} \\
+Ce lien présente la technique du Bounds checking elimination qui consiste à ne pas vérifier si on peut écrire à certains endroits dans la mémoire, c'est utilisé dans les cas où il est évident qu'on puisse écrire, par exemple lorsqu'on lit une variable dans un tableau et qu'on la réécrit on vérifie une prémière fois quand on lit et une deuxième fois quand on écrit, ici on ne vérifierai pas de deuxième fois.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Partial\_redundancy\_elimination} \\
+Ce lien présente la technique du Partial reduncay elimination qui consiste à éliminer les expressions qui sont redondantes mais pas forcément dans tous les chemins du programme. C'est une forme de Commonsubexpression elimination.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Lazy\_evaluation} \\
+Ce lien présente la technique du Lazy evaluation qui consiste à à réordonner les test de manières à avoir le moins de tests à vérifier dans les conditions.\\
+
+     \end{itemize}
+
+\subsubsection{Techniques d'optimisations de boucles}
+\begin{itemize}
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_fission} \\
+Ce lien présente la technique du Loop fission qui consiste à diviser une boucle en deux, de manière à avoir une meilleur gestion des adresses accédées.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_fusion} \\
+Ce lien présente la technique du Loop fusion qui consiste à fusionner 2 boucles entres elles si elles parcourent le même index et qu'elles sont indépendantes l'une de l'autre. Cette technique est l'inverse de la technique précédente et s'applique donc dans des cas différents.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_interchange} \\
+Ce lien présente la technique du Loop interchange qui consiste à permutter les indices dans une double boucle, ce qui permet dans le cas d'un tableau double dimensions d'accèder aux cases du tableaux contigües dans la mémoire.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_inversion} \\
+Ce lien présente la technique du Loop inversion qui consiste à remplacer un while par un if + do while ce qui fait faire deux sauts de moins.\\
+ 
+\item \texttt{https://en.wikipedia.org/wiki/Loop-invariant\_code\_motion} \\
+Ce lien présente la technique du Loop invariant code motion qui consiste à sortir les opérations constantes d'une boucle en dehors de la boucle.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_unrolling} \\
+Ce lien présente la technique du Unrolling qui consiste à allonger le corps d'une boucle de manière à faire plus d'opérations en un tour et faire moins de tours en tout quand cela est possible.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_splitting} \\
+Ce lien présente la technique du Loop splitting qui consiste à simplidfier ou élminer les dépendances d'une boucle en la divisant en plusieurs boucle plus petite qui ont des indexage contigus.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Polytope\_model} \\
+Ce lien présente la technique du Polytope model qui est une technique assez complexe qui fait des transformations complexes dans des boucles multiples de manières à les parcourir de façon optimisée.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_tiling} \\
+Ce lien présente la technique du Loop tiling qui consiste à changer les indices de la boucle et à la diviser de manière à forcer les variables à rester dans le cache pour y avoir plus rapidement accès, technique qui est difficile à exploiter correctement à notre niveau.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_unswitching} \\
+Ce lien présente la technique du Loop unswitching qui consiste à mettre une condition intérieur de la boucle à l'extérieur puis à dupliquer la boucle, ceci facilite la parallèlisation de la boucle.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Automatic\_parallelization} \\
+Ce lien présente la technique de l'Automatic parallelization qui consiste à parcours des boucles en parallèle sur des multiprocesseurs, technique qui est difficilement implémentable à notre niveau.
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_scheduling} \\
+Ce lien présente la technique du Loop scheduling qui consiste à parcourir une boucle sur plusieurs processeur, ce qui est difficilement implémentable à notre niveau.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Software\_pipelining} \\
+Ce lien présente la technique du Software pipelining qui est une technique assez complexe qui parallèlise les boucles. Cette technique est complexe à implémenter.
+
+\item \texttt{https://en.wikipedia.org/wiki/Automatic\_vectorization} \\
+Ce lien présente la technique du Loop scheduling qui consiste à faire le plus d'itérations possible sur le plus de processeurs possibles, technique qui est difficielement implémentable à notre niveau.\\
+     \end{itemize}
+
+\subsubsection{Techniques d'optimisations des données}
+\begin{itemize}
+\item \texttt{https://en.wikipedia.org/wiki/Dead\_store} \\
+Ce lien présente la technique du Dead store qui consiste à éliminer une variable lorsqu'elle est instanciée mais non utilisée ou inutile.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Common\_subexpression\_elimination} \\
+Ce lien présente la technique du Common subexpression elimination qui consiste à ne calculer qu'une fois les sous expressions communes qui apparaissent plusieurs fois, puis à les stockerpour ne pas les recalculer.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Global\_value\_numbering} \\
+Ce lien présente la technique du Global value numbering qui est très semblable au Common subexpression elimination mais qui va plus loin car elle ne prend pas qu'en compte les expressions qui sont syntaxiquement les mêmes mais aussi celles qui sont contextuellements les mêmes.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Constant\_folding} \\
+Ce lien présente la technique du Constant folding qui consiste à remplacer les calculs de constantes par le résultat lui même. Peut aussi s'appliquer au String (concaténation), et aussi au variable dans le cas d'identité particulière (0*x). Cela permet au processeur de ne pas avoir à refaire le calcul mais à simplement charger le résultat.
+
+\item \texttt{https://en.wikipedia.org/wiki/Sparse\_conditional\_constant\_propagation} \\
+Ce lien présente la technique du Sparse conditional constant propagation qui est un mélange de Constant folding et de Dead code elimination.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Induction\_variable} \\
+Ce lien présente la technique de l'Induction variable qui simplifie une boucle lorsque qu'une varible dans la boucle augmente ou diminue d'un montant constant à chaque itération de la boucle.\\
+     \end{itemize}
+
+\subsubsection{Techniques d'optimisations du code généré}
+\begin{itemize}
+\item \texttt{https://en.wikipedia.org/wiki/Rematerialization} \\
+Ce lien présente la technique de la Rematerialization qui consiste à recalculer des valeurs au lieu de les rechargés en mémoire. Cette technique est l'inverse du Common subexpression elimination, cette technique est efficace lorsqu'il y a trop de données en mémoire, faire un calcul simple est alors plus rapide que de recharger la valeur.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Instruction\_selection} \\
+Ce lien présente la technique de l'Instruction selection qui consiste à choisir les instructions les plus adaptés pour faire l'instruction au niveau du processeur, en effet plusieurs instructions peuvent avoir le même résultat mais avoir des vitesses d'exécutions différentes.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Instruction\_scheduling} \\
+Ce lien présente la technique de l'Instruction scheduling qui consiste à repérer des portions de code s indépendantes et à les computer sur des coeurs différents.\\
+     \end{itemize}
+
+\section{Choix de conception}
+\subsection{Constant Folding}
+\section{Méthode de validation}
+\subsection{Constant Folding}
+\section{Résultat}
+\subsection{Constant Folding}
+\section{Améliorations possibles de l'extension}
+
+\end{document}

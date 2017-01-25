@@ -54,12 +54,29 @@ Pour gérer les paramètres,variables et champs de même nom nous avons décider
 \subsection{Limitation du compilateur}
 À ce jour nous connaissons deux grosse limitation du compilateur qui freine ses capacité. 
 \begin{itemize}
-\item \textbf{Une opération sur une ligne trop longue:} 
+\item \textbf{Plusieurs opération liée enchainé:} 
 \newline
-Cet exemple est corrigé par l'extension. Mais si l'on effectue la même chose avec des variable différentes, le résultat est le même. Soit une ligne de code : \newline
-\texttt {int x=1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1}
+Si l'on effectue plusieurs opération successive qui ont un rapport entre elle, le code n'est pas optimisé du tout. En effet : 
 \newline
-On remarque que le résultat du calcul est 17. Cependant ce calcul est beaucoup plus lourd que de simplement faire des commandes \texttt{ADD $\sharp$1  RX}. En effet la construction de l'arbre fait que l'on met 1 dans la mémoire puis on les additionnes.
+\texttt{x=0}
+\newline
+\texttt{x=x+1}
+\newline
+le code compilé donne:
+\newline
+\texttt{1: LOAD $\sharp$0 R$3$}
+\newline 
+\texttt{2: STORE R$3$ 1(GB)}
+\newline 
+\texttt{3: LOAD 1(GB) R$3$}
+\newline
+\texttt{4: LOAD $\sharp$1 R$4$}
+\newline
+\texttt{5: ADD R$4$ R$3$}
+\newline
+\texttt{6: STORE R$3$ 1(GB)}
+\newline 
+On remarque alors immédiatement que les lignes 2 et 3 ne servent à rien. Il faudrait cependant repasser après la génération du code pour pouvoir remarquer de tel chose. Ce que nous n'avons pas eu le temps d'implémenter.
 \item \textbf{Gestion du déréférencement:} 
 \newline
 Notre compilateur ne gère pas le déréférencement de classe. Ainsi le code suivant provoque un heap overflow. 

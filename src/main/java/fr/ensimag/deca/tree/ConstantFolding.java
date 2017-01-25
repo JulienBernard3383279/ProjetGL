@@ -83,23 +83,23 @@ public class ConstantFolding extends Extension{
                                                     taille=tabOperation.size();
                                                     ope=tabOperation.remove(taille);
                                
-                                                    if(ope=="+"){
+                                                    if("+".equals(ope)){
                                                     taille=tabCons.size();
                                                     intRes=((IntLiteral)(tabCons.remove(taille))).getValue()+((IntLiteral)(tabCons.remove(taille-1))).getValue();
                                                     }
-                                                    else if(ope=="-"){
+                                                    else if("-".equals(ope)){
                                                     taille=tabCons.size();
                                                     intRes=-((IntLiteral)(tabCons.remove(taille))).getValue()+((IntLiteral)(tabCons.remove(taille-1))).getValue();
                                                     }
-                                                    else if(ope=="*"){
+                                                    else if("*".equals(ope)){
                                                     taille=tabCons.size();
                                                     intRes=((IntLiteral)(tabCons.remove(taille))).getValue()*((IntLiteral)(tabCons.remove(taille-1))).getValue();
                                                     }
-                                                    else if(ope=="/"){
+                                                    else if("/".equals(ope)){
                                                     taille=tabCons.size();
                                                     intRes=((IntLiteral)(tabCons.remove(taille-1))).getValue()*((IntLiteral)(tabCons.remove(taille))).getValue();
                                                     }
-                                                    else if(ope=="%"){
+                                                    else if("%".equals(ope)){
                                                     taille=tabCons.size();
                                                     intRes=((IntLiteral)(tabCons.remove(taille-1))).getValue()%((IntLiteral)(tabCons.remove(taille))).getValue();
                                                     }

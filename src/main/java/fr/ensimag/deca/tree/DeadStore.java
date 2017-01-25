@@ -5,7 +5,6 @@
  */
 package fr.ensimag.deca.tree;
 import java.util.*;
-import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.Extension;
 /**
  *cette classe sert pour l'extension deadstore
@@ -74,8 +73,8 @@ public class DeadStore extends Extension{
                     Identifier id=(Identifier) varBin.getLeftOperand();
                     this.arr2.add(id.getName().getName());
                 }
-                else {
-                   // store_var_inst(varBin.getLeftOperand());
+                else if(var instanceof AbstractExpr){
+                    get_args(varBin.getLeftOperand());
                 }
                     
                 
@@ -83,8 +82,8 @@ public class DeadStore extends Extension{
                     Identifier id=(Identifier) varBin.getRightOperand();
                     this.arr2.add(id.getName().getName());
                 }
-                else{
-                    
+                else if(var instanceof AbstractExpr){
+                    get_args(varBin.getRightOperand());
                 }
                              
             }
@@ -129,8 +128,8 @@ public class DeadStore extends Extension{
     
     /**
      * retire les variables qui sont dans la liste des variables déclarées
-     * mais pas dans la liste des instructions
-     * @param list_var 
+     * mais pas dans la liste des instructions de façon récursive
+     * @param expr
      */
     
     public void get_args(AbstractExpr expr){
@@ -138,12 +137,35 @@ public class DeadStore extends Extension{
             AbstractBinaryExpr binExpr=(AbstractBinaryExpr) expr;
             if(binExpr.getLeftOperand() instanceof Identifier){
                 Identifier id=(Identifier) binExpr.getLeftOperand();
+                this.arr2.add(id.getName().getName());
             }
-            else
+            else{
                 get_args(binExpr.getLeftOperand());
+            }
+            if(binExpr.getRightOperand() instanceof Identifier){
+                Identifier id=(Identifier) binExpr.getRightOperand();
+                this.arr2.add(id.getName().getName());
+            }
+            else{
+                get_args(binExpr.getRightOperand());
+            }
         }
+        else if(expr instanceof CallMethod){
+             CallMethod varMethod=(CallMethod) expr;
+                Iterator<AbstractExpr> it=varMethod.getArgs().getList().iterator();
+                while(it.hasNext()){ //idem que pour abstractprint, avec les arguments de la méthode appelée
+                    AbstractExpr abstExpr=it.next();
+                    if(expr instanceof Identifier){
+                        Identifier id=(Identifier) abstExpr;
+                        this.arr2.add(id.getName().getName());
+                    }           
+                }
+        }
+        
+       
+                
+        
     }
-    
     public void remove_var(ListDeclVar list_var){
         int j=0;
         Iterator<String> i=this.arr1.iterator();        

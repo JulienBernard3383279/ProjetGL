@@ -1,13 +1,27 @@
+<<<<<<< HEAD
 \documentclass[a4paper]{article}
 \usepackage[utf8x]{inputenc}
 
 \begin{document}
 \title{Compilateur Deca : Manuel Utilisateur}
 \author{\'Equipe 58}
+=======
+\documentclass[a4paper, 10pt, french]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1.2in]{geometry}
+\RequirePackage[utf8]{inputenc}
+
+
+\title{Compilateur Decac : Manuel Utilisateur}
+\author{\'Equipe gl58}
+
+\begin{document}
+
+>>>>>>> 52a438b7e889549a76e1bf24a4b6661733ba1f5f
 \maketitle
 \section{Introduction au compilateur}
-Le compilateur Deca prend en argument un fichier source en Deca et le compile pour donner un fichier en code assembleur. \newline
-Ce compilateur gère toutes les étapes de la compilation, c'est-a-dire le parsing (analyse lexical et syntaxique) du fichier source, l'analyse contextuel du code et la génération du code assembleur. 
+Le compilateur Decac prend en argument un fichier source en Deca et le compile pour donner un fichier en code assembleur. \newline
+Ce compilateur gère toutes les étapes de la compilation, c'est-à-dire le parsing (analyse lexical et syntaxique) du fichier source, l'analyse contextuelle du code et la génération du code assembleur.Il prend aussi en charge un ensemble d'options spécifiées dans ce manuel. 
 \section{Ex\'ecution de decac}
 Pour lancer le compilateur, il faut utiliser la commande \texttt{decac}. Cette commande possède différentes options d'exécution:
 \begin{itemize}
@@ -34,6 +48,13 @@ Pour lancer le compilateur, il faut utiliser la commande \texttt{decac}. Cette c
     \item{\texttt{decac -P <fichier(s) deca>}}
     \newline
     Si il y a plusieurs fichiers sources, les exécutent en parallèle.
+    \item{\texttt{decac -o1 <fichier(s) deca>}}
+    \newline
+    Effectue l'extension deadstore sur le programme deca.
+    \item{\texttt{decac -o2 <fichier(s) deca>}}
+    \newline
+    Effectue l'extension ConstantFolding sur le programme deca.
+
 \end{itemize}
 Plusieurs options peuvent être appelées simultanément, \texttt{-p} et \texttt{-v} exclus.
 Le fichier \texttt{.ass} obtenu en sorti du compilateur peut \^etre pass\'e en exécutable avec la commande \texttt{ima <fichier assembleur>}.
@@ -160,6 +181,7 @@ Est levée si le type d'un paramètre dans un appel de méthode ne correspond pa
 \item \texttt{class type in call not subclass of class type in signature}
 \newline
 Est levée si, lorsqu'une méthode demande une instance de classe en paramètre, la classe appelée n'est pas une sous-classe de la classe donnée en signature. 
+
 \end{itemize}
 
 
