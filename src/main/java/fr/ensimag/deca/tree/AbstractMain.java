@@ -18,4 +18,5 @@ public abstract class AbstractMain extends Tree {
      * Implements non-terminal "main" of [SyntaxeContextuelle] in pass 3 
      */
     protected abstract void verifyMain(DecacCompiler compiler) throws ContextualError;
+    public abstract void execute_dead(DeadStore dead);
 }

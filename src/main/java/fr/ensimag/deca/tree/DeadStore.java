@@ -53,8 +53,9 @@ public class DeadStore extends Extension{
                 AbstractDeclVar abstVar= i.next();
                 if(abstVar instanceof DeclVar){
                     DeclVar dec=(DeclVar) abstVar;
-                    if(!this.arr1.contains(abstVar))                        
-                       this.arr1.add(dec.getVarName().getName().getName());//on copie le nom des variables initialisées en un seul exemplaire  
+                    if(!this.arr1.contains(dec))
+                        System.out.println("dans store_dec\n");
+                        this.arr1.add(dec.getVarName());//on copie le nom des variables initialisées en un seul exemplaire  
                 }    
         }  
     }
@@ -71,7 +72,8 @@ public class DeadStore extends Extension{
                 AbstractBinaryExpr varBin=(AbstractBinaryExpr) var;
                 if(varBin.getLeftOperand() instanceof Identifier){
                     Identifier id=(Identifier) varBin.getLeftOperand();
-                    this.arr2.add(id.getName().getName());
+                    System.out.println("dans store_var_inst\n");
+                    this.arr2.add(id);
                 }
                 else if(var instanceof AbstractExpr){
                     get_args(varBin.getLeftOperand());
@@ -80,7 +82,7 @@ public class DeadStore extends Extension{
                 
                 if(varBin.getRightOperand() instanceof Identifier){
                     Identifier id=(Identifier) varBin.getRightOperand();
-                    this.arr2.add(id.getName().getName());
+                    this.arr2.add(id);
                 }
                 else if(var instanceof AbstractExpr){
                     get_args(varBin.getRightOperand());
@@ -91,7 +93,7 @@ public class DeadStore extends Extension{
                 AbstractUnaryExpr varUn=(AbstractUnaryExpr) var;
                     if(varUn.getOperand() instanceof Identifier){
                         Identifier id=(Identifier) varUn.getOperand();
-                        this.arr2.add(id.getName().getName());
+                        this.arr2.add(id);
                     }                               
             }
             
@@ -111,7 +113,7 @@ public class DeadStore extends Extension{
                     AbstractExpr expr=it.next();
                     if(expr instanceof Identifier){
                         Identifier id=(Identifier) expr;
-                        this.arr2.add(id.getName().getName());
+                        this.arr2.add(id);
                     }                    
                 }
             }
@@ -120,7 +122,7 @@ public class DeadStore extends Extension{
                 AbstractExpr expr=varReturn.getExpr();
                 if(expr instanceof Identifier){
                     Identifier id=(Identifier) expr;
-                    this.arr2.add(id.getName().getName());
+                    this.arr2.add(id);
                 }                                        
             }
         }
@@ -137,14 +139,14 @@ public class DeadStore extends Extension{
             AbstractBinaryExpr binExpr=(AbstractBinaryExpr) expr;
             if(binExpr.getLeftOperand() instanceof Identifier){
                 Identifier id=(Identifier) binExpr.getLeftOperand();
-                this.arr2.add(id.getName().getName());
+                this.arr2.add(id);
             }
             else{
                 get_args(binExpr.getLeftOperand());
             }
             if(binExpr.getRightOperand() instanceof Identifier){
                 Identifier id=(Identifier) binExpr.getRightOperand();
-                this.arr2.add(id.getName().getName());
+                this.arr2.add(id);
             }
             else{
                 get_args(binExpr.getRightOperand());
@@ -157,7 +159,7 @@ public class DeadStore extends Extension{
                     AbstractExpr abstExpr=it.next();
                     if(expr instanceof Identifier){
                         Identifier id=(Identifier) abstExpr;
-                        this.arr2.add(id.getName().getName());
+                        this.arr2.add(id);
                     }           
                 }
         }
@@ -168,16 +170,27 @@ public class DeadStore extends Extension{
     }
     public void remove_var(ListDeclVar list_var){
         int j=0;
-        Iterator<String> i=this.arr1.iterator();        
+        ListDeclVar list=list_var;
+        Iterator<AbstractDeclVar> i=list_var.getModifiableList().iterator();        
         while(i.hasNext()){
-            String name=i.next();
-            if(this.arr2.contains(i)){
-                j=this.arr2.indexOf(name);
-                  list_var.getModifiableList().remove(j); //on enlève la variable inutile                           
-                }                 
-            }        
+            AbstractDeclVar id=i.next();
+            DeclVar decVar=(DeclVar) id;
+            if(! this.arr2.contains(id)){
+                Iterator<AbstractDeclVar> k=list.iterator();
+                while(k.hasNext()){
+                   AbstractDeclVar abstDecVar=k.next();
+                   if(abstDecVar instanceof DeclVar){
+                       DeclVar dec=(DeclVar) abstDecVar;
+                       if(dec.getVarName().getName().getName().equals(decVar.getVarName().getName().getName())){
+                          j=list_var.getModifiableList().indexOf(id);
+                          list_var.getModifiableList().remove(j);   
+                       }
+                   }
+                }
+                 
+            }
         }
-    
+    }    
         
     /**
      * execute les 3 méthodes perméttant d'enlever les variables inutiles de l'arbre
@@ -185,6 +198,7 @@ public class DeadStore extends Extension{
      * @param list_inst 
      */
     public void execute(ListDeclVar list_var,ListInst list_inst) {
+        System.out.println("dans execute");
         store_dec(list_var);
         store_var_inst(list_inst);
         remove_var(list_var);
