@@ -1,0 +1,13 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\begin{document}
+\section{Les tests de la génération du code}
+Pour valider la partie de la génération du code, il a fallut dans un premier temps verifier que le code des conditions et des affichage fonctionnait bien. Une fois que l'on en été assuré nous avons pus commencé à automatiser les tests à l'aide scripts.
+\subsection{Verification des fonctions de bases}
+Comme précisé plus tôt nous avons du vérifier manuelement que chaque fonction necessaire aux tests automatique fonctionnait correctement. Nous avons donc pour cela crée quelques tests que l'on peut éxecuter manuelement lorque l'on a un doute sur le fonctionement du programme. Nous avons aussi ajouté un test Junit qui permet de verifier que ma gestion de la pile correspond bien aux attente que l'on en fait. 
+\subsection{Verification automatique} 
+Afin d'accéléré la suite des vérification nous avons crée deux script cherchant les \texttt{0} ou les \texttt{FAIL} dans l'execution des test. Ainsi la batterie de test pouvais s'exécuter automatiquement sans intervention. Le script quand à lui ne s'arrete que si il trouve un test qui rate. Nous possédons plusieurs dossier de tests pour la génération de code. Dans le dossier \texttt{ours} nous avons nos propre tests sur la partie sans objet. Il y a donc dedans tout les tests sur les opération entières, flottantes ou booléenes. Dans un second dossier appellé \texttt{julien} nous avons entreposé les tests relatifs aux classes. Cependant nous n'avons pas eu le temps de créer plus de test pour valider la partie de la génération du code. 
+\newline
+Finalement la stabilité du code de la génération n'a pas toujours été très bonne. Mais il est difficile de corriger un programme tout en le développant. Je pense ne pas avoir été asez bon communicant, et ne pas avoir assez bien expliqué ce que je développé pour aider mes camarades à fournir des tests.
+\end{document}
+
