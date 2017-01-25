@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\begin{document}
+\section{Implementation de la géneration du code}
+Pour la partie de gestion du code nous avons fait le choix de respecter le squelette de code
+fourni. C'est à dire que nous avons fait le choix d'appliquer des fonction génératrice de code en parcourant l'arbre fourni par la partie B. Pour cela nous avons implémenté des méthodes \texttt{codeGen}. 
+\subsection{Principes de fonctionnement général}
+\subsubsection{Principe de fonctionnement de la mémoire}
+Nous avons à notre disposition $n$ registres avec $4\leq n\leq16$. Ainsi nous avons décidé pour optimiser l'execution du programme d'utilser un maximum de registres lors de l'execution du programme. Poour cela nous disposons dans la classe \texttt{DecacCompiler} d'un ensemble de méthodes d'allocation de mémoire. Elle permettent de gérer l'allocation de la mémoire libre à instant $T$. Nous avons décider de garder en reserve les registres $R0$, $R1$ et $R2$ servant respectivement de registre temporaire, de registre d'affichage et registre temporaire, et de registre temporaire pour les classes. Les autres registres peuvent être alloué pour représenter une variable ou une valeur dans un calcul. Par comodité  nous libérons toute la mémoire après chaque ligne de calcul. 
+\subsubsection{Principe de fonctionnement de \texttt{codeGen}}
+Nous avons choisis de modifier la structure de la méthdode \texttt{codeGen}. Cette méthode maintenant retourne une classe \texttt{DVal}. Cette classe retourné comporte la valeur retourné par le calcul efféctué lors de l'execution des commandes généré par \texttt{codeGen}. Ainsi cette valeur retouné par \texttt{codeGen} peut prendre 2 aspects. Elle est soit un registre qui contient le résultat du calcul précédent. Soit une adresse de la pile conentnant le résultat. 
+\subsubsection{Fonctions assembleur}
+Nous avons décider de factoriser un maximum le code des fonctions du même type. Ainsi nous avons décidé de créer les fonctions de génération de code pour chaque type de fonction assembleur. Chacune de ces fonctions prend comme paramètre un constructeur de classe du package \texttt{pseudocode.instruction}. Ainsi nous avons une seul fonction pour générer tout un ensemble de fonction assembleur. Ces classes génératrices sont dans le package \texttt{deca.codegen} dans les classes du type \texttt{codeGen...} 
+\subsection{Le code sans Objets}
+\subsubsection{Les fonctions d'assignation et d'affichage}
+Il existe deux type de fonction de calcul noeuds d'origine:
+\begin{itemize}
+\item Fonctions d'affichage
+\item Fonctions d'assignation 
+\end{itemize}
+Le principe de génération du code est la même. Il faut pour chacune des fonction générer le code du calcul et le mettre dans le registre ou la variable correspondante. Chancune des fonctions utilise les fonctions de génération de code des fonctions feuille d'elle même dans l'abre. Elle recupère alors le résultat de ces calcul dans les plages mémoire désigné par les \texttt{DVal} de retour des fonctions \texttt{codeGen}. Il suffit donc de placer le résultat dans la variable pour assigner le résultat ou de placer le résultat dans $R1$ pour pouvoir l'afficher. Pour une question d'optimisation de la mémoire utilisé lors de l'affichage chaque classe pouvant mener à un affichage possède une méthode \texttt{codeGen} et une méthode \texttt{codeGenPrint} se chargeant respectivement de la génération du code et  de l'affichage 
+\subsubsection{Le calcul}
+Comme expliqué précédement, pour effectuer la génération d'un code d'une fonction binaire ou unaire dont on placera le résultat dans un registre ou dans la pile: il suffit de générer le code des deux sous branches de notre noeud et d'appeller les méthodes de génération dans le package \texttt{deca.codegen}. Cette façon de calculer le résultat d'une opération est la même que le calcul ce fasse sur un \texttt{int}, un \texttt{float} ou un \texttt{boolean}. Ce qui pose un problème pour les booléens évaluer pour des conditions de boucles ou des conditions.
+\subsubsection{Les boucles et les conditions}
+Pour la gestion des boucles nous nous sommes eurté à deux problèmes: 
+\begin{itemize}
+\item Évaluation des opérations booléennes 
+\item Gestion des \texttt{B$cc$} et forme des boucles et conditions
+\end{itemize}
+Pour l'évaluation des opérations booléennes nous avons choisi la même architecture que pour la généraion du code d'affichage. Ainsi pour optimiser l'éxécution des conditions booléennes, chaque opération suséptible de générer comme sortie un booléen possède deux façon de générer du code. La méthode \texttt{codeGen} expliqué plus haut et la méthode \texttt{codeGenCond} qui prend comme paramètre un label et un booléen. Cet dernière choisi de sauter au label si le résultat de l'opération généré est égal au booléen passé en paramètre. 
+\newline
+Pour la forme des conditions nous avons choisi la forme classique d'un \texttt{if} en assembleur. C'est à dire une structure en un seul saut quelques soit l'issue de l'évaluation de la condition. Si la condition est réussi, le saut n'est pas éffectué, puis l'on sautera la partie \texttt{else}. Si la condition est raté on sautera directement à la partie \texttt{else}.  L'avantage de cette solution est qu'elle est très lisible (quand on relie le code assembleur) et une des plus efficace. 
+\newline 
+Pour la forme des boucles nous avons choisi de transformer nos \texttt{while} en \texttt{do while} afin que le code généré soit le plus efficace possible. Ainsi la première action de chaque boucle est de sauter à la fin et d'evaluer la condition. Si la conditionest respecter alors on saute sur le label de début des instructions. Sinon on sort de la boucle en allant à l'instruction suivante. 
+\subsection{Les Classes}
+L'objectif de l'implémentation des classes été de ne pas avoir à trop modifier le code sans objets. Ainsi nous avons opté pour un implémentation très simple où chaque instance de classe est traité de la même façon qu'une variable ordinaire. Ainsi nous avons pus conserver notre code de la partie précédente presque inchangé. De gros problèmes ce sont surtout posé lors de l'implémentation des méthodes. 
+\begin{itemize}
+\item \textbf{Calcul de la table des méthodes:}
+\newline
+Pour des raisons de commodité nous effectuons ces claculs dans le package \texttt{deca.context} dans la classe \texttt{ClassDefinition}. En effet chaque définition de classe possède un liens vers sa \texttt{super}.  Ainsi chaque définition
+possède une méthode appellé \texttt{write}. Cette méthode appelle la création de la table des méthodes de la \texttt{super} si ce n'est pas fait, crée la table des méthodes de la classe si ce n'est pas fait puis renvoie l'adresse de la classe dans cette table des méthodes. Ainsi si l'on souhaite récuperer l'adresse de notre classe dans la table des méthode il faut utiliser la méthode \texttt{write}. 
+\item \textbf{Création de la méthode d'initialisation:}
+\newline 
+La méthode d'initialization se comporte comme la déclaration des variables. En effet elle passe juste en revue tout les champs d'une méthodes et vérifie si ils ont une valeur initiale donné. Si c'est le cas alors elle initialise le champs. Sinon elle ne les initialise pas. Nous précisons que la fonction d'initialisation n'est pas dans la table des méthodes car en \texttt{deca} les extension de classes n'héritent pas de la méthode d'initialisation. 
+\item \textbf{Les Méthodes:}
+\newline
+Pour pouvoir compiler les méthodes plus simplement j'ai décidé de modifier le code fourni dans le package \texttt{ima.pseudocode.instructions}. Les modifications apporté sont des amélioration permettant de modifier les valeurs d'une instruction à tout moment dans le programme pourvus que l'on ai gardé un pointeur vers cette instance. Par exemple il est desormais possible de modifier la valeur du \texttt{TSTO} après avoir écrit la méthode. J'ai aussi rajouté un moyen de rajouter un flux de commande sur un flag de la liste (le flag doit cependant être unique en action). Cette amélioration permet de faire la sauvegarde des registres uniquement si ils sont utilisé dans la méthode et ainsi d'économiser du temps d'execution. Cependant il existe un bug d'origine inconnu qui fait sauvegarder plus de registre qu'utilisé. Les soupçons ce portent autour de la façon dont le compilateur est reset à chaque création de méthodes. 
+\newline 
+Le principe de compilation d'une méthodes est pour le reste assez ressemblant à la méthode de compilation du main.
+\item \textbf{Les Paramètres,Variables et Champs de même nom:}
+\newline
+Pour gérer les paramètres,variables et champs de même nom nous avons décider que nous veriferons si la variable/paramètre est dans la table des variables. Sinon ce champs est considéré comme appartenant à la classe. Ainsi il est possible d'utiliser un champs sans mentionner le mot clef \texttt{this} si cela n'est pas ambigue. 
+\end{itemize}
+\subsection{Limitation du compilateur}
+À ce jour nous connaissons deux grosse limitation du compilateur qui freine ses capacité. 
+\begin{itemize}
+\item \textbf{Une opération sur une ligne trop longue:} 
+\newline
+Cet exemple est corrigé par l'extension. Mais si l'on effectue la même chose avec des variable différentes, le résultat est le même. Soit une ligne de code : \newline
+\texttt {int x=1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1}
+\newline
+On remarque que le résultat du calcul est 17. Cependant ce calcul est beaucoup plus lourd que de simplement faire des commandes \texttt{ADD $\sharp$1  RX}. En effet la construction de l'arbre fait que l'on met 1 dans la mémoire puis on les additionnes.
+\item \textbf{Gestion du déréférencement:} 
+\newline
+Notre compilateur ne gère pas le déréférencement de classe. Ainsi le code suivant provoque un heap overflow. 
+\newline
+\texttt{while(true) a=new A();}
+Et nous n'avons pas d'idée simple permettant de corriger cette faiblesse de notre code à part la mise à disposition d'une fonction de libération. Ce que nous n'avons pas eu le temps d'implémenter.
+\end{itemize}
+\end{document}
+
