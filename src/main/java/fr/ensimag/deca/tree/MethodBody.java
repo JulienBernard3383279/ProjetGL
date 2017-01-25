@@ -11,6 +11,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
@@ -62,21 +63,29 @@ public class MethodBody extends AbstractMethodBody{
         compiler.setSaveRegisterFlag( compiler.createFlag());
         compiler.allocR2();
         compiler.addInstruction(new LOAD(new RegisterOffset(-2,Register.LB),Register.getR(2)));
+        for(AbstractDeclVar d : decls.getList()) {
+            d.codeGenVar(compiler);
+        }
         for(AbstractInst a : insts.getList()) {
             a.codeGenInst(compiler);
         }
         int [] regUsedList = compiler.getUsedRegister();
         compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(2)));
         compiler.incOverFlow();
-        int addsp=1;
+        int nbVar=0;
+        for(VariableDefinition v : compiler.getAllVar().values()) {
+            nbVar++;
+            ((RegisterOffset)v.getOperand()).setOffset(1+((RegisterOffset)v.getOperand()).getOffset());
+        }
+        compiler.addToFlag(compiler.getSaveRegisterFlag(),new ADDSP(nbVar));
+        int usedToSave=0;
         for(int i : regUsedList) {
             if(i!=-1) {
+                usedToSave++;
                 compiler.addToFlag(compiler.getSaveRegisterFlag(),new PUSH(Register.getR(i)));
-                compiler.incOverFlow();
-                addsp++;
+                compiler.incOverFlow();;
             }
         }
-        compiler.addToFlag(compiler.getSaveRegisterFlag(),new ADDSP(addsp));
         int j;
         for(j=0;j<regUsedList.length;j++) {
             int i=regUsedList[regUsedList.length-1-j];
@@ -96,7 +105,7 @@ public class MethodBody extends AbstractMethodBody{
         compiler.addLabel(l);
         compiler.addInstruction(new RTS());
         compiler.writeFlag(compiler.getSaveRegisterFlag());
-        tsto_inst.setValue(compiler.argTSTO());
+        tsto_inst.setValue(compiler.argTSTO()+usedToSave+1+nbVar);
     }
     
     @Override

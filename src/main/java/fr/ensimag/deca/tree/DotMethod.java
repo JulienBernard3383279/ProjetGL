@@ -19,11 +19,14 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.BEQ;
 import fr.ensimag.ima.pseudocode.instructions.CMP;
 import fr.ensimag.ima.pseudocode.instructions.LEA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WINT;
 import java.io.PrintStream;
 import java.util.Iterator;
 import org.antlr.v4.runtime.Token;
@@ -65,6 +68,29 @@ public class DotMethod extends AbstractExpr {
         compiler.addInstruction(new LOAD(((Identifier)this.instance).getAddr(compiler),Register.R0));
         compiler.addInstruction(new PUSH(Register.R0));
         DVal reg = method.codeGenDotted(compiler);
+        return reg;
+    }
+    @Override
+    protected DVal codeGenPrint(DecacCompiler compiler) {
+        compiler.addInstruction(new LOAD(((Identifier)this.instance).getAddr(compiler),Register.R0));
+        compiler.addInstruction(new PUSH(Register.R0));
+        DVal reg = method.codeGenDotted(compiler);
+        if(reg.isGPRegister()) {
+            compiler.addInstruction(new LOAD(reg,Register.R1));
+        }
+        else if(reg.isRegisterOffset()) {
+            compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)reg),Register.R1));
+        }
+        else 
+            throw new UnsupportedOperationException("Not supposed to be called");
+        if(this.getType().isInt()) {
+            compiler.addInstruction(new WINT());
+        }
+        else if(this.getType().isFloat()) {
+            compiler.addInstruction(new WFLOAT());
+        }
+        else 
+            throw new UnsupportedOperationException("Not supposed to be called");
         return reg;
     }
     @Override 

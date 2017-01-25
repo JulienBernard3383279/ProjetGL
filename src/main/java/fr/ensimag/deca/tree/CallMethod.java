@@ -27,6 +27,8 @@ import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.POP;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WINT;
 import java.io.PrintStream;
 import java.util.Iterator;
 
@@ -110,6 +112,28 @@ public class CallMethod extends AbstractExpr {
         this.setType(t);
         return t;
     }
+    @Override
+    protected DVal codeGenPrint(DecacCompiler compiler) {
+        DVal reg = this.codeGen(compiler);
+        if(reg.isGPRegister()) {
+            compiler.addInstruction(new LOAD(reg,Register.R1));
+        }
+        else if(reg.isRegisterOffset()) {
+            compiler.addInstruction(new LOAD(compiler.translate((RegisterOffset)reg),Register.R1));
+        }
+        else 
+            throw new UnsupportedOperationException("Not supposed to be called");
+        if(this.getType().isInt()) {
+            compiler.addInstruction(new WINT());
+        }
+        else if(this.getType().isFloat()) {
+            compiler.addInstruction(new WFLOAT());
+        }
+        else 
+            throw new UnsupportedOperationException("Not supposed to be called");
+        return reg;
+    }
+    @Override
     protected void codeGenCond(DecacCompiler compiler,Label l,boolean jump) {
         DVal reg = this.codeGen(compiler);
         if(jump) {
@@ -151,7 +175,7 @@ public class CallMethod extends AbstractExpr {
             }
             else 
             {
-                throw new UnsupportedOperationException("Not supported yet.");
+                throw new UnsupportedOperationException("Not supposed to be called");
             }
         }
         for(AbstractExpr a : this.args.getList()) {
