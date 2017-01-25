@@ -88,6 +88,9 @@ Donne une liste de software qui optimise les programmes dans de nombreux langage
 \item \texttt{https://en.wikipedia.org/wiki/Optimizing\_compiler} \\
 Ce lien donne une liste assez complète des techniques d'optimisations de programme.\\
 
+\item \texttt{https://en.wikipedia.org/wiki/Strength\_reduction} \\
+Ce lien présente la technique du Strength reduction qui consiste à à optimiser localement des opérations en les remplaçant par des opérations équivalentes, par exmple remplacer une multiplication par une succession d'addition, ou une multiplication par une puissance de 2 par un décalage à gauche. De nombreuses optimisations locales sont possibles.\\
+
 \item \texttt{https://en.wikipedia.org/wiki/Inline\_expansion} \\
 Ce lien présente la technique de l'Inlining qui consiste à remplacer l'appel d'une fonction par le corps de la fonction elle même. Ce n'est pas toujours une optimisation mais optimise le code si la fonction prend peu de place en mémoire ou si elle est appelée souvent.\\
 
@@ -102,6 +105,10 @@ Ce lien présente la technique du Bounds checking elimination qui consiste à ne
 
 \item \texttt{https://en.wikipedia.org/wiki/Partial\_redundancy\_elimination} \\
 Ce lien présente la technique du Partial reduncay elimination qui consiste à éliminer les expressions qui sont redondantes mais pas forcément dans tous les chemins du programme. C'est une forme de Commonsubexpression elimination.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Lazy\_evaluation} \\
+Ce lien présente la technique du Lazy evaluation qui consiste à à réordonner les test de manières à avoir le moins de tests à vérifier dans les conditions.\\
+
      \end{itemize}
 
 \subsubsection{Techniques d'optimisations de boucles}
@@ -182,12 +189,6 @@ Ce lien présente la technique de l'Instruction selection qui consiste à choisi
 Ce lien présente la technique de l'Instruction scheduling qui consiste à repérer des portions de code s indépendantes et à les computer sur des coeurs différents.\\
      \end{itemize}
 
-\subsubsection{Techniques d'optimisations du code généré}
-\begin{itemize}
-\item \texttt{} \\
-
-
-     \end{itemize}
 \section{Choix de conception}
 \subsection{Constant Folding}
 \section{Méthode de validation}
