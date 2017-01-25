@@ -3,7 +3,7 @@
 \RequirePackage[utf8]{inputenc}
 
 \begin{document}
-\title{Compilateur Deca : Documentation de l'extension : Optimisation}
+\title{Compilateur Deca: Documentation de l'extension: Optimisation}
 \author{\'Equipe 58}
 \maketitle
 \section{Introduction}
@@ -14,15 +14,15 @@ Voici la liste des différentes spécifications de l'optimisation:
 \begin{itemize}
 \item \texttt{DeadStore} \\
       \texttt{decac -o1} \\
-Le dead store consiste à éliminer les variables qui ne sont pas utiles dans le code. typiquement , si on initialise des valeurs, mais que lors d'autres initialisations ou lors de la liste d'instructions, notre variable n'est pas utilisée, alors elle est considérée comme inutile pour le programme, est peut être supprimée. \\
-Exemple de programme utilisant le Deadstore :
+Le dead store consiste à éliminer les variables qui ne sont pas utiles dans le code. Typiquement, si on initialise des valeurs, mais que lors d'autres initialisations ou lors de la liste d'instructions, notre variable n'est pas utilisée, alors elle est considérée comme inutile pour le programme, est peut être supprimée. \\
+Exemple de programme utilisant le Deadstore:
 \begin{center}
 int a=2;\\
 int b=4;\\
 boolean f=false;\\
 b=b*b+a*a;\\
-a=(a*b)/2;\\
-Dans ce programme là, on observe que le booléen f n'est pas utilisée dans le programme. Elle n'est pas utilisée pour une initialisation, ni pour les instructions. Elle sera ainsi supprimée de l'arbre, au niveau des déclarations de variables. Mais on pourrait fortement discuter de la notion de "programme inutile. En effet, dans le programme deca précédent, rien n'est retourner, donc les variables a,b et f sont en soit "inutiles" pour d'autres programmes , et pourraient en théorie être éliminié. En fait on peut éliminer tout le programme ici car il est bien inutile. Mais comment définir l'utilité d'un programme ? Par les valeurs retorunées ? les paramètres ? Pour des questions de temps et de simplicité  
+a= (a*b)/2;\\
+Dans ce programme là, on observe que le booléen f n'est pas utilisée dans le programme. Elle n'est pas utilisée pour une initialisation, ni pour les instructions. Elle sera ainsi supprimée de l'arbre, au niveau des déclarations de variables. Mais on pourrait fortement discuter de la notion de "programme inutile. En effet, dans le programme deca précédent, rien n'est retourner, donc les variables a,b et f sont en soit "inutiles" pour d'autres programmes, et pourraient en théorie être éliminié. En fait on peut éliminer tout le programme ici car il est bien inutile. Mais comment définir l'utilité d'un programme? Par les valeurs retournées? les paramètres? Pour des questions de temps et de simplicité  
 \end{center}
 \item \texttt{Constant Folding}\\
 \texttt{decac -o2}\\
@@ -41,17 +41,113 @@ Cette optimisation consiste à regarder dans le code généré en assembleur s'i
      \end{itemize}
 \section{Analyse bibliographique}
 \subsection{Liens sur l'optimisation de la compilation en Java}
+\begin{itemize}
 \item \texttt{http://www.javaworld.com/article/2078623/core-java/jvm-performance-optimization-part-1-a-jvm-technology-primer.html} \\
-Ce lien donne des informations générales sur la compilation en Java en donnant quelques concepts généraux sur l'optimisation du Java et du Bytecode Java.
-\item \texttt{http://www.javaworld.com/article/2078635/enterprise-middleware/jvm-performance-optimization-part-2-compilers.html} \\
+Ce lien donne des informations générales sur la compilation en Java en donnant quelques concepts généraux sur l'optimisation du Java et du Bytecode Java.\\
 
+\item \texttt{http://www.javaworld.com/article/2078635/enterprise-middleware/jvm-performance-optimization-part-2-compilers.html} \\
+Ce lien explixicite plus clairement les différentes optimisations, les avantages et les inconvénients de la compilation statique et ceux de la compilation dynamique.\\
+
+\item \texttt{http://www.javaworld.com/article/2076060/build-ci-sdlc/compiler-optimizations.html} \\
+Ce lien donne des techniques d'optimisation et des exemples de celles-ci (le constant folding et le dead code elimination).\\
+
+\item \texttt{http://web.stanford.edu/class/archive/cs/cs108/cs108.1082/handouts/39ImplementationHotspot.pdf} \\
+Ce lien donne l'implémentation de la machine Java Hotspots et les optimisations de cette machine Java, comme le inlining.\\
+
+\item \texttt{http://www.oracle.com/technetwork/java/whitepaper-135217.html} \\
+Ce lien présente les performances de la machine Java Hotspots et son architecture.\\
+
+\item \texttt{https://www.usenix.org/legacy/publications/library/proceedings/jvm02/yu/yu\_html/node3.htmll} \\
+Ce lien envoie donne de nombreuses références de livres sur la compilation etl'optimisation en Java.\\
+     \end{itemize}
+
+\subsection{Liens sur les compilateurs Just In Time}
+\begin{itemize}
+\item \texttt{http://docs.oracle.com/cd/E15289\_01/doc.40/e15058/underst\_jit.htm} \\
+Ce lien présente avec des schémas le fonctionnement de la compilation JIT et présente des techniques d'optimisations étapes par étapes.\\
+
+\item \texttt{http://www.sdsc.edu/~allans/cs231/openjit.pdf} \\
+Ce lien présente le design, l'implémentation d'un compilateur JIT et évalue les différentes optimisations.\\
+     \end{itemize}
+
+\subsection{Liens sur la compilation statique}
+\begin{itemize}
+\item \texttt{http://blog.soat.fr/2015/10/java-entre-compilation-statique-et-dynamique-mon-coeur-balance/} \\
+Ce lien présente les différents types de compilateurs et explique les différents types de compilations et d'optimisations avec des schémas. Il présente aussi quelques techniques d'optimisations un peu moins évidente.\\
+
+\item \texttt{https://briangordon.github.io/2014/01/javac-optimizations.html} \\
+Ce lien présente différentes techniques d'optimisations que les machines Java font en donnant des exemples simples et en les expliquant.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/List\_of\_optimization\_software} \\
+Donne une liste de software qui optimise les programmes dans de nombreux langages.\\
+     \end{itemize}
+
+\subsection{Liens sur les différentes techniques d'optimisations}
+\subsubsection{Techniques générales}
+\begin{itemize}
+\item \texttt{https://en.wikipedia.org/wiki/Optimizing\_compiler} \\
+Ce lien donne une liste assez complète des techniques d'optimisations de programme.\\
+     \end{itemize}
+
+\subsubsection{Techniques d'optimisations de boucles}
+\begin{itemize}
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_fission} \\
+Ce lien présente la technique du Loop fission qui consiste a diviser une boucle en deux, de manière à avoir une meilleur gestion des adresses accédées.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_fusion} \\
+Ce lien présente la technique du Loop fusion qui consiste à fusionner 2 boucles entres elles si elles parcourent le même index et qu'elles sont indépendantes l'une de l'autre. Cette technique est l'inverse de la technique précédente et s'applique donc dans des cas différents.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_interchange} \\
+Ce lien présente la technique du Loop interchange qui consiste à permutter les indices dans une double boucle, ce qui permet dans le cas d'un tableau double dimensions d'accèder aux cases du tableaux contigües dans la mémoire.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_inversion} \\
+Ce lien présente la technique du Loop inversion qui consiste à remplacer un while par un if + do while ce qui fait faire deux sauts de moins.\\
+ 
+\item \texttt{https://en.wikipedia.org/wiki/Loop-invariant\_code\_motion} \\
+Ce lien présente la technique du Loop invariant code motion qui consiste à sortir les opérations constantes d'une boucle en dehors de la boucle.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_unrolling} \\
+Ce lien présente la technique du Unrolling qui consiste à allonger le corps d'une boucle de manière à faire plus d'opérations en un tour et faire moins de tours en tout quand cela est possible.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_splitting} \\
+Ce lien présente la technique du Loop splitting qui consiste à simplidfier ou élminer les dépendances d'une boucle en la divisant en plusieurs boucle plus petite qui ont des indexage contigus.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Polytope\_model} \\
+Ce lien présente la technique du Polytope model qui est une technique assez complexe qui fait des transformations complexes dans des boucles multiples de manières à les parcourir de façon optimisée.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_tiling} \\
+Ce lien présente la technique du Loop tiling qui consiste à changer les indices de la boucle et à la diviser de manière à forcer les variables à rester dans le cache pour y avoir plus rapidement accès, technique qui est difficile à exploiter correctement à notre niveau.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_unswitching} \\
+Ce lien présente la technique du Loop unswitching qui consiste à mettre une condition intérieur de la boucle à l'extérieur puis à dupliquer la boucle, ceci facilite la parallèlisation de la boucle.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Automatic\_parallelization} \\
+Ce lien présente la technique de l'Automatic parallelization qui consiste à parcours des boucles en parallèle sur des multiprocesseurs, technique qui est difficilement implémentable à notre niveau.
+
+\item \texttt{https://en.wikipedia.org/wiki/Loop\_scheduling} \\
+Ce lien présente la technique du Loop scheduling qui consiste à parcourir une boucle sur plusieurs processeur, ce qui est difficilement implémentable à notre niveau.\\
+
+\item \texttt{https://en.wikipedia.org/wiki/Software\_pipelining} \\
+Ce lien présente la technique du Software pipelining qui est une technique assez complexe qui parallèlise les boucles. Cette technique est complexe à implémenter.
+
+\item \texttt{https://en.wikipedia.org/wiki/Automatic\_vectorization} \\
+Ce lien présente la technique du Loop scheduling qui consiste à faire le plus d'itérations possible sur le plus de processeurs possibles, technique qui est difficielement implémentable à notre niveau.\\
+     \end{itemize}
+
+\subsubsection{Techniques d'optimisations de boucles}
+\begin{itemize}
 \item \texttt{} \\
 \item \texttt{} \\
 \item \texttt{} \\
+
+
      \end{itemize}
 \section{Choix de conception}
+\subsection{Constant Folding}
 \section{Méthode de validation}
+\subsection{Constant Folding}
 \section{Résultat}
+\subsection{Constant Folding}
 \section{Améliorations possibles de l'extension}
 
 \end{document}
