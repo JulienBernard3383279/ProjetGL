@@ -169,27 +169,21 @@ public class DeadStore extends Extension{
         
     }
     public void remove_var(ListDeclVar list_var){
-        int j=0;
-        ListDeclVar list=list_var;
-        Iterator<AbstractDeclVar> i=list_var.getModifiableList().iterator();        
-        while(i.hasNext()){
-            AbstractDeclVar id=i.next();
-            DeclVar decVar=(DeclVar) id;
-            if(! this.arr2.contains(id)){
-                Iterator<AbstractDeclVar> k=list.iterator();
-                while(k.hasNext()){
-                   AbstractDeclVar abstDecVar=k.next();
-                   if(abstDecVar instanceof DeclVar){
-                       DeclVar dec=(DeclVar) abstDecVar;
-                       if(dec.getVarName().getName().getName().equals(decVar.getVarName().getName().getName())){
-                          j=list_var.getModifiableList().indexOf(id);
-                          list_var.getModifiableList().remove(j);   
-                       }
-                   }
-                }
-                 
-            }
-        }
+       int index=0;
+       ListDeclVar list=list_var;
+       Iterator<AbstractDeclVar> i=list.iterator();
+       while(i.hasNext()){
+           AbstractDeclVar abstVar=i.next();
+           if(abstVar instanceof DeclVar){
+               DeclVar dec;
+               dec = (DeclVar) abstVar;
+               if(! this.arr2.contains(dec.getVarName())){
+                   //index=list_var.getModifiableList().indexOf(dec);
+                   System.out.println("la variable "+dec.getVarName().getName().getName()+" est inutilisée dans votre programme");
+                   list_var.getModifiableList().remove(dec);
+               }
+           }
+       }
     }    
         
     /**

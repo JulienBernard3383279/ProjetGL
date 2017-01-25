@@ -26,8 +26,8 @@ public class Divide extends AbstractOpArith {
     }
     @Override
     protected DVal codeGenPrint(DecacCompiler compiler) {
-        DVal regRight = this.getRightOperand().codeGen(compiler);
         DVal regLeft  = this.getLeftOperand().codeGen(compiler);
+        DVal regRight = this.getRightOperand().codeGen(compiler);
         if(super.getType().isInt()) {
             codeGenBinaryInstructionDValToReg.generatePrint(compiler,
                 super.getType(),
@@ -51,8 +51,8 @@ public class Divide extends AbstractOpArith {
 
     @Override
     protected DVal codeGen(DecacCompiler compiler) {
-        DVal regRight = this.getRightOperand().codeGen(compiler);
         DVal regLeft  = this.getLeftOperand().codeGen(compiler);
+        DVal regRight = this.getRightOperand().codeGen(compiler);
         DVal returns;
         if(super.getType().isInt()) {
             returns = codeGenBinaryInstructionDValToReg.generate(compiler,
