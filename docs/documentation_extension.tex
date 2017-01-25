@@ -1,5 +1,6 @@
 \documentclass[a4paper]{article}
 \usepackage[utf8x]{inputenc}
+\usepackage[margin=1.2in]{geometry}
 \RequirePackage[utf8]{inputenc}
 
 \begin{document}
@@ -22,11 +23,21 @@ int b=4;\\
 boolean f=false;\\
 b=b*b+a*a;\\
 a= (a*b)/2;\\
-Dans ce programme là, on observe que le booléen f n'est pas utilisée dans le programme. Elle n'est pas utilisée pour une initialisation, ni pour les instructions. Elle sera ainsi supprimée de l'arbre, au niveau des déclarations de variables. Mais on pourrait fortement discuter de la notion de "programme inutile. En effet, dans le programme deca précédent, rien n'est retourner, donc les variables a,b et f sont en soit "inutiles" pour d'autres programmes, et pourraient en théorie être éliminié. En fait on peut éliminer tout le programme ici car il est bien inutile. Mais comment définir l'utilité d'un programme? Par les valeurs retournées? les paramètres? Pour des questions de temps et de simplicité  
 \end{center}
+Dans ce programme là, on observe que le booléen f n'est pas utilisée dans le programme. Elle n'est pas utilisée pour une initialisation, ni pour les instructions. Elle sera ainsi supprimée de l'arbre, au niveau des déclarations de variables. Mais on pourrait fortement discuter de la notion de "programme inutile. En effet, dans le programme deca précédent, rien n'est retourner, donc les variables a,b et f sont en soit "inutiles" pour d'autres programmes, et pourraient en théorie être éliminié. En fait on peut éliminer tout le programme ici car il est bien inutile. Mais comment définir l'utilité d'un programme? Par les valeurs retournées? les paramètres? Pour des questions de temps et de simplicité  
 \item \texttt{Constant Folding}\\
 \texttt{decac -o2}\\
-Le constant folding est une optimisation qui calcul tout les calculs constants et stocke les résultats au lieu de stocker le calcul. A l'exécution le processeur n'a plus besoin de faire les opérations, il à déjà le résultat en mémoire.
+Le constant folding est une optimisation qui calcul tout les calculs constants et stocke les résultats au lieu de stocker le calcul. A l'exécution le processeur n'a plus besoin de faire les opérations, il à déjà le résultat en mémoire.\\
+Exemple de programme utilisant le Constant folding:
+\begin{center}
+int a;\\
+float b;\\
+float c;\\
+a=60*60*24*365;\\
+b=a/12;\\
+c=a-b;\\
+\end{center}
+Dans ce programme là, il y a trois assignations de variable. La première découle d'un calcul constant qui ne dépend d'aucune variable, elle sera donc calculée pendant la compilation et assignée directement à l'exécution au lieu d'être recalculée. On aurait pu aller plus loin dans cet exemple en calculant aussi b et c, car ils auront toujours les mêmes valeurs à l'exécution de ce programme. On aurait donc pu aussi calculer les valeurs et les assigner directement, plutôt que de les recalculer, et ce dans tout le programme. Cela mettrait plus de temps à la compilation mais on gagnerait du temps à l'exécution. Cette optimisation a donc été mis en oeuvre uniquement dans le cas où il n'y a pas de variables dans le calcul, car il faudrait pouvoir récupérer facilement les valeurs de ces variables, ce qui n'est pas le cas dans notre structure de donnée actuelle.
      \end{itemize}
 \subsection{Optimisations envisagées}
 \begin{itemize}
@@ -42,22 +53,22 @@ Cette optimisation consiste à regarder dans le code généré en assembleur s'i
 \section{Analyse bibliographique}
 \subsection{Liens sur l'optimisation de la compilation en Java}
 \begin{itemize}
-\item \texttt{http://www.javaworld.com/article/2078623/core-java/jvm-performance-optimization-part-1-a-jvm-technology-primer.html} \\
+\item \texttt{http://www.javaworld.com/article/2078623/core-java/\\jvm-performance-optimization-part-1-a-jvm-technology-primer.html} \\
 Ce lien donne des informations générales sur la compilation en Java en donnant quelques concepts généraux sur l'optimisation du Java et du Bytecode Java.\\
 
-\item \texttt{http://www.javaworld.com/article/2078635/enterprise-middleware/jvm-performance-optimization-part-2-compilers.html} \\
+\item \texttt{http://www.javaworld.com/article/2078635/enterprise-middleware/\\jvm-performance-optimization-part-2-compilers.html} \\
 Ce lien explixicite plus clairement les différentes optimisations, les avantages et les inconvénients de la compilation statique et ceux de la compilation dynamique.\\
 
 \item \texttt{http://www.javaworld.com/article/2076060/build-ci-sdlc/compiler-optimizations.html} \\
 Ce lien donne des techniques d'optimisation et des exemples de celles-ci (le constant folding et le dead code elimination).\\
 
-\item \texttt{http://web.stanford.edu/class/archive/cs/cs108/cs108.1082/handouts/39ImplementationHotspot.pdf} \\
+\item \texttt{http://web.stanford.edu/class/archive/cs/cs108/cs108.1082/\\handouts/39ImplementationHotspot.pdf} \\
 Ce lien donne l'implémentation de la machine Java Hotspots et les optimisations de cette machine Java, comme le inlining.\\
 
 \item \texttt{http://www.oracle.com/technetwork/java/whitepaper-135217.html} \\
 Ce lien présente les performances de la machine Java Hotspots et son architecture.\\
 
-\item \texttt{https://www.usenix.org/legacy/publications/library/proceedings/jvm02/yu/yu\_html/node3.htmll} \\
+\item \texttt{https://www.usenix.org/legacy/publications/library/proceedings/\\jvm02/yu/yu\_html/node3.htmll} \\
 Ce lien envoie donne de nombreuses références de livres sur la compilation etl'optimisation en Java.\\
      \end{itemize}
 
@@ -72,7 +83,7 @@ Ce lien présente le design, l'implémentation d'un compilateur JIT et évalue l
 
 \subsection{Liens sur la compilation statique}
 \begin{itemize}
-\item \texttt{http://blog.soat.fr/2015/10/java-entre-compilation-statique-et-dynamique-mon-coeur-balance/} \\
+\item \texttt{http://blog.soat.fr/2015/10/java-entre-compilation-statique-et\\-dynamique-mon-coeur-balance/} \\
 Ce lien présente les différents types de compilateurs et explique les différents types de compilations et d'optimisations avec des schémas. Il présente aussi quelques techniques d'optimisations un peu moins évidente.\\
 
 \item \texttt{https://briangordon.github.io/2014/01/javac-optimizations.html} \\
@@ -191,6 +202,12 @@ Ce lien présente la technique de l'Instruction scheduling qui consiste à repé
 
 \section{Choix de conception}
 \subsection{Constant Folding}
+Avec la structure de donnée qui nous est fournie, le plus simple pour implémenter cette méthode est de parcourir l'arbre construit et enrichi pour retirer ce qui doit être retiré.\\
+On regarde tout d'abord toutes les instructions et on vérifie si ce sont des assignations. Si ce sont des assignations on verifie que tous les noeuds ne sont pas des AbstractLValue ou des AbstractReadExpr ou des CallMethod ou des This ou un Modulo, si ces conditions sont vérifiées alors l'optimisation est possible sur cette assignation. On regarde le type de la variable pour faire les bons calculs (les opération ssur les booléens, les entiers et les chaînes de caractères ne sont pas les mêmes). Par souci de simplicité on ne traite que les int et les float.\\
+L'arbre est construit de tel sorte que toutes les opération ont pour fils gauche une autre opération ou une constante, et tous les fils droits sont des constantes. On stocke alors dans une liste de String tous les fils gauche qui sont des opérations et dans une liste d'AbstractExpr toutes les constantes (on stocke des AbstractExpr car on peut alors stocker dans cette liste des int, des float, des boolean et bien d'autres types).\\
+Une fois qu'on a stocké toutes les opérations et toutes les constantes dans ces 2 listes il faut alors retirer la dernière opération du tableau et faire cette opération entre la valeur du résultat précédant (initialisé à 0) et la valeur du dernier élément constant du tableau qu'on aura aussi retiré (avec néanmoins un cas particulier à l'initialisation car il faut faire cette opération sur les deux derniers éléments du tableau).\\
+Une fois le résultat final calculé on set le fils de l'instruction que l'on est en train de traiter dans lequel on met un IntLiteral ou un FloatLiteral de la valeur que l'on vient de calculer. On peut ensuite passer à l'instruction suivante et tout recommencer jusqu'à la dernière instruction.\\
+
 \section{Méthode de validation}
 \subsection{Constant Folding}
 \section{Résultat}
