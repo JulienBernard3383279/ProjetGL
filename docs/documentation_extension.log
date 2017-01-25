@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.6.22)  25 JAN 2017 13:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.6.22)  25 JAN 2017 13:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -189,168 +189,364 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
  [1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (2.50056pt too wide) in paragraph at lines 40--42
-\OT1/cmr/m/n/10 Le strengh re-duc-tion est une op-ti-mi-sa-tion qui rem-place c
-er-taines op^^Serations
- []
 
-
-! LaTeX Error: Lonely \item--perhaps a missing list environment.
+! LaTeX Error: \begin{center} on input line 21 ended by \end{itemize}.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.49 \item \texttt
-                  {http://www.javaworld.com/article/2078623/core-java/jvm-pe...
-
+l.35      \end{itemize}
+                       
 ? 
-
-Overfull \hbox (258.74474pt too wide) in paragraph at lines 49--51
+[2]
+Overfull \hbox (308.7448pt too wide) in paragraph at lines 50--52
 []\OT1/cmtt/m/n/10 http://www.javaworld.com/article/2078623/core-java/jvm-perfo
 rmance-optimization-part-1-a-jvm-technology-primer.html 
  []
 
-[2]
 
-! LaTeX Error: Lonely \item--perhaps a missing list environment.
+Underfull \hbox (badness 10000) in paragraph at lines 50--52
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.51 \item \texttt
-                  {http://www.javaworld.com/article/2078635/enterprise-middl...
+ []
 
-? 
 
-Overfull \hbox (248.24483pt too wide) in paragraph at lines 51--52
+Overfull \hbox (298.24489pt too wide) in paragraph at lines 53--55
 []\OT1/cmtt/m/n/10 http://www.javaworld.com/article/2078635/enterprise-middlewa
 re/jvm-performance-optimization-part-2-compilers.html 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 51--52
+Underfull \hbox (badness 10000) in paragraph at lines 53--55
 
  []
 
 
-! LaTeX Error: Lonely \item--perhaps a missing list environment.
+Overfull \hbox (135.4963pt too wide) in paragraph at lines 56--58
+[]\OT1/cmtt/m/n/10 http://www.javaworld.com/article/2076060/build-ci-sdlc/compi
+ler-optimizations.html 
+ []
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.53 \item \texttt
-                  {} \\
-? 
 
-Underfull \hbox (badness 10000) in paragraph at lines 53--54
+Underfull \hbox (badness 10000) in paragraph at lines 56--58
 
  []
 
 
-! LaTeX Error: Lonely \item--perhaps a missing list environment.
+Overfull \hbox (198.49576pt too wide) in paragraph at lines 59--61
+[]\OT1/cmtt/m/n/10 http://web.stanford.edu/class/archive/cs/cs108/cs108.1082/ha
+ndouts/39ImplementationHotspot.pdf 
+ []
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.54 \item \texttt
-                  {} \\
-? 
 
-Underfull \hbox (badness 10000) in paragraph at lines 54--55
+Underfull \hbox (badness 10000) in paragraph at lines 59--61
 
  []
 
 
-! LaTeX Error: Lonely \item--perhaps a missing list environment.
+Overfull \hbox (25.24727pt too wide) in paragraph at lines 62--64
+[]\OT1/cmtt/m/n/10 http://www.oracle.com/technetwork/java/whitepaper-135217.htm
+l 
+ []
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.55 \item \texttt
-                  {} \\
-? 
 
-Underfull \hbox (badness 10000) in paragraph at lines 55--56
+Underfull \hbox (badness 10000) in paragraph at lines 62--64
 
  []
 
 
-! LaTeX Error: \begin{document} ended by \end{itemize}.
+Overfull \hbox (181.2759pt too wide) in paragraph at lines 65--67
+[]\OT1/cmtt/m/n/10 https://www.usenix.org/legacy/publications/library/proceedin
+gs/jvm02/yu/yu[]html/node3.htmll 
+ []
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.56      \end{itemize}
-                       
-? 
-! Extra \endgroup.
-<recently read> \endgroup 
-                          
-l.56      \end{itemize}
-                       
-? 
+
+Underfull \hbox (badness 10000) in paragraph at lines 65--67
+
+ []
+
+
+Overfull \hbox (43.30708pt too wide) in paragraph at lines 71--73
+[]\OT1/cmtt/m/n/10 http://docs.oracle.com/cd/E15289[]01/doc.40/e15058/underst[]
+jit.htm 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 71--73
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--76
+
+ []
+
+[3]
+Overfull \hbox (182.7459pt too wide) in paragraph at lines 80--82
+[]\OT1/cmtt/m/n/10 http://blog.soat.fr/2015/10/java-entre-compilation-statique-
+et-dynamique-mon-coeur-balance/ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 80--82
+
+ []
+
+
+Overfull \hbox (30.49722pt too wide) in paragraph at lines 83--85
+[]\OT1/cmtt/m/n/10 https://briangordon.github.io/2014/01/javac-optimizations.ht
+ml 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 83--85
+
+ []
+
+
+Overfull \hbox (10.33736pt too wide) in paragraph at lines 86--88
+[]\OT1/cmtt/m/n/10 https://en.wikipedia.org/wiki/List[]of[]optimization[]softwa
+re 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 86--88
+
+ []
+
+
+Overfull \hbox (2.84453pt too wide) in paragraph at lines 90--90
+[]\OT1/cmr/bx/n/12 Liens sur les diff^^Serentes tech-niques d'optimisations 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 93--95
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 96--98
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 99--101
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 102--104
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 105--107
+
+ []
+
+[4]
+Overfull \hbox (2.77745pt too wide) in paragraph at lines 108--110
+[]\OT1/cmtt/m/n/10 https://en.wikipedia.org/wiki/Bounds-checking[]elimination 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 108--110
+
+ []
+
+
+Overfull \hbox (17.05731pt too wide) in paragraph at lines 111--113
+[]\OT1/cmtt/m/n/10 https://en.wikipedia.org/wiki/Partial[]redundancy[]eliminati
+on 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 111--113
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 114--116
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 121--123
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 124--126
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 127--129
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 130--132
+
+ []
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 133--135
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 136--138
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 139--141
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 142--144
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 145--147
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 148--150
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 154--156
+
+ []
+
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 160--162
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 166--168
+
+ []
+
+
+Overfull \hbox (27.55722pt too wide) in paragraph at lines 169--171
+[]\OT1/cmtt/m/n/10 https://en.wikipedia.org/wiki/Common[]subexpression[]elimina
+tion 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 169--171
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 172--174
+
+ []
+
+
+Overfull \hbox (62.8369pt too wide) in paragraph at lines 178--180
+[]\OT1/cmtt/m/n/10 https://en.wikipedia.org/wiki/Sparse[]conditional[]constant[
+]propagation 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 178--180
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 181--183
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 187--189
+
+ []
+
+[7]
+Underfull \hbox (badness 10000) in paragraph at lines 190--192
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 193--195
+
+ []
+
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 59.
+(Font)              <7> on input line 199.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 59.
+(Font)              <5> on input line 199.
 
-Overfull \hbox (0.33757pt too wide) in paragraph at lines 66--70
-\OT1/cmr/m/n/10 ^etres ra-jout^^Ses avec un $\OML/cmm/m/it/10 if\OT1/cmr/m/n/10
- (\OML/cmm/m/it/10 varinstanceoftype\OT1/cmr/m/n/10 )$. Dans le cas o^^Ru les o
-p^^Serandes
+Overfull \hbox (16.37465pt too wide) in paragraph at lines 206--210
+\OT1/cmr/m/n/10 sont om-mises elles doivent ^etres ra-jout^^Ses avec un $\OML/c
+mm/m/it/10 if\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 varinstanceoftype\OT1/cmr/m/n/10
+ )$.
  []
 
-[3] <UML.pdf, id=21, 845.1575pt x 597.23125pt>
+[8] <UML.pdf, id=37, 845.1575pt x 597.23125pt>
 File: UML.pdf Graphic file (type pdf)
  <use UML.pdf>
-Package pdftex.def Info: UML.pdf used on input line 85.
+Package pdftex.def Info: UML.pdf used on input line 227.
 (pdftex.def)             Requested size: 845.15544pt x 597.22978pt.
 
-Overfull \hbox (0.51907pt too wide) in paragraph at lines 82--86
-\OT1/cmr/m/n/10 ^etre plus utiles pour des codeurs d^^Sebutants. N^^Seanmoins o
-n peut en tirer plusieurs
- []
-
-
-Overfull \hbox (1.07458pt too wide) in paragraph at lines 82--86
-\OT1/cmr/m/n/10 en-seigne-ments. En ef-fet on peut d^^Sesormais clas-si-fier le
-s ex-ten-sions selon plusieurs
- []
-
-
-Overfull \hbox (500.15544pt too wide) in paragraph at lines 82--86
+Overfull \hbox (525.15547pt too wide) in paragraph at lines 224--229
 [] 
  []
 
-[4] [5 <./UML.pdf>] (./documentation_extension.aux) ) 
+
+Overfull \hbox (2.9451pt too wide) in paragraph at lines 224--229
+\OT1/cmr/m/n/10 Le fu-tur pro-gram-meur qui voudra ra-jouter ses pro-pres op-ti
+-mi-sa-tions pourra
+ []
+
+[9] [10 <./UML.pdf>]
+
+! LaTeX Error: \begin{itemize} on input line 16 ended by \end{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.231 \end{document}
+                    
+? 
+[11] (./documentation_extension.aux) )
+(\end occurred inside a group at level 1)
+
+### semi simple group (level 1) entered at line 16 (\begingroup)
+### bottom level 
 Here is how much of TeX's memory you used:
- 2279 strings out of 493014
- 32379 string characters out of 6133336
+ 2280 strings out of 493014
+ 32400 string characters out of 6133336
  96939 words of memory out of 5000000
- 5807 multiletter control sequences out of 15000+600000
+ 5808 multiletter control sequences out of 15000+600000
  8063 words of font info for 29 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  40i,7n,25p,792b,478s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2016/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2016/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2016/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2016/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2016/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on documentation_extension.pdf (5 pages, 175083 bytes).
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmmi7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
+12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17
+.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.
+pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.p
+fb>
+Output written on documentation_extension.pdf (11 pages, 192238 bytes).
 PDF statistics:
- 91 PDF objects out of 1000 (max. 8388607)
- 59 compressed objects within 1 object stream
+ 111 PDF objects out of 1000 (max. 8388607)
+ 73 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

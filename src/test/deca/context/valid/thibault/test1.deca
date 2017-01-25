@@ -5,12 +5,7 @@
 	float c;
 	a=0;
 	b=10;
-	if(a<b){
-		t=true;
-	}
-	else{
-		t=false;
-	}
-	c=(b-a-1)/b;
+	a=a+1;
+        b=a;
 }
 	
