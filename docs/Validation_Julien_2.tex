@@ -1,0 +1,139 @@
+\documentclass[a4paper]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Documentation de validation}
+\author{\'Equipe n°58}
+
+\begin{document}
+\maketitle
+
+\section{Partie A}
+
+L'analyse lexicale est automatiquement testée via les tests sur l'analyse syntaxique. Une erreur lexicale ferait en effet échouer un test atomique syntaxique. Il n'y a donc pas de tests purement lexicaux dédiés, cependant, il est possible de tester l'analyse lexicale à l'aide du script test\_lex.sh dans “/src/test/script/launchers/”.\\
+
+Ce dernier peut être utilisé en tapant du code manuellement puis en arrêtant la saisie avec Ctrl+D, il est également possible de fournir directement une entrée à ce script en utilisant les fonctions d'I/O fournie par Linux, par exemple :\\
+./src/test/script/launchers/test\_lex.sh < src/test/deca/syntax/valid/testInt1.deca\\
+ce qui est très utile pour les tests manuels. Nous reviendrons sur la base de scripts deca de test disponibles plus bas.\\
+
+\subsection{Les tests syntaxiques}
+
+\subsubsection{Les tests manuels}
+
+Il est possible de tester la construction de l'arbre d'analyse syntaxique manuellement, similairement à l'utilisation de test\_lex. Les deux scripts sont dans le même dossier et s'utilisent de façon identique.\\ 
+
+La décompilation peut aussi se tester manuellement à l'aide de l'appel de l'exécutable decac avec l'option -p.\\
+
+En étant à la racine du projet, il faudra alors appeler:\\
+./src/main/bin/decac -p src/test/deca/syntax/valid/testInt1.deca\\
+Le chemin du fichier pouvant bien sûr être remplacé par celui de votre choix.\\
+
+\subsubsection{Les tests automatisés}
+
+La partie A bénéficie d'un fort suivi automatique anti-régression. Ce dernier procède en testant la décompilation d'une base de scripts deca.\\
+
+Le fonctionnement est le suivant: decompile-still-equals-to.sh est un script shell dans le dossier src/test/script, qui est lancé automatiquement à la compilation avec tests, comme spécifié dans le fichier pom.xml à la racine.\\
+Ce script va appeler la décompilation sur chaque script deca du dossier src/test/deca/syntax/valid/, et le compare, si la décompilation réussit, à son résultat attendu, script du même nom, dans le sous-dossier idempotent.\\
+
+Il y a en effet plusieurs sous-dossiers:\\
+\begin{itemize}
+\item Les scripts de /provided sont ceux fournis initialement.\\
+\item Les scripts de /homebrew sont les scripts rajoutés par l'équipe, dans le cadre d'une compilation de \item script sans-objet.\\
+\item Les scripts de /classes sont répartis en deux sous-dossiers, /homebrew et /idempotent, ayant une fonction similaire à ceux un stade supérieur.\\
+\item Les scripts de /idempotent sont les scripts générés par la décompilation des fichiers dans ses 3 dossiers, vérifiés comme valides à leurs créations.\\
+\end{itemize}
+
+La comparaison de la décompilation des scripts de /provided, /homebrew et /classes à leurs équivalents /idempotent permet donc une protection contre la régression, et la vérification d'idempotence des scripts dans /idempotent est une vérification supplémentaire du fonctionnement de la décompilation. La décompilation ne retournant un code pertinent que si l'arbre syntaxique a été correctement construit.\\
+
+La décompilation des tests invalides (src/test/deca/syntax/invalid) est également testée. L'organisation est similaire à celle du dossier /valid, avec des sous-dossiers /provided, /homebrew et  /classes, dont la décompilation des fichiers contenus doit échouer, mais évidemment pas de dossier /idempotent.\\
+
+Enfin, l'analyse lexicale et syntaxique est passivement testée par tous les autres tests, ces derniers ayant besoin de la construction de l'arbre syntaxique.\\
+
+\subsubsection{Description des scripts deca}
+
+Les rôles des scripts deca contenus dans les 2 dossiers /homebrew sont décrits par leur nom.
+Ainsi, pour donner des exemples, emptyClass.deca teste l'analyse d'une classe vide:\\
+«class EmptyClass \{\\
+\}»\\
+emptyClassExtendsSomething teste la création d'une classe qui hérite d'une autre:\\
+«class emptyClass extends Something \{\\
+\}»\\
+classWithAMethodThatReturnsAnAttribute.deca teste une méthode qui renvoie son attribut.\\
+«class MyClass \{\\
+\indent int x=1;\\
+\indent int returnOne() \{\\
+\indent \indent return x;\\
+\indent \}\\
+\}»\\
+
+Et ainsi de suite. Il est important de noter que ces tests ne testent que l'analyse syntaxique, c'est-à-dire la construction de l'arbre, et la décompilation. Ils ne sont donc pas corrects contextuellement, comme montré dans l'exemple emptyClassExtendsSomething, où la classe Something n'est pas définie.\\
+
+Nous utilisons également des tests non-unitaires, qui testent le programme sur des scripts inspirés de «conditions réelles» (syntaxiques, pas contextuelles!) plutôt que de tester des concepts précis. Ces derniers scripts, dans le cas de la partie A, sont:\\
+
+Pour la partie sans-objet:\\
+\begin{itemize}
+\item- exprCompliquee.deca, qui vise à tester l'évaluation d'une expression complexe.\\
+\item- grandChelem.deca, qui teste la majorité des possibilités sans-objet.\\
+\end{itemize}
+Pour la partie avec-objet:\\
+
+\begin{itemize}
+\item- z-anActualProgram1, qui simule une classe de vecteur relativement basique avec getters et setters.\\
+\item- z-anActualProgram2, qui porte sur une structure d'arbre et un parcours de cette dernière.\\
+\end{itemize}
+
+\subsubsection{Exemple de décompilation}
+
+Voici un exemple de décompilation du programme scriptThatUsesNull.deca, situé dans le fichier /classes/homebrew, à partir du répertoire de tests syntaxiques.\\
+
+\noindent «\{int x=1;\\
+if (x!=null) \{\\
+\indent    print("Hey, listen !");\\
+\}\\
+\}»\\
+donne après décompilation:\\
+«{\\
+\indent	int x = 1;\\
+\indent	if ((x != null)) \{\\
+\indent \indent		print("Hey, listen !");\\
+\indent	\} else \{\\
+\indent \} \\
+}»\\
+
+\subsubsection{Procédure en cas de changement de la décompilation}
+
+On peut voir dans l'exemple précédent que le code généré diffère assez nettement de l'original, et c'est normal pour du code généré.\\
+
+Entre autres, «x!=null» est devenu «( x != null )», un else vide est apparu. Or chaque espace ou tabulation suffit à faire échouer les tests de non-régression. \\
+
+Il est donc important, si on modifie la procédure de décompilation pour par exemple, changer le coding style, de pouvoir mettre à jour la base de tests.\\
+
+Pour ce faire, un script shell est optimal. Après avoir manuellement testé sur les tests concernés par vos changements que la décompilation donne effectivement ce que vous vouliez, voici comment mettre à jour la base de tests anti-régression:\\
+
+- Ajouter <votre chemin vers le projet>/src/main/bin/ à votre PATH. (PATH=<votre chemin vers le projet>/src/main/bin/:\$PATH) si ce n'est pas déjà fait.\\
+- Dans un terminal, se rendre dans src/test/deca/syntax/valid.\\
+- Aller dans /homebrew pour mettre à jour les tests sans-objet, ou /classes/homebrew pour mettre à jour les tests avec-objet.\\
+- Lancer la commande suivante:\\
+for \$cas\_de\_test in *; do; decac -p \$cas\_de\_test > ../idempotent/\$cas\_de\_test; done;\\
+
+Il est possible de customiser * pour n'affecter que certains tests. Par exemple, testInt*.deca n'affectera que 5 fichiers si lancé dans le répertoire «/homebrew» sans-objet. \\
+
+\subsection{Gestion des risques et des rendus}
+
+La partie A, si on exclut des problèmes ponctuels de setLocation, était à jour pour le prochain rendu plus de 3 jours avant ce dernier, qu'il s'agisse du rendu intermédiaire ou du rendu final. Elle a donc été largement testée, sans précipitation.\\
+
+Le fait qu'elle ne fasse pas planter les tests des parties suivantes en ayant besoin a également démontré sa fiabilité. J'ai donc conclu qu'elle ne présentait pas de danger critique pour les rendus, ce qu'elle n'a pas fait.\\
+
+\end{document}
