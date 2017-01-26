@@ -23,6 +23,7 @@ public class ConstantFolding extends Extension{
     }
     
     public void execute(ListInst listInst){
+        System.out.println("J'exécute la fonction");
         optTreeConst(listInst);
     }
     
@@ -40,6 +41,7 @@ public class ConstantFolding extends Extension{
             ArrayList<AbstractExpr> tabCons = new ArrayList<>();
             
             while(i.hasNext()){
+                System.out.println("Je rentre dans l'instruction");
                 ident=false;
                 AbstractInst inst = i.next();
                 if(inst instanceof AbstractBinaryExpr){
@@ -66,6 +68,7 @@ public class ConstantFolding extends Extension{
                             exprOp=((Assign) inst).getRightOperand();
                             
                             if(exprOp instanceof AbstractBinaryExpr){
+                                System.out.println("Je calcul quelque chose");
                                 intRes=calcInt(inst);
                                 abstInst.setRightOperand(new IntLiteral(intRes));
                             }
@@ -79,6 +82,7 @@ public class ConstantFolding extends Extension{
                             exprOp=((Assign) inst).getRightOperand();
                             
                             if(exprOp instanceof AbstractBinaryExpr){
+                                System.out.println("Je calcul quelque chose");
                                 floatRes=calcFloat(inst);
                                 abstInst.setRightOperand(new FloatLiteral(floatRes));
                             }           
@@ -97,7 +101,7 @@ public class ConstantFolding extends Extension{
         ArrayList<AbstractExpr> tabCons = new ArrayList<>();
         
                             exprOp=((Assign) inst).getRightOperand();
-                            
+                            System.out.println("Je suis dans la fonction de calcul");
                             if(exprOp instanceof AbstractBinaryExpr){
                                 ope=((AbstractBinaryExpr) exprOp).getOperatorName();
                                 tabOperation.add(ope);
@@ -172,6 +176,7 @@ public class ConstantFolding extends Extension{
         ArrayList<AbstractExpr> tabCons = new ArrayList<>();
         
                             exprOp=((Assign) inst).getRightOperand();
+                            System.out.println("Je suis dans la fonction de calcul");
                             
                             if(exprOp instanceof AbstractBinaryExpr){
                                     

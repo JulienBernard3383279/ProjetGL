@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.6.22)  26 JAN 2017 08:55
 =======
 This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.6.22)  25 JAN 2017 19:38
 >>>>>>> aa1a17a2fb2cc9d7d8d1b313b725bf1e47fc4a09
+=======
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.6.22)  26 JAN 2017 09:27
+>>>>>>> d96fc96dc06d1677cf262244462c173ff603f74d
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -799,10 +803,10 @@ er resource which is no dict (key 'ProcSets', type <array>); ignored.
 >] <UML.pdf, id=53, 845.1575pt x 597.23125pt>
 File: UML.pdf Graphic file (type pdf)
  <use UML.pdf>
-Package pdftex.def Info: UML.pdf used on input line 254.
+Package pdftex.def Info: UML.pdf used on input line 258.
 (pdftex.def)             Requested size: 422.57771pt x 298.61488pt.
 
-Overfull \hbox (70.78737pt too wide) in paragraph at lines 251--256
+Overfull \hbox (70.78737pt too wide) in paragraph at lines 255--260
 [] 
  []
 
@@ -826,12 +830,16 @@ dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2016/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
 <<<<<<< HEAD
+<<<<<<< HEAD
 Output written on documentation_extension.pdf (12 pages, 174075 bytes).
 PDF statistics:
  110 PDF objects out of 1000 (max. 8388607)
  72 compressed objects within 1 object stream
 =======
 Output written on documentation_extension.pdf (13 pages, 196973 bytes).
+=======
+Output written on documentation_extension.pdf (13 pages, 197860 bytes).
+>>>>>>> d96fc96dc06d1677cf262244462c173ff603f74d
 PDF statistics:
  122 PDF objects out of 1000 (max. 8388607)
  80 compressed objects within 1 object stream

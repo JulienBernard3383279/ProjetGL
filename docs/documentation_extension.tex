@@ -224,7 +224,7 @@ Comme son nom l'indique, cette fonction va appliquer le deadstore en appliquant 
 \end{itemize}
 Une fois les fonctionnalités implémentées, il suffit d'ajouter un attribut de type deadstore appelé dead au decac compiler, rajouter une option de compilation $-o1$ pour mettre l'optimisation à true si on veut l'observer, et l'ajouter dans le main où sont situés les listdeclvar et la listinst, paramètres essentiels de notre optimisation.
 \subsection{Constant Folding}
-Avec la structure de donnée qui nous est fournie, le plus simple pour implémenter cette méthode est de parcourir l'arbre construit et enrichi pour retirer ce qui doit être retiré. Par souci de simplicité et pour simplifier le débuggage, nous n'appliquons cette optimisation que dans la liste des instructions, mais elle pourrait être étendu à la liste des déclarations (où l'optimisation de tels calculs est réalisable en Deca).\\ \\
+Avec la structure de donnée qui nous est fournie, le plus simple pour implémenter cette méthode est de parcourir l'arbre construit et décoré pour retirer ce qui doit être retiré. Par souci de simplicité et pour simplifier le débuggage, nous n'appliquons cette optimisation que dans la liste des instructions, mais elle pourrait être étendu à la liste des déclarations (où l'optimisation de tels calculs est réalisable en Deca).\\ \\
 La classe ConstantFolding extends d'une classe abstraite Extension, dont nous expliquerons l'intêret dans la dernière section de ce manuel. Il y a 4 fonctions principales:
 \begin{itemize}
 \item \texttt{$optTreeConst$} \\
@@ -261,8 +261,12 @@ Une fois le résultat final calculé on set le fils de l'instruction que l'on es
 Une fois les fonctionnalités implémentées, il suffit d'ajouter un attribut de type ConstantFolding appelé folding au decac compiler, rajouter une option de compilation $-o2$ pour mettre l'optimisation à true si on veut l'observer, et l'ajouter dans le main où sont situés les listdeclvar, paramètres essentiels de notre optimisation.
 
 \section{Méthode de validation}
-Pour valider nos optimisations nous décompilons l'arbre que nous aurons optimisé au préalable. Nous pourrons donc visualiser simplement si le dead store a correctement fonctionner, et de même pour le constant folding. Nous utilisons cette méthode sur des tests deca que nous avons écrit qui dont la plupart seront optimiséde manière à ce que la plupart soient optimisés. Il y a tout de même quelques tests qui ne seront pas optimisé de manière à vérifier que l'optimisation n'efface pas malencontreusement des informations qui ne devraient pas être supprimées.
+Pour valider nos optimisations nous décompilons l'arbre que nous aurons optimisé au préalable. Nous pourrons donc visualiser simplement si le dead store a correctement fonctionner, et de même pour le constant folding. Nous utilisons cette méthode sur des tests deca que nous avons écrit qui dont la plupart seront optimiséde manière à ce que la plupart soient optimisés. Il y a tout de même quelques tests qui ne seront pas optimisé de manière à vérifier que l'optimisation n'efface pas malencontreusement des informations qui ne devraient pas être supprimées. Nous avons aussi laissé des traces dans les méthodes de manière à repérer où passe la fonction, et ce qu'elle fait.
 \section{Résultat}
+\subsection{DeadStore}
+En ce qui concerne l'optimisation Dead Store l'optimisation fonctionne sur des tests simples, la fonction élimine bien les varibles qui sont inutiles de la liste de déclaration, et retourne un arbre correct.
+\subsection{Constant Folding}
+En ce qui concerne l'optimisation Constant Folding après plusieurs tests on peut remarquer qu'il y a un problème à l'optimisation. La méthode qui optimise le code n'est pas correctement appelée, les traces n'apparaissent pas. Et même dans les cas où la méthode ne peux rien faire, c'est à dire qu'elle ne rentre pas dans le while et ne peut faire aucune instruction, le compilateur lève quand même une erreur. L'erreur devrait donc venir de l'appel de l'option par le compilateur, et non de la fonction en elle même. 
 
 \section{Améliorations possibles de l'extension et conseils pour maintenance}
 Les optimisations proposées sont simples dans les démarches qu'elles exercent. Leurs impacts est peut-être mineur dans des programmes bien codés, mais peut-être plus utiles pour des codeurs débutants. Néanmoins on peut en tirer plusieurs enseignements.
