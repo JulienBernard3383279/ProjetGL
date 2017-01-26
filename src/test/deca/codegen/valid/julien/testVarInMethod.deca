@@ -1,0 +1,10 @@
+class Lolz{
+    int jAiDesVar() {
+	int x=1;
+	return x;
+    }
+}
+{
+    Lolz l;
+    println(l.jAiDesVar()); 
+}
