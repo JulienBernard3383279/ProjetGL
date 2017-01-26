@@ -139,6 +139,13 @@ public class Main extends AbstractMain {
     public void execute_dead(DeadStore dead) {
         dead.execute(declVariables, insts);
     }
+
+    @Override
+    public void execute_folding(ConstantFolding folding) {
+        folding.execute(insts);
+    }
+    
+    
     
     
 }

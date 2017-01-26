@@ -1,0 +1,6 @@
+{
+	float a=0;
+	float b;
+
+	b=a;
+}

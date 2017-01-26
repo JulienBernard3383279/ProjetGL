@@ -232,6 +232,9 @@ public class DecacCompiler {
                 if(compilerOptions.getDead()){
                     prog.execute_dead(dead);
                 }
+                if(compilerOptions.getFolding()){
+                    prog.execute_folding(folding);
+                }
                 prog.decompile(out);
                 return false;
             } else if (compilerOptions.getVerif() ) {
@@ -291,6 +294,9 @@ public class DecacCompiler {
         assert(prog.checkAllDecorations());
          if(compilerOptions.getDead()){
                     prog.execute_dead(dead);
+                }
+        if(compilerOptions.getFolding()){
+                    prog.execute_folding(folding);
                 }
         addComment("start main program");
         prog.codeGenProgram(this);
