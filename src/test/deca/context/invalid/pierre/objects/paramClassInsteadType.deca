@@ -1,6 +1,6 @@
 class A {
     int a;
-    void method(int i)
+    void method(int i){}
 }
 {
     A a = new A();

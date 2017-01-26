@@ -55,7 +55,6 @@ public class This extends AbstractExpr {
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         s.print(prefix);
-        s.print("this");
         s.println();
     }
 
