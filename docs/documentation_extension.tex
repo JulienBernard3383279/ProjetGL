@@ -1,6 +1,6 @@
 \documentclass[a4paper]{article}
 \usepackage[utf8x]{inputenc}
-\usepackage[margin=1.5in]{geometry}
+\usepackage[margin=1.7in]{geometry}
 \RequirePackage[utf8]{inputenc}
 \usepackage{graphicx}
 
@@ -205,41 +205,53 @@ Ce lien présente la technique de l'Instruction scheduling qui consiste à repé
 
 \section{Choix de conception}
 \subsection{conception du DeadStore}
-La conception du deadstore est simple. C'est une classe avec des ArrayList arr$1$ et arr$2$. Nous avons décidé de prendre des arrayList pour des raisons de vitesse de lecture, car nous verrons, nous allons devoir parcourir à plusieurs reprises ces listes, 
-et la lecture des arrayList est plus rapide que les linkedList, autre structure de données possible et envisagée un moment avant de passer complétement sur l'arrayList.\\
+La conception du deadstore est simple. C'est une classe avec des ArrayList arr$1$ et arr$2$. Nous avons décidé de prendre des arrayList pour des raisons de vitesse de lecture, car nous verrons, nous allons devoir parcourir à plusieurs reprises ces listes, et la lecture des arrayList est plus rapide que les linkedList, autre structure de données possible et envisagée un moment avant de passer complétement sur l'arrayList.\\ \\
 La classe deadstore extends d'une classe abstraite Extension, dont nous expliquerons l'intérêt dans la dernière section de ce manuel. En plus des habituels getter et setter que nous retrouvons dans toutes bonnes classes java, nous avons $4$ fonctions principales :
 \begin{itemize}
-\item \texttt{$store_dec$} \\
+\item \texttt{$store\_dec$} \\
 cette fonction va stocker dans la première Arraylist arr1 l'ensemble des variables initialisées par le programme. On prend en paramètre la liste de declaration de variable ListDeclVar, on la parcour et on y ajoute tous les indentifier qu'on trouve (on ajoute en fait leur nom, par souci de simplicité et de rapidité pour la suite).
 arr1 contiendra donc toutes les variables initialisées.
-\item \texttt{$store_var_inst$} \\
+\item \texttt{$store\_var\_inst$} \\
 On va ici stocker dans la seconde array list les variables utilisées en paramètre lors du programme. On va donc parcourir la liste des instruction listinst, et on va tester l'enemble des instructions que l'on trouve, et les traiter au cas par cas.
 On a ainsi enregistrer les opérandes pour les opérations arithmétiques binaires, unaires, les appels de méthodes, les print et les return. Si des type d'opérations sont ommises elles doivent êtres rajoutés avec un $if(var instanceof type)$.
-Dans le cas où les opérandes sont pas des identifiers mais eux mêmes des AbstractExpr, on récupère récursivement les identifer via la fonction $get_args$, qui récupère les identifiers finaux d'opérations de tout types.
-\item \texttt{$get_args$}\\
+Dans le cas où les opérandes sont pas des identifiers mais eux mêmes des AbstractExpr, on récupère récursivement les identifer via la fonction $get\_args$, qui récupère les identifiers finaux d'opérations de tout types.
+\item \texttt{$get\_args$}\\
 récupère les identifiers pour des AbstractExpr de façon récursive.
-\item \texttt{$remove_var$}\\
+\item \texttt{$remove\_var$}\\
 Fonction finale,on va ainsi comparer les élements des deux listes, si la liste arr1 contient des éléments non présents dans arr$2$, alors on les supprime directement de la listdeclvar, donc au niveau de l'arbre, les noeuds correspondants aux variables initialisées inutiles.
-\item \texttt{execute}\\
-comme son nom l'indique, cette fonction va appliquer le deadstore en appliquant à la suite $store_dec$, $store_list_inst$ et remove finalement.
+\item \texttt{$execute$}\\
+Comme son nom l'indique, cette fonction va appliquer le deadstore en appliquant à la suite $store\_dec$, $store\_list\_inst$ et remove finalement.
 \end{itemize}
 Une fois les fonctionnalités implémentées, il suffit d'ajouter un attribut de type deadstore appelé dead au decac compiler, rajouter une option de compilation $-o1$ pour mettre l'optimisation à true si on veut l'observer, et l'ajouter dans le main où sont situés les listdeclvar et la listinst, paramètres essentiels de notre optimisation.
 \subsection{Constant Folding}
-Avec la structure de donnée qui nous est fournie, le plus simple pour implémenter cette méthode est de parcourir l'arbre construit et enrichi pour retirer ce qui doit être retiré.\\
-On regarde tout d'abord toutes les instructions et on vérifie si ce sont des assignations. Si ce sont des assignations on verifie que tous les noeuds ne sont pas des AbstractLValue ou des AbstractReadExpr ou des CallMethod ou des This ou un Modulo, si ces conditions sont vérifiées alors l'optimisation est possible sur cette assignation. On regarde le type de la variable pour faire les bons calculs (les opération ssur les booléens, les entiers et les chaînes de caractères ne sont pas les mêmes). Par souci de simplicité on ne traite que les int et les float.\\
-L'arbre est construit de tel sorte que toutes les opération ont pour fils gauche une autre opération ou une constante, et tous les fils droits sont des constantes. On stocke alors dans une liste de String tous les fils gauche qui sont des opérations et dans une liste d'AbstractExpr toutes les constantes (on stocke des AbstractExpr car on peut alors stocker dans cette liste des int, des float, des boolean et bien d'autres types).\\
-Une fois qu'on a stocké toutes les opérations et toutes les constantes dans ces 2 listes il faut alors retirer la dernière opération du tableau et faire cette opération entre la valeur du résultat précédant (initialisé à 0) et la valeur du dernier élément constant du tableau qu'on aura aussi retiré (avec néanmoins un cas particulier à l'initialisation car il faut faire cette opération sur les deux derniers éléments du tableau).\\
-Une fois le résultat final calculé on set le fils de l'instruction que l'on est en train de traiter dans lequel on met un IntLiteral ou un FloatLiteral de la valeur que l'on vient de calculer. On peut ensuite passer à l'instruction suivante et tout recommencer jusqu'à la dernière instruction.\\
+Avec la structure de donnée qui nous est fournie, le plus simple pour implémenter cette méthode est de parcourir l'arbre construit et enrichi pour retirer ce qui doit être retiré. Par souci de simplicité et pour simplifier le débuggage, nous n'appliquons cette optimisation que dans la liste des instructions, mais elle pourrait être étendu à la liste des déclarations (où l'optimisation de tels calculs est réalisable en Deca).\\ \\
+La classe ConstantFolding extends d'une classe abstraite Extension, dont nous expliquerons l'intêret dans la dernière section de ce manuel. Il y a 4 fonctions principales:
+\begin{itemize}
+\item \texttt{$optTreeConst$} \\
+C'est la fonction principale qui parcourt la liste des instructions et qui fait les vérifcations nécessaire. Cette fonction appelle ensuite les autres méthodes pour calculer le résultat suivant le type de la variable calculée, et peut ensuite les mettres aux bons endroits dans l'arbre.\\
+\item \texttt{$calcInt$} \\
+Cette fonction fait toutes les opération spour stocker les informations aux noeuds des arbres (opérations et constantes), pour ensuite calculer le résultat et renvoyer le int correspondant.\\
+\item \texttt{$calcFloat$} \\
+Cette fonction fait toutes les opération spour stocker les informations aux noeuds des arbres (opérations et constantes), pour ensuite calculer le résultat et renvoyer le float correspondant.\\
+\item \texttt{$execute$}\\
+Comme son nom l'indique, cette fonction va appliquer le Constant folding en appelant $optTreeConst$.\\
+ \end{itemize}
+Si on veut rentrer plus dans les détails, on regarde tout d'abord toutes les instructions et on vérifie si ce sont des assignations. Si ce sont des assignations on verifie que tous les noeuds ne sont pas des AbstractLValue ou des AbstractReadExpr ou des CallMethod ou des This ou un Modulo, si ces conditions sont vérifiées alors l'optimisation est possible sur cette assignation. On regarde le type de la variable pour faire les bons calculs (les opération ssur les booléens, les entiers et les chaînes de caractères ne sont pas les mêmes). Par souci de simplicité on ne traite que les int et les float.\\ \\
+L'arbre est construit de telle sorte que toutes les opérations ont pour fils gauche une autre opération ou une constante, et tous les fils droits sont des constantes. On stocke alors dans une liste de String tous les fils gauche qui sont des opérations et dans une liste d'AbstractExpr toutes les constantes (on stocke des AbstractExpr car on peut alors stocker dans cette liste des int, des float, des boolean et bien d'autres types). Voici un exemple d'arbre ci-dessus:\\
+\includegraphics[scale=0.5]{Arbre_enrichi.pdf}\\
+Une fois qu'on a stocké toutes les opérations et toutes les constantes dans ces 2 listes il faut alors retirer la dernière opération du tableau et faire cette opération entre la valeur du résultat précédant (initialisé à 0) et la valeur du dernier élément constant du tableau qu'on aura aussi retiré (avec néanmoins un cas particulier à l'initialisation car il faut faire cette opération sur les deux derniers éléments du tableau).\\ \\
+Une fois le résultat final calculé on set le fils de l'instruction que l'on est en train de traiter dans lequel on met un IntLiteral ou un FloatLiteral de la valeur que l'on vient de calculer. On peut ensuite passer à l'instruction suivante et tout recommencer jusqu'à la dernière instruction.\\ \\
+Une fois les fonctionnalités implémentées, il suffit d'ajouter un attribut de type ConstantFolding appelé folding au decac compiler, rajouter une option de compilation $-o2$ pour mettre l'optimisation à true si on veut l'observer, et l'ajouter dans le main où sont situés les listdeclvar, paramètres essentiels de notre optimisation.
 
 \section{Méthode de validation}
-\subsection{Constant Folding}
+Pour valider nos optimisations nous décompilons l'arbre que nous aurons optimisé au préalable. Nous pourrons donc visualiser simplement si le dead store a correctement fonctionner, et de même pour le constant folding. Nous utilisons cette méthode sur des tests deca que nous avons écrit qui dont la plupart seront optimiséde manière à ce que la plupart soient optimisés. Il y a tout de même quelques tests qui ne seront pas optimisé de manière à vérifier que l'optimisation n'efface pas malencontreusement des informations qui ne devraient pas être supprimées.
 \section{Résultat}
 
 \section{Améliorations possibles de l'extension et conseils pour maintenance}
-Les optimisations proposées sont simples dans les démarches qu'elles exercent. leurs impacts est peut-être mineur dans des programmes bien codés, mais peut-être plus utiles pour des codeurs débutants. Néanmoins on peut en tirer plusieurs enseignements.
-En effet on peut désormais classifier les extensions selon plusieurs catégories : extension au niveau de la compilation (dont DeadStore et ConstantFolding), au niveau de l'exécution, au niveau de la mémoire etc...
+Les optimisations proposées sont simples dans les démarches qu'elles exercent. Leurs impacts est peut-être mineur dans des programmes bien codés, mais peut-être plus utiles pour des codeurs débutants. Néanmoins on peut en tirer plusieurs enseignements.
+En effet on peut désormais classifier les extensions selon plusieurs catégories: extension au niveau de la compilation (dont DeadStore et ConstantFolding), au niveau de l'exécution, au niveau de la mémoire etc...
 On peut ainsi proposer une structure pyramidale des extension comme indiquée sur la photo ci-contre :\\
-\includegraphics{UML.pdf}\\
+\includegraphics[scale=0.5]{UML.pdf}\\
 Le futur programmeur qui voudra rajouter ses propres optimisations pourra ainsi créer ses propres classes, ses propres dépendances et ajouter les attributs qui lui sembleront nécessaires.
 
 

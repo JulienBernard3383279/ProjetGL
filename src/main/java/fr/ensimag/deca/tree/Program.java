@@ -80,6 +80,13 @@ public class Program extends AbstractProgram {
     public void execute_dead(DeadStore dead) {
         main.execute_dead(dead);
     }
+
+    @Override
+    public void execute_folding(ConstantFolding folding) {
+        main.execute_folding(folding);
+    }
+    
+    
     
     
 }

@@ -16,12 +16,6 @@ import fr.ensimag.deca.tree.*;
  */
 
 public class ConstantFolding extends Extension{
-    
-    private Type resultat;
-
-    public Type getResultat() {
-        return resultat;
-    }
 
     @Override
     public void execute() {
@@ -69,6 +63,39 @@ public class ConstantFolding extends Extension{
                         typeVar=((Assign) inst).getLeftOperand().getType().isInt();
                         if(typeVar && ident==false){
                              
+                            exprOp=((Assign) inst).getRightOperand();
+                            
+                            if(exprOp instanceof AbstractBinaryExpr){
+                                intRes=calcInt(inst);
+                                abstInst.setRightOperand(new IntLiteral(intRes));
+                            }
+                                            
+                        }
+                            
+                                                                              
+                        typeVar=((Assign) inst).getLeftOperand().getType().isFloat();
+                        if(typeVar && ident==false){
+                             
+                            exprOp=((Assign) inst).getRightOperand();
+                            
+                            if(exprOp instanceof AbstractBinaryExpr){
+                                floatRes=calcFloat(inst);
+                                abstInst.setRightOperand(new FloatLiteral(floatRes));
+                            }           
+                        }        
+                    }    
+                }
+            }           
+    }
+    
+    public int calcInt(AbstractInst inst){
+        AbstractExpr exprOp, exprCons;
+        String ope;
+        int taille;
+        int intRes=0;
+        ArrayList<String> tabOperation = new ArrayList<>();
+        ArrayList<AbstractExpr> tabCons = new ArrayList<>();
+        
                             exprOp=((Assign) inst).getRightOperand();
                             
                             if(exprOp instanceof AbstractBinaryExpr){
@@ -131,16 +158,19 @@ public class ConstantFolding extends Extension{
                                         intRes=((IntLiteral)(tabCons.remove(taille))).getValue()/intRes;
                                     }    
                                 }
-                                
-                            abstInst.setRightOperand(new IntLiteral(intRes));
                             }
-                                            
-                        }
-                            
-                                                                              
-                        typeVar=((Assign) inst).getLeftOperand().getType().isFloat();
-                        if(typeVar && ident==false){
-                             
+                            return intRes;                             
+        
+    }
+    
+    public float calcFloat(AbstractInst inst){
+        AbstractExpr exprOp, exprCons;
+        String ope;
+        int taille;
+        float floatRes=0;
+        ArrayList<String> tabOperation = new ArrayList<>();
+        ArrayList<AbstractExpr> tabCons = new ArrayList<>();
+        
                             exprOp=((Assign) inst).getRightOperand();
                             
                             if(exprOp instanceof AbstractBinaryExpr){
@@ -203,13 +233,9 @@ public class ConstantFolding extends Extension{
                                         floatRes=((FloatLiteral)(tabCons.remove(taille))).getValue()/floatRes;
                                     }
                                 }
-                                
-                                abstInst.setRightOperand(new FloatLiteral(floatRes));
-                            }           
-                        }        
-                    }    
-                }
-            }           
+                            }
+                            return floatRes;  
+    
     }
 }  
     
