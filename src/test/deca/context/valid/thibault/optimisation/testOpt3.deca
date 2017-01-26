@@ -1,0 +1,8 @@
+{
+	int a;
+	float b;
+	boolean c;
+
+	a=6+5;
+	b=a-0;
+}

@@ -14,5 +14,6 @@ public abstract class AbstractProgram extends Tree {
     public abstract void verifyProgram(DecacCompiler compiler) throws ContextualError;
     public abstract void codeGenProgram(DecacCompiler compiler);
     public abstract void execute_dead(DeadStore dead);
+    public abstract void execute_folding(ConstantFolding folding);
 
 }

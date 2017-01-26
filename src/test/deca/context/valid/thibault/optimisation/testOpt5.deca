@@ -1,0 +1,13 @@
+{
+	float b;
+	boolean c;
+	float d;
+
+	c=true;
+	if(c==true){
+			b=5+5;
+			}
+		else{
+			c=5+5;
+			}
+}

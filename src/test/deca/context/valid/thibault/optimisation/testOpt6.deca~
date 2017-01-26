@@ -1,0 +1,9 @@
+{
+	boolean b;
+	int a, c, d;
+
+	b=true;
+	
+	if(b==true){
+			print("b est vrai");
+			}

@@ -239,6 +239,7 @@ Comme son nom l'indique, cette fonction va appliquer le Constant folding en appe
 Si on veut rentrer plus dans les détails, on regarde tout d'abord toutes les instructions et on vérifie si ce sont des assignations. Si ce sont des assignations on verifie que tous les noeuds ne sont pas des AbstractLValue ou des AbstractReadExpr ou des CallMethod ou des This ou un Modulo, si ces conditions sont vérifiées alors l'optimisation est possible sur cette assignation. On regarde le type de la variable pour faire les bons calculs (les opération ssur les booléens, les entiers et les chaînes de caractères ne sont pas les mêmes). Par souci de simplicité on ne traite que les int et les float.\\ \\
 L'arbre est construit de telle sorte que toutes les opérations ont pour fils gauche une autre opération ou une constante, et tous les fils droits sont des constantes. On stocke alors dans une liste de String tous les fils gauche qui sont des opérations et dans une liste d'AbstractExpr toutes les constantes (on stocke des AbstractExpr car on peut alors stocker dans cette liste des int, des float, des boolean et bien d'autres types). Voici un exemple d'arbre ci-dessus:\\
 \includegraphics[scale=0.5]{Arbre_enrichi.pdf}\\
+<<<<<<< HEAD
 Une fois qu'on a stocké toutes les opérations et toutes les constantes dans ces $2$ listes il faut alors retirer la dernière opération du tableau et faire cette opération entre la valeur du résultat précédant (initialisé à 0) et la valeur du dernier élément constant du tableau qu'on aura aussi retiré (avec néanmoins un cas particulier à l'initialisation car il faut faire cette opération sur les deux derniers éléments du tableau).\\ \\
 Une fois le résultat final calculé on set le fils de l'instruction que l'on est en train de traiter dans lequel on met un IntLiteral ou un FloatLiteral de la valeur que l'on vient de calculer. On peut ensuite passer à l'instruction suivante et tout recommencer jusqu'à la dernière instruction.\\ \\
 Une fois les fonctionnalités implémentées, il suffit d'ajouter un attribut de type ConstantFolding appelé folding au decac compiler, rajouter une option de compilation $-o2$ pour mettre l'optimisation à true si on veut l'observer, et l'ajouter dans le main où sont situés la listinst, paramètres essentiels de notre optimisation.
@@ -254,6 +255,22 @@ En effet on peut désormais classifier les extensions selon plusieurs catégorie
 On peut ainsi proposer une structure pyramidale des extension comme indiquée sur la photo ci-contre :\\
 \includegraphics[scale=0.5]{UML.pdf}\\
 Le futur programmeur qui voudra rajouter ses propres optimisations pourra ainsi créer ses propres classes, ses propres dépendances et ajouter les attributs qui lui sembleront nécessaires en essayant de respecter au mieux ce schéma proposé.
+=======
+Une fois qu'on a stocké toutes les opérations et toutes les constantes dans ces 2 listes il faut alors retirer la dernière opération du tableau et faire cette opération entre la valeur du résultat précédant (initialisé à 0) et la valeur du dernier élément constant du tableau qu'on aura aussi retiré (avec néanmoins un cas particulier à l'initialisation car il faut faire cette opération sur les deux derniers éléments du tableau).\\ \\
+Une fois le résultat final calculé on set le fils de l'instruction que l'on est en train de traiter dans lequel on met un IntLiteral ou un FloatLiteral de la valeur que l'on vient de calculer. On peut ensuite passer à l'instruction suivante et tout recommencer jusqu'à la dernière instruction.\\ \\
+Une fois les fonctionnalités implémentées, il suffit d'ajouter un attribut de type ConstantFolding appelé folding au decac compiler, rajouter une option de compilation $-o2$ pour mettre l'optimisation à true si on veut l'observer, et l'ajouter dans le main où sont situés les listdeclvar, paramètres essentiels de notre optimisation.
+
+\section{Méthode de validation}
+Pour valider nos optimisations nous décompilons l'arbre que nous aurons optimisé au préalable. Nous pourrons donc visualiser simplement si le dead store a correctement fonctionner, et de même pour le constant folding. Nous utilisons cette méthode sur des tests deca que nous avons écrit qui dont la plupart seront optimiséde manière à ce que la plupart soient optimisés. Il y a tout de même quelques tests qui ne seront pas optimisé de manière à vérifier que l'optimisation n'efface pas malencontreusement des informations qui ne devraient pas être supprimées.
+\section{Résultat}
+
+\section{Améliorations possibles de l'extension et conseils pour maintenance}
+Les optimisations proposées sont simples dans les démarches qu'elles exercent. Leurs impacts est peut-être mineur dans des programmes bien codés, mais peut-être plus utiles pour des codeurs débutants. Néanmoins on peut en tirer plusieurs enseignements.
+En effet on peut désormais classifier les extensions selon plusieurs catégories: extension au niveau de la compilation (dont DeadStore et ConstantFolding), au niveau de l'exécution, au niveau de la mémoire etc...
+On peut ainsi proposer une structure pyramidale des extension comme indiquée sur la photo ci-contre :\\
+\includegraphics[scale=0.5]{UML.pdf}\\
+Le futur programmeur qui voudra rajouter ses propres optimisations pourra ainsi créer ses propres classes, ses propres dépendances et ajouter les attributs qui lui sembleront nécessaires.
+>>>>>>> aa1a17a2fb2cc9d7d8d1b313b725bf1e47fc4a09
 
 
 \end{document}

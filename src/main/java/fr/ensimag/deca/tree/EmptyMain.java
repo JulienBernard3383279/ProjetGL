@@ -50,4 +50,9 @@ public class EmptyMain extends AbstractMain {
       
     }
     
+    @Override
+    public void execute_folding(ConstantFolding folding) {
+      
+    }
+    
 }

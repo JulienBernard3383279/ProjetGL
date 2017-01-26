@@ -232,6 +232,9 @@ public class DecacCompiler {
                 if(compilerOptions.getDead()){
                     prog.execute_dead(dead);
                 }
+                if(compilerOptions.getFolding()){
+                    prog.execute_folding(folding);
+                }
                 prog.decompile(out);
                 return false;
             } else if (compilerOptions.getVerif() ) {
@@ -291,6 +294,9 @@ public class DecacCompiler {
         assert(prog.checkAllDecorations());
          if(compilerOptions.getDead()){
                     prog.execute_dead(dead);
+                }
+        if(compilerOptions.getFolding()){
+                    prog.execute_folding(folding);
                 }
         addComment("start main program");
         prog.codeGenProgram(this);
@@ -486,6 +492,9 @@ public class DecacCompiler {
     //DeclVar
     
     private Map<String, VariableDefinition> varMap = new HashMap<>();
+    public Map<String, VariableDefinition> getAllVar() {
+        return varMap;
+    }
     private int varCounter = 0;
     private boolean isInMethod = false;
     public boolean isInMethod() {
@@ -515,7 +524,7 @@ public class DecacCompiler {
     public DAddr allocateVar() {
         this.varCounter++;
         if(isInMethod) 
-            return new RegisterOffset(this.varCounter+this.methodCounter,Register.LB);
+            return new RegisterOffset(this.varCounter,Register.LB);
         else 
             return new RegisterOffset(this.varCounter+this.methodCounter,Register.GB);
     }
